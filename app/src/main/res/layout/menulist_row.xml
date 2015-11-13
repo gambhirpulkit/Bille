@@ -1,0 +1,71 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginBottom="10dp"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_margin="8dp"
+
+
+    android:layout_marginTop="60dp">
+
+    <RelativeLayout
+        android:id="@+id/layout_menu"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="10dp">
+
+<!--        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder" />-->
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#222"
+            android:text="title"
+            android:layout_marginLeft="16dp"
+            android:textSize="25sp"
+            android:layout_alignTop="@+id/price"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#222"
+            android:text="price"
+            android:layout_marginRight="16dp"
+            android:textSize="25sp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/editMenu"
+            android:layout_toStartOf="@+id/editMenu" />
+
+        <ImageButton
+            android:id="@+id/editMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/editbutton"
+            android:contentDescription="@string/editBtn"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView4"
+            android:src="@drawable/rupeesymbol"
+            android:layout_alignBottom="@+id/editMenu"
+            android:layout_toLeftOf="@+id/price"
+            android:layout_alignTop="@+id/editMenu" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

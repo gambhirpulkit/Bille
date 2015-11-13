@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Bille</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_splash">Bille</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_not_connected">NotConnected</string>
+    <string name="title_activity_about_us">AboutUs</string>
+    <string name="title_activity_bill_description">BillDescription</string>
+    <string name="editBtn">Edit Bill</string>
+    <string name="title_activity_edit_item">EditItem</string>
+    <string name="title_activity_add_item">AddItem</string>
+    <string name="title_activity_create_bill">CreateBill</string>
+    <string name="title_activity_sample">sample</string>
+    <string name="title_activity_send_bill">SendBill</string>
+    <string name="title_activity_send_bill_recycler_adapter">SendBillRecyclerAdapter</string>
+</resources>
