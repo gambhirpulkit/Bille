@@ -14,22 +14,28 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 /**
  * Created by pulkit-mac on 11/2/15.
  */
 public class AddItem extends AppCompatActivity {
 
-    private static String url = "http://54.68.65.111/mozipper/mongo_api/add_menu.php?mid=55daaaa483b1152c058b4567";
+    private static String url = "http://54.68.65.111/mozipper/mongo_api/add_menu.php?mid=";
+
+    SessionManager session;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_item);
-
+        session = new SessionManager(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
+        HashMap<String, String> user = session.getUserDetails();
+        String mid = user.get(SessionManager.KEY_MID);
 
-
+        url += mid;
 
         Intent intent = getIntent();
 

@@ -105,6 +105,9 @@ public class SessionManager {
 		//user logo
 		user.put(KEY_LogoUrl, pref.getString(KEY_LogoUrl, null));
 
+		//merchant id
+		user.put(KEY_MID, pref.getString(KEY_MID, null));
+
 		// return user
 		return user;
 	}

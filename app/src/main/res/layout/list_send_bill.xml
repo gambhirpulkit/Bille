@@ -8,7 +8,7 @@
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Item Name"
         android:layout_marginTop="5dp"/>
@@ -22,6 +22,7 @@
         android:id="@+id/perItemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -31,14 +32,12 @@
             android:id="@+id/itemQty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
             android:text="qty"
             android:layout_gravity="right"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/perItemPrice"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_toEndOf="@+id/perItemPrice" />
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imageView5"
+            android:layout_toEndOf="@+id/imageView5" />
 
         <TextView
             android:id="@+id/item_price"
@@ -47,8 +46,10 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="item cost"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/itemQty"
-            android:layout_toEndOf="@+id/itemQty" />
+            android:layout_toLeftOf="@+id/minusItem"
+            android:layout_toStartOf="@+id/minusItem"
+            android:layout_marginRight="44dp"
+            android:layout_marginEnd="44dp" />
 
         <ImageButton
             android:id="@+id/minusItem"
@@ -71,11 +72,30 @@
             android:id="@+id/plusItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:contentDescription="Add menu item"
             android:background="@android:drawable/ic_input_add"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView5"
+            android:src="@drawable/multiply"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/perItemPrice"
+            android:layout_toEndOf="@+id/perItemPrice" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView6"
+            android:src="@drawable/equalsign"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/item_price"
+            android:layout_toStartOf="@+id/item_price" />
 
 
     </RelativeLayout>

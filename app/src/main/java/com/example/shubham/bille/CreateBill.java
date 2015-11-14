@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CreateBill extends AppCompatActivity {
@@ -38,9 +39,9 @@ public class CreateBill extends AppCompatActivity {
     private CreateBillRecyclerAdapter adapter;
     private ProgressBar progressBar;
     private String phone = null;
+    SessionManager session;
 
-
-    final String url = "http://54.68.65.111/mozipper/mongo_api/list_menu.php?mid=55daaaa483b1152c058b4567";
+    String url = "http://54.68.65.111/mozipper/mongo_api/list_menu.php?mid=";
     private String stringId = null;
     private String stringQty = null;
 
@@ -51,7 +52,7 @@ public class CreateBill extends AppCompatActivity {
         setContentView(R.layout.activity_create_bill);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        session = new SessionManager(getApplicationContext());
 
         getIntent();
 
@@ -59,7 +60,11 @@ public class CreateBill extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_bill);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        HashMap<String, String> user = session.getUserDetails();
 
+        String mid = user.get(SessionManager.KEY_MID);
+
+        url += mid;
 
 /*        progressBar = (ProgressBar) findViewById(R.id.progress_bar_bill);
         progressBar.setVisibility(View.VISIBLE);*/

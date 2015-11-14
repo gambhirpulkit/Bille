@@ -59,7 +59,7 @@ public class HomeScreen extends AppCompatActivity
     SessionManager session;
     private int backpresscount = 0;
 
-    final String url = "http://54.68.65.111/mozipper/mongo_api/billing_merchant.php?mid=55e5771b83b115a1048b4567";
+    String url = "http://54.68.65.111/mozipper/mongo_api/billing_merchant.php?mid=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +129,9 @@ public class HomeScreen extends AppCompatActivity
 
         String imgurl = user.get(SessionManager.KEY_LogoUrl);
 
+        String mid = user.get(SessionManager.KEY_MID);
+        Log.d("checkmid",""+mid);
+
         merchName.setText(merchname);
         merchEmail.setText(merchemail);
 
@@ -158,7 +161,7 @@ public class HomeScreen extends AppCompatActivity
 
        // progressBar = (ProgressBar) findViewById(R.id.progress_bar);
        // progressBar.setVisibility(View.VISIBLE);
-
+        url += mid;
         new AsyncHttpTask().execute(url);
 
 
@@ -224,8 +227,15 @@ public class HomeScreen extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch (id) {
+
+            case R.id.action_settings:
+                return true;
+
+            case R.id.action_logout:
+                session.logoutUser();
+                return  true;
         }
 
         return super.onOptionsItemSelected(item);

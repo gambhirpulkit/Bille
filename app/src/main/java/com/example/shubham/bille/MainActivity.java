@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private MyMenuRecyclerAdapter adapter;
     private ProgressBar progressBar;
 
-    final String url = "http://54.68.65.111/mozipper/mongo_api/list_menu.php?mid=55daaaa483b1152c058b4567";
+    SessionManager session;
+
+    String url = "http://54.68.65.111/mozipper/mongo_api/list_menu.php?mid=";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        session = new SessionManager(getApplicationContext());
 
         Log.d("test", "onCreate Menu");
         Intent intentBack = getIntent();
@@ -60,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
+
+
+        HashMap<String, String> user = session.getUserDetails();
+
+        String mid = user.get(SessionManager.KEY_MID);
+
         ImageButton editBtn = (ImageButton) findViewById(R.id.editMenu);
 
         // Initialize recycler view
@@ -71,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Downloading data from below url
         //final String url = "http://javatechig.com/?json=get_recent_posts&count=45";
+
+        url += mid;
 
         new AsyncHttpTask().execute(url);
     }

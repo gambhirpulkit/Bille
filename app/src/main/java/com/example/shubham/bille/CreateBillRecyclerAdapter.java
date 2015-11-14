@@ -39,7 +39,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
 
     @Override
     public CreateListRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_create_bill, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_create_bill, viewGroup, false);
         CreateListRowHolder mh = new CreateListRowHolder(v);
 
 

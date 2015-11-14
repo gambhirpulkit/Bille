@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SendBill extends AppCompatActivity {
@@ -39,7 +40,7 @@ public class SendBill extends AppCompatActivity {
     private String stringQty;
     private String strindIds;
     private String phone;
-
+    SessionManager session;
     private String apiUrl = "http://54.68.65.111/mozipper/mongo_api/";
 
     private String checkoutUrl = "";
@@ -54,8 +55,11 @@ public class SendBill extends AppCompatActivity {
         setContentView(R.layout.activity_send_bill);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        session = new SessionManager(getApplicationContext());
 
+        HashMap<String, String> user = session.getUserDetails();
 
+        final String mid = user.get(SessionManager.KEY_MID);
 
         // Initialize recycler view
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_send);
@@ -71,7 +75,7 @@ public class SendBill extends AppCompatActivity {
 
         }
         //Log.d("phone", phone);
-        String url = apiUrl + "billing_info.php?mid=55daaaa483b1152c058b4567" + "&phone=" + phone + "&order=" + strindIds + "&qty=" + stringQty;
+        String url = apiUrl + "billing_info.php?mid="+mid + "&phone=" + phone + "&order=" + strindIds + "&qty=" + stringQty;
 
         Log.d("url", url);
         new AsyncHttpTask().execute(url);
@@ -84,7 +88,7 @@ public class SendBill extends AppCompatActivity {
                 String itemStr = TextUtils.join(",", adapter.itemIds);
                 String qtyStr = TextUtils.join(",", adapter.itemQty);
 
-                checkoutUrl = apiUrl + "billing.php?mid=55daaaa483b1152c058b4567" + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr;
+                checkoutUrl = apiUrl + "billing.php?mid="+mid + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr;
                 Log.d("checkoutUrl",checkoutUrl);
                 new VerifyBill().execute();
             }
@@ -245,7 +249,7 @@ public class SendBill extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error generating bill", Toast.LENGTH_LONG).show();
             }
             Toast.makeText(getApplicationContext(), "Bill sent", Toast.LENGTH_LONG).show();
-            Intent intentBack = new Intent(getApplicationContext(),MainActivity.class);
+            Intent intentBack = new Intent(getApplicationContext(),HomeScreen.class);
             startActivity(intentBack);
 
         }
