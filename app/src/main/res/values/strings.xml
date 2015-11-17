@@ -19,4 +19,5 @@
     <string name="title_activity_sample">sample</string>
     <string name="title_activity_send_bill">SendBill</string>
     <string name="title_activity_send_bill_recycler_adapter">SendBillRecyclerAdapter</string>
+    <string name="title_activity_contact_us">ContactUs</string>
 </resources>

@@ -10,7 +10,7 @@ import android.widget.TextView;
  * Created by pulkit-mac on 11/7/15.
  */
 public class CreateListRowHolder extends RecyclerView.ViewHolder {
-  //  protected ImageView thumbnail;
+    //  protected ImageView thumbnail;
     protected TextView itemName;
     protected TextView itemPrice;
     protected ImageButton plusBtn;
@@ -29,6 +29,11 @@ public class CreateListRowHolder extends RecyclerView.ViewHolder {
         //this.sendBill = (Button) view.findViewById(R.id.sendBill);
 
 
-
     }
+    public void bind(CreateBillFeedItem model) {
+        itemName.setText(model.getName());
+        itemPrice.setText(model.getPrice());
+    }
+
 }
+

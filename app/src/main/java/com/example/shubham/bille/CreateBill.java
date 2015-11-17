@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -29,17 +30,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CreateBill extends AppCompatActivity {
+public class CreateBill extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     final Context context = this;
 
     private static final String TAG = "menu";
-    private List<FeedItem> feedsList;
+    private List<CreateBillFeedItem> feedsList;
+    private List<CreateBillFeedItem> testfeedItem;
     private RecyclerView mRecyclerView;
-    private CreateBillRecyclerAdapter adapter;
+    public CreateBillRecyclerAdapter adapter;
     private ProgressBar progressBar;
     private String phone = null;
     SessionManager session;
+
+    private SearchView mSearchView;
 
     String url = "http://54.68.65.111/mozipper/mongo_api/list_menu.php?mid=";
     private String stringId = null;
@@ -54,11 +58,18 @@ public class CreateBill extends AppCompatActivity {
         setSupportActionBar(toolbar);
         session = new SessionManager(getApplicationContext());
 
+
+        mSearchView = (SearchView)findViewById(R.id.searchView);
+        setupSearchView();
+
         getIntent();
 
         // Initialize recycler view
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_bill);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+
 
         HashMap<String, String> user = session.getUserDetails();
 
@@ -70,6 +81,16 @@ public class CreateBill extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);*/
 
         new AsyncHttpTask().execute(url);
+
+
+
+/*
+        feedsList = new List<FeedItem>();
+
+        feedsList.addAll(adapter.feedItemList);
+
+        adapter = new CreateBillRecyclerAdapter(getApplicationContext(), feedsList);
+        mRecyclerView.setAdapter(adapter);*/
 
         Button checkout = (Button) findViewById(R.id.sendBill);
 
@@ -141,11 +162,57 @@ public class CreateBill extends AppCompatActivity {
                 alert.show();
 
 
-            }
+
+
+
+
+        }
+
+
+
+
+
         });
-
-
     }
+
+    private void setupSearchView() {
+       // mSearchView.setIconifiedByDefault(false);
+        mSearchView.setOnQueryTextListener(this);
+        //mSearchView.setSubmitButtonEnabled(true);
+        //mSearchView.setQueryHint("Search Here");
+    }
+
+
+   /* @Override
+    public boolean onQueryTextChange(String query) {
+        final List<FeedItem> filteredModelList = filter(feedsList, query);
+
+        adapter.animateTo(filteredModelList);
+
+        mRecyclerView.scrollToPosition(0);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        return false;
+    }
+    public List<FeedItem> filter(List<FeedItem> models, String query) {
+        query = query.toLowerCase();
+
+        final List<FeedItem> filteredModelList = new ArrayList<>();
+        for (FeedItem feedItem : models) {
+            final String text = feedItem.getTitle().toLowerCase();
+            if (text.contains(query)) {
+                filteredModelList.add(feedItem);
+            }
+        }
+        return filteredModelList;
+    }*/
+
+
+
 
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
 
@@ -183,18 +250,18 @@ public class CreateBill extends AppCompatActivity {
             return result; //"Failed to fetch data!";
         }
 
-        @Override
-        protected void onPostExecute(Integer result) {
-            // Download complete. Let us update UI
-            //progressBar.setVisibility(View.GONE);
+            @Override
+            protected void onPostExecute(Integer result) {
+                // Download complete. Let us update UI
+                //progressBar.setVisibility(View.GONE);
 
-            if (result == 1) {
-                adapter = new CreateBillRecyclerAdapter(CreateBill.this,feedsList);
-                mRecyclerView.setAdapter(adapter);
+                if (result == 1) {
+                    adapter = new CreateBillRecyclerAdapter(CreateBill.this,feedsList);
+                    mRecyclerView.setAdapter(adapter);
 
-            } else {
-                Toast.makeText(CreateBill.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
-            }
+                } else {
+                    Toast.makeText(CreateBill.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
+                }
         }
     }
 
@@ -206,11 +273,11 @@ public class CreateBill extends AppCompatActivity {
 
             for (int i = 0; i < posts.length(); i++) {
                 JSONObject post = posts.optJSONObject(i);
-                FeedItem item = new FeedItem();
-                Log.d("val",post.getString("item"));
-                item.setTitle(post.optString("item"));
+                CreateBillFeedItem item = new CreateBillFeedItem(post.optString("item"),post.optString("price"),post.optString("menu_id"));
+                Log.d("val", post.getString("item"));
+                /*item.setTitle(post.optString("item"));
                 item.setPrice(post.optString("price"));
-                item.setMenuId(post.optString("menu_id"));
+                item.setMenuId(post.optString("menu_id"));*/
                /* item.setThumbnail(post.optString("thumbnail"));
 */
                 feedsList.add(item);
@@ -221,6 +288,37 @@ public class CreateBill extends AppCompatActivity {
     }
 
 
+
+
+
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        final List<CreateBillFeedItem> filteredModelList = filter(feedsList, query);
+
+        adapter.animateTo(filteredModelList);
+
+        mRecyclerView.scrollToPosition(0);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        return false;
+    }
+    public List<CreateBillFeedItem> filter(List<CreateBillFeedItem> models, String query) {
+        query = query.toLowerCase();
+
+        final List<CreateBillFeedItem> filteredModelList = new ArrayList<>();
+        for (CreateBillFeedItem feedItem : models) {
+            final String text = feedItem.getName().toLowerCase();
+            if (text.contains(query)) {
+                filteredModelList.add(feedItem);
+            }
+        }
+        return filteredModelList;
+    }
 
 
 }

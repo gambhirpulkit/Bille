@@ -50,11 +50,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
         feedListRowHolder.billAmount.setText(Html.fromHtml(feedItem.getPrice()));
 
 
-        final String a,b;
+        final String a,b,c,d;
         a = feedItem.getTitle();
         b = feedItem.getPrice();
-
-
+        c = feedItem.getBillId();
+        d = feedItem.getPhone();
 
         feedListRowHolder.setClickListener(new FeedListRowHolder.ClickListener(){
             @Override
@@ -62,10 +62,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
                 if (isLongClick) {
                     // View v at position pos is long-clicked.
                 } else {
-
+                        Log.d("bgjsyufgjhfjb",""+c);
                         Intent billdes = new Intent(mContext,BillDescription.class);
                         billdes.putExtra("cusname",a);
                         billdes.putExtra("billamt",b);
+                        billdes.putExtra("bill_id",c);
+                        billdes.putExtra("c_phone",d);
                         mContext.startActivity(billdes);
 
                     // View v at position pos is clicked.

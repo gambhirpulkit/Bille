@@ -13,7 +13,7 @@ public class FeedItem {
     private String total;
     private String totalBill;
     private String qty;
-
+    private String bill_id;
     private String menu_id;
 
     public String getTitle() {
@@ -38,7 +38,17 @@ public class FeedItem {
     }
 
     public void setMenuId(String price) {
-        this.menu_id = price;
+        this.bill_id = price;
+    }
+
+
+
+    public String getBillId() {
+        return bill_id;
+    }
+
+    public void setBillId(String price) {
+        this.bill_id = price;
     }
 
 

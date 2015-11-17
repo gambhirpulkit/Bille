@@ -334,7 +334,8 @@ public class HomeScreen extends AppCompatActivity
                 JSONObject post = posts.optJSONObject(i);
                 FeedItem item = new FeedItem();
                 Log.d("val", post.getString("c_name"));
-
+                item.setBillId(post.optString("bill_id"));
+                item.setPhone(post.optString("customer_phone"));
                 item.setTitle(post.optString("c_name"));
                 item.setPrice(post.optString("amount"));
                /* item.setThumbnail(post.optString("thumbnail"));

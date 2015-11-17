@@ -42,12 +42,13 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
     public void onBindViewHolder(final SendListRowHolder holder, final int position) {
         final FeedItem feedItem = feedItemList.get(position);
 
-        Integer pos = position;
+        final Integer holderPos = holder.getAdapterPosition();
+        final Integer pos = position;
         Log.d("position",pos.toString());
 
         //Log.d("itemids", feedItem.getMenuId());
-        itemIds.add(position, feedItem.getMenuId());
-        itemQty.add(position, feedItem.getQty());
+        itemIds.add(holder.getAdapterPosition(), feedItem.getMenuId());
+        itemQty.add(holder.getAdapterPosition(), feedItem.getQty());
 
         holder.itemName.setText(feedItem.getTitle());
         holder.itemQty.setText(feedItem.getQty());
@@ -62,12 +63,15 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
             @Override
             public void onClick(View v) {
                 // itemIds.remove(position);
-                String valAtPos = itemQty.get(position);
+                String valAtPos = itemQty.get(holder.getAdapterPosition());
                 Integer qtyCount = Integer.parseInt(valAtPos) + 1;
-                itemQty.set(position, qtyCount.toString() );
+                itemQty.set(holder.getAdapterPosition(), qtyCount.toString());
                 Log.d("val", valAtPos);
 
                 holder.qtyStatus.setText(qtyCount.toString());
+                holder.itemQty.setText(qtyCount.toString());
+                Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * qtyCount;
+                holder.itemCost.setText(qtyCost.toString());
                 //itemIds.set(position,valAtPos);
                 Log.d("id list", itemQty.toString());
 
@@ -78,25 +82,34 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
             @Override
             public void onClick(View v) {
                 // itemIds.remove(position);
-                String valAtPos = itemQty.get(position);
+                String valAtPos = itemQty.get(holder.getAdapterPosition());
                 Integer qtyCount = Integer.parseInt(valAtPos) - 1;
                 if (qtyCount < 0) {
                     qtyCount = 0;
                 }
-                itemQty.set(position, qtyCount.toString() );
+                itemQty.set(holder.getAdapterPosition(), qtyCount.toString() );
                 Log.d("val", valAtPos);
                 if (qtyCount == 0) {
-                    remove(position);
-
-                    Log.d("feed list", feedItem.toString());
+                    itemIds.remove(holder.getAdapterPosition());
+                    itemQty.remove(holder.getAdapterPosition());
+                    itemIds.trimToSize();
+                    itemQty.trimToSize();
+                    feedItemList.remove(holder.getAdapterPosition());
+                    notifyItemRemoved(holder.getAdapterPosition());
+                    Integer tempPos = holder.getAdapterPosition();
+                    Log.d("POS", tempPos.toString());
                 }
 
                 holder.qtyStatus.setText(qtyCount.toString());
+                holder.itemQty.setText(qtyCount.toString());
+                Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * qtyCount;
+                holder.itemCost.setText(qtyCost.toString());
                 //itemIds.set(position,valAtPos);
-                Log.d("id list", itemQty.toString());
+                Log.d("qty list", itemQty.toString());
+                Log.d("id list", itemIds.toString());
+                Log.d("feddlist",feedItemList.toString());
             }
         });
-
 
     }
 
@@ -105,13 +118,5 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
         return (null != feedItemList ? feedItemList.size() : 0);
     }
 
-    public void remove(int position) {
-        Integer pos = position;
-        Log.d("removeAt", pos.toString());
-        feedItemList.remove(position);
-  //      itemIds.remove(position);
- //       itemQty.remove(position);
-        notifyItemRemoved(position);
-//        notifyItemRangeChanged(position, feedItemList.size());
-    }
+
 }
