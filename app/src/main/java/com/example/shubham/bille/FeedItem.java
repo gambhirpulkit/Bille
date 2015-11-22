@@ -38,7 +38,7 @@ public class FeedItem {
     }
 
     public void setMenuId(String price) {
-        this.bill_id = price;
+        this.menu_id = price;
     }
 
 

@@ -47,24 +47,34 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="300dp"
 
         android:layout_below="@+id/textViewBillAmount"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
+
+
 
         <TextView
             android:id="@+id/textView_menulist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="18dp"
             android:layout_marginTop="10dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            />
+            android:textSize="18dp"
+             />
+
+
 
     </ScrollView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/scrollView1"
+        android:layout_marginTop="14dp"
+        android:background="#0b0b0b"
+        android:id="@+id/scrollView" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -79,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView11"
-        android:src="@drawable/bills"
+        android:src="@drawable/totalbill"
         android:layout_below="@+id/textViewCustomerName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -115,4 +125,36 @@
         android:layout_alignTop="@+id/imageView13"
         android:layout_alignLeft="@+id/textViewCustomerName"
         android:layout_alignStart="@+id/textViewCustomerName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TOTAL BILL:"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:id="@+id/textView11"
+        android:layout_below="@+id/scrollView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/textView11"
+        android:layout_marginTop="5dp"
+        android:background="#0b0b0b" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:layout_marginTop="24dp"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:id="@+id/textView_total"
+        android:layout_below="@+id/scrollView1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
 </RelativeLayout>

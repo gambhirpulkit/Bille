@@ -26,10 +26,11 @@ public class BillDescription extends AppCompatActivity {
 
 
     TextView name,amount,custphone;
-    TextView menulist;
+    TextView menulist,totalamt;
 
     String cname,bamt,billid,cphone;
-    String sb="";
+    String itemandprice="";
+
     String url = "http://54.68.65.111/mozipper/mongo_api/order_mer.php?bill_id=";
 
 
@@ -54,6 +55,11 @@ public class BillDescription extends AppCompatActivity {
         menulist = (TextView)findViewById(R.id.textView_menulist);
         custphone = (TextView)findViewById(R.id.textView_cphone);
 
+        totalamt = (TextView)findViewById(R.id.textView_total);
+
+
+
+
         Intent billdes = getIntent();
         cname = billdes.getStringExtra("cusname");
         bamt = billdes.getStringExtra("billamt");
@@ -74,7 +80,7 @@ public class BillDescription extends AppCompatActivity {
         custphone.setText("+91"+cphone);
         name.setText(cname);
         amount.setText("Rs."+bamt);
-
+        totalamt.setText("Rs."+bamt);
 
 
 
@@ -129,7 +135,8 @@ public class BillDescription extends AppCompatActivity {
 
             if (result == 1) {
 
-                menulist.setText(sb);
+                menulist.setText(itemandprice);
+
 
                 Log.d("22222222222","444444444444");
 
@@ -141,7 +148,7 @@ public class BillDescription extends AppCompatActivity {
 
     private void parseResult(String result) {
 
-        Log.d("22222222222",""+sb);
+        Log.d("22222222222",""+itemandprice);
         try {
             JSONObject response = new JSONObject(result);
             JSONArray posts = response.optJSONArray("order");
@@ -155,16 +162,19 @@ public class BillDescription extends AppCompatActivity {
                 String itemname = post.optString("item");
                 String itemprice = post.optString("price");
                 String phone = post.optString("c_phone");
-
+                String quantity = post.optString("qty");
+                String totalcost = post.optString("cost");
 
 
                 Log.d("2222222",""+itemname);
                 Log.d("2222222",""+itemprice);
 
-                sb+="\n ITEM:----"+itemname+ "\n Price:----Rs."+itemprice;
-                sb+="\n----------------------------------------------------------------------";
+                itemandprice+="\n ITEM:----"+itemname+ "\n Price:----Rs."+itemprice+ "\n Rs."+itemprice+" X "+quantity+"\t"+"\t"+"\t"+"\t"+"\t\t\t\t\t\t"+"Rs."+totalcost;
+                itemandprice+="\n-------------------------------------------------------------------";
                /* item.setThumbnail(post.optString("thumbnail"));
-*/              Log.d("22222222222",""+sb);
+*/              Log.d("22222222222",""+itemandprice);
+
+
 
             }
 

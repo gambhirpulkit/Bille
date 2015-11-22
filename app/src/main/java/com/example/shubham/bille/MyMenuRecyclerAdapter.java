@@ -53,15 +53,29 @@ public class MyMenuRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolde
         feedListRowHolder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mContext,EditItem.class);
-                i.putExtra("menu_id",feedItem.getMenuId());
-                i.putExtra("item_name",feedItem.getTitle());
-                i.putExtra("item_price",feedItem.getPrice());
+                Intent i = new Intent(mContext, EditItem.class);
+                i.putExtra("menu_id", feedItem.getMenuId());
+                i.putExtra("item_name", feedItem.getTitle());
+                i.putExtra("item_price", feedItem.getPrice());
                 mContext.startActivity(i);
-                Log.d("onBindHolder","test");
+                Log.d("onBindHolder", "test");
                 Log.d("val", feedItem.getMenuId());
             }
         });
+
+        feedListRowHolder.setClickListener(new FeedListRowHolder.ClickListener() {
+            @Override
+            public void onClick(View v, int pos, boolean isLongClick) {
+                if (isLongClick) {
+                    // View v at position pos is long-clicked.
+                } else {
+
+
+                    // View v at position pos is clicked.
+                }
+            }
+        });
+
     }
 
     @Override

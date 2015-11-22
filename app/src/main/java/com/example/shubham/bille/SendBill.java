@@ -88,6 +88,7 @@ public class SendBill extends AppCompatActivity {
                 String itemStr = TextUtils.join(",", adapter.itemIds);
                 String qtyStr = TextUtils.join(",", adapter.itemQty);
 
+                Log.d("xxxxxxxxxxxx",""+adapter.itemIds);
                 checkoutUrl = apiUrl + "billing.php?mid="+mid + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr;
                 Log.d("checkoutUrl",checkoutUrl);
                 new VerifyBill().execute();

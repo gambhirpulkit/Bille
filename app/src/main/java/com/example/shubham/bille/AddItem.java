@@ -14,6 +14,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 /**
@@ -61,7 +63,12 @@ public class AddItem extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter valid price", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    url = url+"&item="+iName+"&price="+iPrice;
+                    try {
+                        url = url+"&item="+ URLEncoder.encode(iName, "UTF-8")+"&price="+iPrice;
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
                     new GetBill().execute();
                 }
 

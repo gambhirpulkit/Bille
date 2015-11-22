@@ -21,20 +21,22 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
     //Integer[] itemPrice;
 
     private List<CreateBillFeedItem> feedItemList;
-    private List<CreateBillFeedItem> testfeedList;
+
     private Context mContext;
     Integer[] itemQty;
     String[] itemId;
-
+    private List<CreateBillFeedItem> mModels;
 
 
 
     public CreateBillRecyclerAdapter(Context context, List<CreateBillFeedItem> feedItemList) {
         this.feedItemList = feedItemList;
-        testfeedList = new ArrayList<>(feedItemList);
+        //feedItemList = new ArrayList<>(feedItemList);
+
         this.mContext = context;
         itemQty = new Integer[feedItemList.size()];
         itemId = new String[feedItemList.size()];
+        mModels = new ArrayList<>(feedItemList);
 }
 
 
@@ -49,8 +51,8 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
 
     @Override
     public void onBindViewHolder(final CreateListRowHolder createListRowHolder, int i) {
-        final CreateBillFeedItem feedItem = feedItemList.get(i);
-        final Integer pos = createListRowHolder.getAdapterPosition();
+        final CreateBillFeedItem feedItem = mModels.get(i);
+            final Integer pos = createListRowHolder.getAdapterPosition();
        // createListRowHolder.bind(feedItem);
       //  createListRowHolder.bind(feedItem);
 /*
@@ -105,20 +107,20 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
 
     @Override
     public int getItemCount() {
-        return (null != feedItemList ? feedItemList.size() : 0);
+        return (null != mModels ? mModels.size() : 0);
     }
 
-    public void animateTo(List<CreateBillFeedItem> feedItemList) {
+    public void animateTo(List<CreateBillFeedItem> models) {
       //  Log.d("list",""+feedItemList.size());
-        applyAndAnimateRemovals(feedItemList);
-        applyAndAnimateAdditions(feedItemList);
-        applyAndAnimateMovedItems(feedItemList);
+        applyAndAnimateRemovals(models);
+        applyAndAnimateAdditions(models);
+        applyAndAnimateMovedItems(models);
     }
 
     private void applyAndAnimateRemovals(List<CreateBillFeedItem> newModels) {
        // Log.d("list0",""+feedItemList.size());
-       for (int i = feedItemList.size() - 1; i >= 0; i--) {
-            final CreateBillFeedItem feedItem = feedItemList.get(i);
+       for (int i = mModels.size() - 1; i >= 0; i--) {
+            final CreateBillFeedItem feedItem = mModels.get(i);
             if (!newModels.contains(feedItem)) {
                 Log.d("list4","removeitem working");
                 removeItem(i);
@@ -130,7 +132,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
        // Log.d("list1",""+feedItemList.size());
         for (int i = 0, count = newModels.size(); i < count; i++) {
             final  CreateBillFeedItem feedItem = newModels.get(i);
-            if (!feedItemList.contains(feedItem)) {
+            if (!mModels.contains(feedItem)) {
                 Log.d("list4","animateadditem working");
                 addItem(i, feedItem);
             }
@@ -141,7 +143,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
        // Log.d("list2",""+feedItemList.size());
         for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
             final CreateBillFeedItem feedItem = newModels.get(toPosition);
-            final int fromPosition = feedItemList.indexOf(feedItem);
+            final int fromPosition = mModels.indexOf(feedItem);
             if (fromPosition >= 0 && fromPosition != toPosition) {
                 Log.d("list4","animatemoveditem working");
                 moveItem(fromPosition, toPosition);
@@ -151,22 +153,22 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
 
     public CreateBillFeedItem removeItem(int position) {
        // Log.d("list3",""+feedItemList.size());
-        final CreateBillFeedItem feedItem = feedItemList.remove(position);
+        final CreateBillFeedItem feedItem = mModels.remove(position);
         notifyItemRemoved(position);
         return feedItem;
     }
 
     public void addItem(int position, CreateBillFeedItem feedItem) {
         //Log.d("list4",""+feedItemList.size());
-        feedItemList.add(position, feedItem);
+        mModels.add(position, feedItem);
         notifyItemInserted(position);
     }
 
     public void moveItem(int fromPosition, int toPosition) {
         //Log.d("list5",""+feedItemList.size());
-        final CreateBillFeedItem feedItem = feedItemList.remove(fromPosition);
+        final CreateBillFeedItem feedItem = mModels.remove(fromPosition);
         Log.d("list7","move item working");
-        feedItemList.add(toPosition, feedItem);
+        mModels.add(toPosition, feedItem);
         notifyItemMoved(fromPosition, toPosition);
     }
 

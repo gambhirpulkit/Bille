@@ -36,7 +36,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
     private static final String TAG = "menu";
     private List<CreateBillFeedItem> feedsList;
-    private List<CreateBillFeedItem> testfeedItem;
+    private List<FeedItem> mModels;
     private RecyclerView mRecyclerView;
     public CreateBillRecyclerAdapter adapter;
     private ProgressBar progressBar;
@@ -49,6 +49,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
     private String stringId = null;
     private String stringQty = null;
 
+    private List<CreateBillFeedItem> filteredModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +142,6 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getBaseContext(), "OK Clicked!", Toast.LENGTH_LONG).show();
                         phone = userInput.getText().toString();
-
                         Intent i = new Intent(getApplicationContext(), SendBill.class);
                         i.putExtra("itemString", stringId);
                         i.putExtra("qtyString",stringQty);
@@ -176,10 +176,10 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
     }
 
     private void setupSearchView() {
-       // mSearchView.setIconifiedByDefault(false);
+        mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(this);
-        //mSearchView.setSubmitButtonEnabled(true);
-        //mSearchView.setQueryHint("Search Here");
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setQueryHint("Search Here");
     }
 
 
@@ -294,12 +294,13 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
     @Override
     public boolean onQueryTextChange(String query) {
-        final List<CreateBillFeedItem> filteredModelList = filter(feedsList, query);
+        filteredModelList = filter(feedsList, query);
 
         adapter.animateTo(filteredModelList);
 
         mRecyclerView.scrollToPosition(0);
-        return true;
+        filteredModelList.clear();
+        return false;
     }
 
     @Override
