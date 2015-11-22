@@ -64,7 +64,7 @@ public class EditItem extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Enter valid price", Toast.LENGTH_SHORT).show();
                 }
                 if (iName.length() > 0 && iPrice.length() > 0) {
-                    url = url + "http://54.68.65.111/mozipper/mongo_api/edit_menu.php?menu_id=" + menu_id + "&item=" + iName + "&price=" + iPrice;
+                    url = url + Config.url+"edit_menu.php?menu_id=" + menu_id + "&item=" + iName + "&price=" + iPrice;
                     new EditBill().execute();
                 }
 
@@ -185,7 +185,7 @@ public class EditItem extends AppCompatActivity {
                             public void onClick(DialogInterface arg0, int arg1) {
                                 // TODO Auto-generated method stub
 
-                                url += "http://54.68.65.111/mozipper/mongo_api/del_menu.php?menu_id="+menuid;
+                                url += Config.url+"del_menu.php?menu_id="+menuid;
 
                                 Log.d("checkit",""+url);
                                 new EditBill().execute();

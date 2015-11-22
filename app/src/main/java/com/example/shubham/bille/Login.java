@@ -30,7 +30,7 @@ import java.net.URL;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
-
+    Config con;
     EditText username,password;
     Button login,register;
     SessionManager session;
@@ -107,8 +107,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         if(flag) {
             //  Toast.makeText(getApplicationContext(),""+Email,Toast.LENGTH_LONG).show();
             String url;
-            url = "http://54.68.65.111/mozipper/mongo_api/login_mer.php?user="+useremail+"&pwd="+pass;
-            // Log.d(url,"url");
+            url = Config.url+"login_mer.php?user="+useremail+"&pwd="+pass;
+             Log.d("urlaaaaaaaaaaas","url:"+Config.url);
            //  Toast.makeText(getApplicationContext(),""+url,Toast.LENGTH_SHORT).show();
             new ReadJSONFeedTask().execute(url);
         }

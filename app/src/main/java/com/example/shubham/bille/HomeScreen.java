@@ -59,7 +59,7 @@ public class HomeScreen extends AppCompatActivity
     SessionManager session;
     private int backpresscount = 0;
 
-    String url = "http://54.68.65.111/mozipper/mongo_api/billing_merchant.php?mid=";
+    String url = Config.url+"billing_merchant.php?mid=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

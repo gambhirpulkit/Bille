@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     SessionManager session;
 
-    String url = "http://54.68.65.111/mozipper/mongo_api/list_menu.php?mid=";
+    String url = Config.url+"list_menu.php?mid=";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

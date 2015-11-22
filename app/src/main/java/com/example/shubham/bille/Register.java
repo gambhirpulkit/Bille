@@ -129,7 +129,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         {
             String url;
              Toast.makeText(getApplicationContext(),"working",Toast.LENGTH_SHORT).show();
-            url = "http://54.68.65.111/mozipper/mongo_api/signup_mer.php?name="+name+"&company="+companyname+"&phone="+mobile+"&email="+email;
+            url = Config.url+"signup_mer.php?name="+name+"&company="+companyname+"&phone="+mobile+"&email="+email;
             // Uri.parse(url);
             Log.d("url","url");
 

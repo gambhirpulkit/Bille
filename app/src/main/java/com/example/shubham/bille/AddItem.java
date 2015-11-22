@@ -23,7 +23,7 @@ import java.util.HashMap;
  */
 public class AddItem extends AppCompatActivity {
 
-    private static String url = "http://54.68.65.111/mozipper/mongo_api/add_menu.php?mid=";
+    private static String url = Config.url+"add_menu.php?mid=";
 
     SessionManager session;
 

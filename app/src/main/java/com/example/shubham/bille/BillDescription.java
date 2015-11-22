@@ -31,7 +31,7 @@ public class BillDescription extends AppCompatActivity {
     String cname,bamt,billid,cphone;
     String itemandprice="";
 
-    String url = "http://54.68.65.111/mozipper/mongo_api/order_mer.php?bill_id=";
+    String url = Config.url+"order_mer.php?bill_id=";
 
 
     @Override

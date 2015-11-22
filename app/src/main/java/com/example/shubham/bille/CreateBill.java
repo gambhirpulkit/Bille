@@ -45,7 +45,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
     private SearchView mSearchView;
 
-    String url = "http://54.68.65.111/mozipper/mongo_api/list_menu.php?mid=";
+    String url = Config.url+"list_menu.php?mid=";
     private String stringId = null;
     private String stringQty = null;
 

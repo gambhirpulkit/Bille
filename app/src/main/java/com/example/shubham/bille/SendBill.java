@@ -41,7 +41,7 @@ public class SendBill extends AppCompatActivity {
     private String strindIds;
     private String phone;
     SessionManager session;
-    private String apiUrl = "http://54.68.65.111/mozipper/mongo_api/";
+    private String apiUrl = Config.url;
 
     private String checkoutUrl = "";
 
@@ -252,6 +252,7 @@ public class SendBill extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Bill sent", Toast.LENGTH_LONG).show();
             Intent intentBack = new Intent(getApplicationContext(),HomeScreen.class);
             startActivity(intentBack);
+            SendBill.this.finish();
 
         }
 
