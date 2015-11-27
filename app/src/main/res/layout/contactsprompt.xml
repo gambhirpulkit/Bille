@@ -9,13 +9,16 @@
         android:layout_width="150dp"
         android:layout_height="147dp"
         android:src="@drawable/mailus"
+        android:backgroundTint="@android:color/transparent"
         android:id="@+id/imageButton_MailUs" />
 
     <ImageButton
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/callus"
+        android:src="@drawable/phonepopup"
+        android:backgroundTint="@android:color/transparent"
         android:id="@+id/imageButton_CallUs"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageButton_MailUs" />
+        android:layout_toRightOf="@+id/imageButton_MailUs"
+        android:layout_alignBottom="@+id/imageButton_MailUs" />
 </RelativeLayout>

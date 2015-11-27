@@ -1,75 +1,105 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:paddingLeft="0dp"
 
     android:layout_height="80dp"
-    android:layout_margin="8dp">
+    android:layout_margin="2dp">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:background="@color/cardview_light_background"
         android:layout_height="80dp">
 
+<LinearLayout android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/linearname">
 
-        <TextView
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView8"
+        android:src="@drawable/customer"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="18sp"
-
             android:textColor="#070807"
             android:id="@+id/textViewCustName"
-            android:text="custname"
-            android:layout_marginLeft="73dp"
-            android:layout_marginStart="73dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
-        <TextView
+            android:text="custname"
+        android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp" />
+
+
+</LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/linearname">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView9"
+                android:src="@drawable/totalbill"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="13dp" />
+
+            <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:textColor="#414844"
+            android:textColor="#909692"
             android:id="@+id/textViewBillAmount"
             android:text="billamt"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/textViewCustName"
-            android:layout_alignEnd="@+id/textViewCustName" />
+            android:layout_alignEnd="@+id/textViewCustName"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="10dp" />
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/linedivide"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+
+            android:layout_centerVertical="true"
+
+            android:background="#c9c4c4"
+            android:layout_marginLeft="270dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView7"
+
             android:src="@drawable/billpaid"
-            android:layout_marginRight="46dp"
+            android:layout_marginRight="40dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="46dp" />
+             />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView8"
-            android:src="@drawable/customer"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/textViewBillAmount"
-            android:layout_toStartOf="@+id/textViewBillAmount" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView9"
-            android:src="@drawable/billamt"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/imageView8"
-            android:layout_alignEnd="@+id/imageView8" />
+
+
     </RelativeLayout>
 </android.support.v7.widget.CardView>

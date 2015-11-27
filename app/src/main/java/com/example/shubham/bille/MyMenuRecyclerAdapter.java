@@ -2,6 +2,7 @@ package com.example.shubham.bille;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -40,13 +41,18 @@ public class MyMenuRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolde
     public void onBindViewHolder(final FeedListRowHolder feedListRowHolder, int i) {
         final FeedItem feedItem = feedItemList.get(i);
 
+
+        String fontPath = "fonts/Walkway_Black.ttf";
+        Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);
+
 /*
         Picasso.with(mContext).load(feedItem.getThumbnail())
                 .error(R.drawable.placeholder)
                 .placeholder(R.drawable.placeholder)
                 .into(feedListRowHolder.thumbnail);
 */
-
+        feedListRowHolder.title.setTypeface(tf);
+        feedListRowHolder.price.setTypeface(tf);
         feedListRowHolder.title.setText(Html.fromHtml(feedItem.getTitle()));
         feedListRowHolder.price.setText(Html.fromHtml(feedItem.getPrice()));
 

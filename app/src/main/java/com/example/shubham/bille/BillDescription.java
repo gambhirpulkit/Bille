@@ -1,6 +1,7 @@
 package com.example.shubham.bille;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +32,7 @@ public class BillDescription extends AppCompatActivity {
 
     String cname,bamt,billid,cphone;
     String itemandprice="";
-
+    String a,b;
     String url = Config.url+"order_mer.php?bill_id=";
 
 
@@ -38,9 +40,12 @@ public class BillDescription extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_description);
+        String fontPath = "fonts/Walkway_Black.ttf";
+        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,8 +62,15 @@ public class BillDescription extends AppCompatActivity {
 
         totalamt = (TextView)findViewById(R.id.textView_total);
 
+        amount.setTypeface(tf);
+        custphone.setTypeface(tf);
+        name.setTypeface(tf);
+        totalamt.setTypeface(tf);
 
 
+
+        a = totalamt.getText().toString();
+        b=a;
 
         Intent billdes = getIntent();
         cname = billdes.getStringExtra("cusname");
@@ -66,7 +78,7 @@ public class BillDescription extends AppCompatActivity {
         billid = billdes.getStringExtra("bill_id");
         cphone = billdes.getStringExtra("c_phone");
 
-
+        menulist.setTypeface(tf);
         Log.d("billid",""+billid);
 
         url += billid;
@@ -76,18 +88,33 @@ public class BillDescription extends AppCompatActivity {
 
 
 
-
         custphone.setText("+91"+cphone);
         name.setText(cname);
-        amount.setText("Rs."+bamt);
-        totalamt.setText("Rs."+bamt);
+        //amount.setText(""+bamt);
+        //totalamt.setText("@string/Rs"+bamt);
 
 
 
+        a += bamt;
+        amount.setText(a);
+
+
+
+        totalamt.setText(a);
 
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
@@ -169,8 +196,8 @@ public class BillDescription extends AppCompatActivity {
                 Log.d("2222222",""+itemname);
                 Log.d("2222222",""+itemprice);
 
-                itemandprice+="\n ITEM:----"+itemname+ "\n Price:----Rs."+itemprice+ "\n Rs."+itemprice+" X "+quantity+"\t"+"\t"+"\t"+"\t"+"\t\t\t\t\t\t"+"Rs."+totalcost;
-                itemandprice+="\n-------------------------------------------------------------------";
+                itemandprice+="\n\t"+itemname+ "\n\t"+b+itemprice+" X "+quantity+"\t"+"\t"+"\t"+"\t"+"\t\t\t\t\t\t\t"+""+b+totalcost;
+                itemandprice+="\n";
                /* item.setThumbnail(post.optString("thumbnail"));
 */              Log.d("22222222222",""+itemandprice);
 

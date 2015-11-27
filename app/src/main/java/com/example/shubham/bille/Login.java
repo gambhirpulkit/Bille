@@ -43,8 +43,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         session = new SessionManager(getApplicationContext());
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
        // toolbar.setBackgroundColor(Color.GREEN);
 
 

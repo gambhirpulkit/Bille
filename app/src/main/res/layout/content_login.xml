@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/slqsm"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.shubham.bille.Login"
     tools:showIn="@layout/activity_login">
@@ -17,10 +18,11 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="14"
+        android:textColorHint="#fff"
         android:id="@+id/edit_username"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="44dp"
         android:hint="Username"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/imageView14"
         android:layout_centerHorizontal="true" />
 
     <EditText
@@ -28,6 +30,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
+        android:textColorHint="#fff"
         android:id="@+id/edit_password"
         android:layout_marginTop="41dp"
         android:layout_below="@+id/edit_username"
@@ -50,11 +53,12 @@
         android:paddingRight="30dp"
         android:textSize="20sp"
         android:textColor="#ffffff"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="49dp"
+        android:layout_below="@+id/edit_password"
+        android:layout_alignLeft="@+id/edit_password"
+        android:layout_alignStart="@+id/edit_password"
+        android:layout_alignRight="@+id/edit_password"
+        android:layout_alignEnd="@+id/edit_password" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,6 +67,7 @@
         android:textStyle="bold"
         android:id="@+id/textView5"
         android:textSize="18sp"
+        android:textColor="#11d0e6"
         android:layout_marginTop="40dp"
         android:layout_below="@+id/buttonLogin"
         android:layout_centerHorizontal="true" />
@@ -80,6 +85,14 @@
         android:layout_marginTop="14dp"
         android:layout_alignRight="@+id/buttonLogin"
         android:layout_alignEnd="@+id/buttonLogin"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/buttonLogin"
+        android:layout_alignStart="@+id/buttonLogin" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView14"
+        android:src="@mipmap/logo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

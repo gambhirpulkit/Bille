@@ -2,10 +2,10 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="100dp"
     android:layout_marginBottom="10dp"
     xmlns:card_view="http://schemas.android.com/tools"
-    android:layout_margin="8dp"
+    android:layout_margin="2dp"
 
 
     android:layout_marginTop="60dp">
@@ -19,7 +19,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="6dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/itemName" />
@@ -32,13 +33,14 @@
         android:orientation="horizontal">
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="65dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
+            android:textColor="#b4847e7e"
             android:id="@+id/itemPrice"
             android:layout_alignBottom="@+id/qtyCount"
             android:layout_alignParentLeft="true"
@@ -47,29 +49,35 @@
                 android:id="@+id/plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:src="@drawable/add"
+                android:background="#00ffffff"
+                android:contentDescription="Add quantity"
+                android:layout_alignTop="@+id/minus"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:src="@android:drawable/ic_input_add"
-                android:contentDescription="Add quantity"/>
+                android:layout_marginRight="20dp" />
 
             <EditText
                 android:inputType="number"
                 android:id="@+id/qtyCount"
-                android:layout_width="25dp"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/plus"
-                android:layout_toLeftOf="@id/plus"/>
+                android:layout_toLeftOf="@id/plus"
+                android:layout_marginRight="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="2dp" />
             <ImageButton
                 android:id="@+id/minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/qtyCount"
-                android:layout_toStartOf="@id/qtyCount"
-                android:src="@android:drawable/ic_delete"
-
+                android:src="@drawable/sub"
+                android:background="#00ffffff"
                 android:contentDescription="Remove item"
-                />
+                android:layout_alignTop="@+id/itemPrice"
+                android:layout_toLeftOf="@+id/qtyCount"
+                android:layout_toStartOf="@+id/qtyCount"
+                android:layout_marginRight="3dp" />
 
         </RelativeLayout>
     </LinearLayout>

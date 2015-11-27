@@ -97,8 +97,7 @@ public class AboutUs extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                Intent i = new Intent(getApplicationContext(), HomeScreen.class);
-                startActivity(i);
+                super.onBackPressed();
                 AboutUs.this.finish();
                 return true;
         }

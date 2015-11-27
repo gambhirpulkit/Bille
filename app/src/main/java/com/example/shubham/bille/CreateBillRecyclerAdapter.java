@@ -1,6 +1,7 @@
 package com.example.shubham.bille;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -61,6 +62,9 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
                 .placeholder(R.drawable.placeholder)
                 .into(feedListRowHolder.thumbnail);
 */
+        String fontPath = "fonts/Walkway_Black.ttf";
+        Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);
+
         if(itemQty[pos] == null) {
             //qty = 0;
             itemQty[pos] = 0;
@@ -68,6 +72,10 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
 
         itemId[pos] = feedItem.getMenuId();
        // Log.d("id",itemId[0]);
+
+
+        createListRowHolder.itemName.setTypeface(tf);
+        createListRowHolder.itemPrice.setTypeface(tf);
 
         createListRowHolder.itemName.setText(Html.fromHtml(feedItem.getName()));
         createListRowHolder.itemPrice.setText(Html.fromHtml(feedItem.getPrice()));

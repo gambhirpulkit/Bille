@@ -16,21 +16,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        >
+        android:layout_marginTop="60dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Item"
             android:id="@+id/textItem"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp" />
 
         <EditText
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/editItem"
 
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginRight="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -44,7 +46,8 @@
             android:layout_height="wrap_content"
             android:text="Price"
             android:id="@+id/textPrice"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp" />
 
         <EditText
             android:inputType="number"
@@ -52,15 +55,19 @@
             android:layout_height="wrap_content"
             android:id="@+id/editPrice"
 
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginRight="10dp" />
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="281dp"
         android:layout_height="wrap_content"
         android:text="Add"
+        android:textColor="#fff"
+        android:background="@drawable/button"
         android:id="@+id/addItem"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp" />
 
 
 </LinearLayout>

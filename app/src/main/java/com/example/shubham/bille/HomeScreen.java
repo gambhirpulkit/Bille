@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -65,6 +66,9 @@ public class HomeScreen extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
+        String fontPath = "fonts/Walkway_Black.ttf";
+        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
         session = new SessionManager(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,8 +105,8 @@ public class HomeScreen extends AppCompatActivity
         merchEmail = (TextView)header.findViewById(R.id.MerchantEmail);
         merchImage = (ImageView)header.findViewById(R.id.MerchantImg);
 
-
-
+        merchEmail.setTypeface(tf);
+        merchName.setTypeface(tf);
 
 
         boolean check = session.checkLogin();

@@ -1,5 +1,6 @@
 package com.example.shubham.bille;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +21,8 @@ public class CreateListRowHolder extends RecyclerView.ViewHolder {
 
     public CreateListRowHolder(View view) {
         super(view);
+
+
  /*       this.thumbnail = (ImageView) view.findViewById(R.id.thumbnail);*/
         this.itemName = (TextView) view.findViewById(R.id.itemName);
         this.itemPrice = (TextView) view.findViewById(R.id.itemPrice);
@@ -27,6 +30,7 @@ public class CreateListRowHolder extends RecyclerView.ViewHolder {
         this.minusBtn = (ImageButton) view.findViewById(R.id.minus);
         this.qty_show = (EditText) view.findViewById(R.id.qtyCount);
         //this.sendBill = (Button) view.findViewById(R.id.sendBill);
+
 
 
     }

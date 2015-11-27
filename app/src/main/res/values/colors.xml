@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FF019B44</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#35b63d</color>
     <color name="colorAccent">#FF019B44</color>
+    <color name="color">@android:color/transparent</color>
 </resources>

@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/bg"
+    android:background="#3bbf24"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.shubham.bille.Splash"
     tools:showIn="@layout/activity_splash">
@@ -22,7 +22,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:textSize="40sp"
-        android:textColor="#01579b"
+        android:textColor="#fff"
         android:layout_marginBottom="156dp" />
 
     <ImageView
@@ -36,11 +36,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="© 2015 Bille.com"
-        android:textColor="#ccc"
+        android:text="© 2015 Bille.in"
+        android:textColor="#fff"
         android:id="@+id/textView3"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_marginBottom="59dp" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_above="@+id/textView3"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
