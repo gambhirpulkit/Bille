@@ -50,6 +50,7 @@
     <Button android:layout_width="match_parent"
         android:layout_height="wrap_content" android:text="Send Bill"
         android:id="@+id/verifyBill"
+        android:background="@drawable/button"
         android:layout_marginBottom="0dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

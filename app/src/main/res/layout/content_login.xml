@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/slqsm"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.shubham.bille.Login"
+    tools:context="in.bille.app.merchant.Login"
     tools:showIn="@layout/activity_login">
 
     <EditText
@@ -64,10 +64,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Not a member? Register Here!"
-        android:textStyle="bold"
         android:id="@+id/textView5"
         android:textSize="18sp"
-        android:textColor="#11d0e6"
+        android:textColor="#fff"
         android:layout_marginTop="40dp"
         android:layout_below="@+id/buttonLogin"
         android:layout_centerHorizontal="true" />

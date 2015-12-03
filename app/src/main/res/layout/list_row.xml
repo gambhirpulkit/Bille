@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:textColor="#070807"
+            android:textColor="#323ace"
             android:id="@+id/textViewCustName"
 
             android:text="custname"
@@ -58,17 +58,26 @@
                 android:layout_marginLeft="13dp" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Rs"
+                android:textSize="20sp"
+                android:textColor="#219e21"
+                android:id="@+id/textView15"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="14dp" />
+
+            <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:textColor="#909692"
+            android:textColor="#5bbeef"
             android:id="@+id/textViewBillAmount"
             android:text="billamt"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/textViewCustName"
             android:layout_alignEnd="@+id/textViewCustName"
-                android:layout_marginLeft="17dp"
                 android:layout_marginTop="10dp" />
 
 

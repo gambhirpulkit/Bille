@@ -8,30 +8,41 @@
 
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.shubham.bille.BillDescription"
+    tools:context="in.bille.app.merchant.BillDescription"
     tools:showIn="@layout/activity_bill_description">
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+            card_view:cardBackgroundColor="#26b628"
+            android:id="@+id/titlecard"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BILL SUMMARY"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:layout_marginBottom="10dp"
+        android:textColor="#fff"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
         android:id="@+id/textView10"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
-
+        </android.support.v7.widget.CardView>
 
 <android.support.v7.widget.CardView android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_below="@+id/textView10"
+    android:layout_below="@+id/titlecard"
     android:id="@+id/detailscard"
-    android:layout_margin="2dp">
+    android:layout_margin="5dp">
 
 <LinearLayout android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -50,6 +61,7 @@
         android:text="New Text"
         android:textStyle="bold"
         android:textSize="20dp"
+        android:textColor="#323ace"
         android:textAllCaps="true"
         android:id="@+id/textViewCustomerName"
         android:layout_marginLeft="5dp"
@@ -74,7 +86,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Rs"
-        android:textSize="17dp"
+        android:textSize="18dp"
+        android:textColor="#219e21"
         android:id="@+id/textViewBillAmount"
         android:layout_marginLeft="13dp"
         android:layout_marginTop="20dp" />
@@ -107,7 +120,8 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/textView_cphone"
-        android:textSize="12dp"
+        android:textSize="14dp"
+        android:textColor="#5bbeef"
         android:layout_below="@+id/textViewCustomerName"
         android:layout_marginTop="22dp"
         android:layout_marginLeft="13dp" />
@@ -121,7 +135,8 @@
         android:background="@drawable/shape"
         android:layout_below="@+id/textView12"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp">
 
 
 
@@ -141,17 +156,20 @@
 
 <android.support.v7.widget.CardView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="50dp"
     android:id="@+id/totalamtcard"
+
     android:layout_below="@+id/scrollView1"
-    android:layout_margin="2dp">
+    android:layout_margin="5dp"
+    android:layout_marginTop="10dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TOTAL BILL:"
+        android:textColor="#323ace"
         android:textSize="18dp"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:id="@+id/textView11"
         android:layout_below="@+id/scrollView"
         android:layout_alignParentLeft="true"
@@ -162,11 +180,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Rs"
+            android:textColor="#219e21"
             android:layout_marginTop="10dp"
             android:textStyle="bold"
-            android:textSize="18dp"
+            android:textSize="20dp"
             android:id="@+id/textView_total"
-            android:layout_marginLeft="300dp"
+            android:layout_marginLeft="280dp"
 
             android:layout_marginRight="10dp" />
 </android.support.v7.widget.CardView>
@@ -180,9 +199,11 @@
         android:layout_marginTop="6dp"
         android:text="Menu List :"
         android:id="@+id/textView12"
+        android:textColor="#323ace"
         android:layout_below="@+id/detailscard"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp" />
 
     </RelativeLayout>
     </ScrollView>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.shubham.bille">
+    package="in.bille.app.merchant">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,7 +9,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-
+    <permission
+        android:name="in.bille.app.merchant.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
 
 
     <application
@@ -19,12 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".HomeScreen"
+            android:name="in.bille.app.merchant.HomeScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Splash"
+            android:name="in.bille.app.merchant.Splash"
             android:label="@string/title_activity_splash"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -35,60 +37,77 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login"
+            android:name="in.bille.app.merchant.Login"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Register"
+            android:name="in.bille.app.merchant.Register"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".NotConnected"
+            android:name="in.bille.app.merchant.NotConnected"
             android:label="@string/title_activity_not_connected"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AboutUs"
+            android:name="in.bille.app.merchant.AboutUs"
             android:label="@string/title_activity_about_us"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".BillDescription"
+            android:name="in.bille.app.merchant.BillDescription"
             android:label="@string/title_activity_bill_description"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="in.bille.app.merchant.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddItem"
+            android:name="in.bille.app.merchant.AddItem"
             android:label="@string/title_activity_add_item"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".EditItem"
+            android:name="in.bille.app.merchant.EditItem"
             android:label="@string/title_activity_edit_item"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".CreateBill"
+            android:name="in.bille.app.merchant.CreateBill"
             android:label="@string/title_activity_create_bill"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".SendBill"
+            android:name="in.bille.app.merchant.SendBill"
             android:label="@string/title_activity_send_bill"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".ContactUs"
+            android:name="in.bille.app.merchant.ContactUs"
             android:label="@string/title_activity_contact_us"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <receiver
+            android:name="in.bille.app.merchant.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <!-- Receives the registration id. -->
+
+                <category android:name="com.example.shubham.bille.pushnotifications" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="in.bille.app.merchant.GcmIntentService" />
+
+
     </application>
 
 </manifest>

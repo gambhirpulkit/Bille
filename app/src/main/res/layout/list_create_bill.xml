@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="6dp"
+            android:textColor="#323ace"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/itemName" />
@@ -37,14 +38,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
-            android:textColor="#b4847e7e"
+            android:textColor="#219e21"
             android:id="@+id/itemPrice"
-            android:layout_alignBottom="@+id/qtyCount"
+            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp" />
             <ImageButton
                 android:id="@+id/plus"
                 android:layout_width="wrap_content"
@@ -57,16 +58,20 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="20dp" />
 
-            <EditText
-                android:inputType="number"
+            <TextView
+
                 android:id="@+id/qtyCount"
-                android:layout_width="30dp"
+                android:text="1"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:textColor="#5bbeef"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/plus"
-                android:layout_toLeftOf="@id/plus"
-                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/plus"
+                android:layout_toStartOf="@+id/plus"
+                android:layout_marginRight="10dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="2dp" />
+                android:layout_marginTop="16dp" />
             <ImageButton
                 android:id="@+id/minus"
                 android:layout_width="wrap_content"
@@ -77,7 +82,7 @@
                 android:layout_alignTop="@+id/itemPrice"
                 android:layout_toLeftOf="@+id/qtyCount"
                 android:layout_toStartOf="@+id/qtyCount"
-                android:layout_marginRight="3dp" />
+                android:layout_marginRight="10dp" />
 
         </RelativeLayout>
     </LinearLayout>

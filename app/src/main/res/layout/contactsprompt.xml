@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="#fff"
     android:layout_height="match_parent"
     android:weightSum="1">
 
@@ -8,15 +9,15 @@
     <ImageButton
         android:layout_width="150dp"
         android:layout_height="147dp"
-        android:src="@drawable/mailus"
-        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/mailnew"
+        android:background="#00ffffff"
         android:id="@+id/imageButton_MailUs" />
 
     <ImageButton
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/phonepopup"
-        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/phonenew"
+        android:background="#00ffffff"
         android:id="@+id/imageButton_CallUs"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/imageButton_MailUs"
