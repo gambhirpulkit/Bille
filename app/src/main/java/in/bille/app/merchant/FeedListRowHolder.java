@@ -13,6 +13,8 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder implements View.O
 
     protected TextView title;
     protected TextView price;
+    protected TextView phone;
+    protected TextView date;
     protected ImageView thumbnail;
     protected TextView customerName;
     protected TextView billAmount;
@@ -28,7 +30,8 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder implements View.O
         this.editBtn = (ImageButton) view.findViewById(R.id.editMenu);
         this.title = (TextView) view.findViewById(R.id.title);
         this.price = (TextView) view.findViewById(R.id.price);
-
+        this.phone = (TextView) view.findViewById(R.id.homescreenCustphone);
+        this.date = (TextView) view.findViewById(R.id.homescreenDate);
         view.setOnClickListener(this);
         view.setOnLongClickListener(this);
     }

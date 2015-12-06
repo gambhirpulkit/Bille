@@ -13,6 +13,7 @@ public class FeedItem {
     private String total;
     private String totalBill;
     private String qty;
+    private String date;
     private String bill_id;
     private String menu_id;
 
@@ -92,6 +93,12 @@ public class FeedItem {
         this.qty = qty;
     }
 
+    public String getDate() {
+        return date;
+    }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
 
 }

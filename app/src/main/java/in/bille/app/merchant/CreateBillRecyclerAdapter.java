@@ -1,6 +1,7 @@
 package in.bille.app.merchant;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -44,6 +45,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
     public CreateListRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_create_bill, viewGroup, false);
         CreateListRowHolder mh = new CreateListRowHolder(v);
+       // final Integer pos = mh.getAdapterPosition();
 
 
         return mh;
@@ -53,6 +55,11 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
     public void onBindViewHolder(final CreateListRowHolder createListRowHolder, int i) {
         final CreateBillFeedItem feedItem = mModels.get(i);
             final Integer pos = createListRowHolder.getAdapterPosition();
+        if(pos%2!=0)
+        {
+            createListRowHolder.itemView.setBackgroundColor(Color.LTGRAY);
+        }
+       // createListRowHolder.itemView.setBackgroundColor(Color.LTGRAY);
        // createListRowHolder.bind(feedItem);
       //  createListRowHolder.bind(feedItem);
 /*
@@ -168,6 +175,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
     public void addItem(int position, CreateBillFeedItem feedItem) {
         //Log.d("list4",""+feedItemList.size());
         mModels.add(position, feedItem);
+
         notifyItemInserted(position);
     }
 

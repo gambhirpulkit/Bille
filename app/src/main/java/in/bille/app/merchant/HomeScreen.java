@@ -337,6 +337,7 @@ public class HomeScreen extends AppCompatActivity
                 item.setPhone(post.optString("customer_phone"));
                 item.setTitle(post.optString("c_name"));
                 item.setPrice(post.optString("amount"));
+                item.setDate(post.optString("date"));
                /* item.setThumbnail(post.optString("thumbnail"));
 */
                 feedsList.add(item);
