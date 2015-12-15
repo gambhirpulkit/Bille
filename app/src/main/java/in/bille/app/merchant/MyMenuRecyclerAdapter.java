@@ -56,18 +56,18 @@ public class MyMenuRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolde
         feedListRowHolder.title.setText(Html.fromHtml(feedItem.getTitle()));
         feedListRowHolder.price.setText(Html.fromHtml(feedItem.getPrice()));
 
-        feedListRowHolder.editBtn.setOnClickListener(new View.OnClickListener() {
+        /*feedListRowHolder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mContext, EditItem.class);
+                *//*Intent i = new Intent(mContext, EditItem.class);
                 i.putExtra("menu_id", feedItem.getMenuId());
                 i.putExtra("item_name", feedItem.getTitle());
                 i.putExtra("item_price", feedItem.getPrice());
                 mContext.startActivity(i);
                 Log.d("onBindHolder", "test");
-                Log.d("val", feedItem.getMenuId());
+                Log.d("val", feedItem.getMenuId());*//*
             }
-        });
+        });*/
 
         feedListRowHolder.setClickListener(new FeedListRowHolder.ClickListener() {
             @Override
@@ -75,7 +75,13 @@ public class MyMenuRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolde
                 if (isLongClick) {
                     // View v at position pos is long-clicked.
                 } else {
-
+                    Intent i = new Intent(mContext, EditItem.class);
+                    i.putExtra("menu_id", feedItem.getMenuId());
+                    i.putExtra("item_name", feedItem.getTitle());
+                    i.putExtra("item_price", feedItem.getPrice());
+                    mContext.startActivity(i);
+                    Log.d("onBindHolder", "test");
+                    Log.d("val", feedItem.getMenuId());
 
                     // View v at position pos is clicked.
                 }

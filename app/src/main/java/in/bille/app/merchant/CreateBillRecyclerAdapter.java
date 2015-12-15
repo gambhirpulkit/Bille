@@ -22,10 +22,11 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
     //Integer[] itemPrice;
 
     private List<CreateBillFeedItem> feedItemList;
-
+    String cattest;
     private Context mContext;
     Integer[] itemQty;
     String[] itemId;
+    String[] itemColor;
     private List<CreateBillFeedItem> mModels;
 
 
@@ -38,6 +39,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
         itemQty = new Integer[feedItemList.size()];
         itemId = new String[feedItemList.size()];
         mModels = new ArrayList<>(feedItemList);
+        itemColor = new String[feedItemList.size()];
 }
 
 
@@ -55,9 +57,25 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
     public void onBindViewHolder(final CreateListRowHolder createListRowHolder, int i) {
         final CreateBillFeedItem feedItem = mModels.get(i);
             final Integer pos = createListRowHolder.getAdapterPosition();
-        if(pos%2!=0)
+        if((pos%2!=0) && itemQty[pos] == null )
         {
-            createListRowHolder.itemView.setBackgroundColor(Color.LTGRAY);
+            Log.d("itemColorOdd",itemColor[pos] + "");
+            itemColor[pos] = "1";
+            Log.d("back",createListRowHolder.itemView.getBackground() + "");
+            Log.d("pos_even", pos + "");
+            createListRowHolder.itemView.setBackgroundColor(Color.parseColor("#e4e4e4"));
+            //createListRowHolder.itemView.setBackgroundColor(Color.LTGRAY);
+        }
+        else if (pos%2==0 && itemQty[pos] == null)  {
+            Log.d("itemColorEven",itemColor[pos] + "");
+            createListRowHolder.itemView.setBackgroundColor(Color.WHITE);
+            itemColor[pos] = "0";
+        }
+        else if (pos%2!=0) {
+            createListRowHolder.itemView.setBackgroundColor(Color.parseColor("#e4e4e4"));
+        }
+        else if (pos%2==0) {
+            createListRowHolder.itemView.setBackgroundColor(Color.WHITE);
         }
        // createListRowHolder.itemView.setBackgroundColor(Color.LTGRAY);
        // createListRowHolder.bind(feedItem);
@@ -86,6 +104,17 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
         createListRowHolder.itemName.setText(Html.fromHtml(feedItem.getName()));
         createListRowHolder.itemPrice.setText(Html.fromHtml(feedItem.getPrice()));
 
+        cattest = feedItem.getCategory();
+
+        Log.d("food cat",""+cattest);
+        if(cattest.matches("vg"))
+        {
+            createListRowHolder.foodcatg.setImageResource(R.drawable.veg);
+        }
+        else
+        {
+            createListRowHolder.foodcatg.setImageResource(R.drawable.nonveg);
+        }
         Log.d("pos", pos.toString());
         createListRowHolder.qty_show.setText(Html.fromHtml(itemQty[pos].toString()));
 

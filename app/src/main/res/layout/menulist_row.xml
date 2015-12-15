@@ -31,7 +31,7 @@
             android:textColor="#323ace"
             android:text="title"
             android:layout_marginLeft="46dp"
-            android:textSize="25sp"
+            android:textSize="18sp"
 
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
@@ -41,15 +41,17 @@
     <LinearLayout android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/linearitemprice"
-        android:layout_alignBottom="@+id/title"
-        android:layout_toLeftOf="@+id/editMenu"
-        android:layout_toStartOf="@+id/editMenu">
+        android:layout_alignTop="@+id/title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="48dp"
+        android:layout_marginEnd="48dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Rs"
             android:textColor="#219e21"
-            android:textSize="23dp"
+            android:textSize="17sp"
             android:id="@+id/textView13"
              />
 
@@ -60,22 +62,9 @@
             android:textColor="#219e21"
             android:text="price"
             android:layout_marginRight="16dp"
-            android:textSize="25sp"
+            android:textSize="18sp"
             />
     </LinearLayout>
-        <ImageButton
-            android:id="@+id/editMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/editfilled"
-            android:contentDescription="@string/editBtn"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:background="#00ffffff"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp" />
-
-
 
 
     </RelativeLayout>

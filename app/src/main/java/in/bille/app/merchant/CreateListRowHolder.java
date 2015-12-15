@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -16,6 +17,7 @@ public class CreateListRowHolder extends RecyclerView.ViewHolder {
     protected ImageButton plusBtn;
     protected ImageButton minusBtn;
     protected TextView qty_show;
+    protected ImageView foodcatg;
     //protected Button sendBill;
 
     public CreateListRowHolder(View view) {
@@ -28,6 +30,7 @@ public class CreateListRowHolder extends RecyclerView.ViewHolder {
         this.plusBtn = (ImageButton) view.findViewById(R.id.plus);
         this.minusBtn = (ImageButton) view.findViewById(R.id.minus);
         this.qty_show = (TextView) view.findViewById(R.id.qtyCount);
+        this.foodcatg = (ImageView) view.findViewById(R.id.FoodcatImage);
         //this.sendBill = (Button) view.findViewById(R.id.sendBill);
 
 

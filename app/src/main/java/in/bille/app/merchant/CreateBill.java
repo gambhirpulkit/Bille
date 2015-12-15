@@ -292,7 +292,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
             for (int i = 0; i < posts.length(); i++) {
                 JSONObject post = posts.optJSONObject(i);
-                CreateBillFeedItem item = new CreateBillFeedItem(post.optString("item"),post.optString("price"),post.optString("menu_id"));
+                CreateBillFeedItem item = new CreateBillFeedItem(post.optString("item"),post.optString("price"),post.optString("menu_id"),post.optString("cat"));
                 Log.d("val", post.getString("item"));
                 /*item.setTitle(post.optString("item"));
                 item.setPrice(post.optString("price"));

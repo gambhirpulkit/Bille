@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         String mid = user.get(SessionManager.KEY_MID);
 
-        ImageButton editBtn = (ImageButton) findViewById(R.id.editMenu);
+       // ImageButton editBtn = (ImageButton) findViewById(R.id.editMenu);
 
         // Initialize recycler view
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);

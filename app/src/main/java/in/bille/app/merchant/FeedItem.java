@@ -16,6 +16,7 @@ public class FeedItem {
     private String date;
     private String bill_id;
     private String menu_id;
+    //private String category;
 
     public String getTitle() {
         return customerName;
@@ -100,5 +101,13 @@ public class FeedItem {
     public void setDate(String date) {
         this.date = date;
     }
+
+    /*public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }*/
 
 }

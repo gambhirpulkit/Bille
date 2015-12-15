@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,15 +22,25 @@ import java.util.HashMap;
 /**
  * Created by pulkit-mac on 11/2/15.
  */
-public class AddItem extends AppCompatActivity {
+public class AddItem extends AppCompatActivity implements View.OnClickListener{
 
     private static String url = Config.url+"add_menu.php?mid=";
 
+    String foodcat;
+    CheckBox veg,nonveg;
     SessionManager session;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_item);
+
+
+        veg = (CheckBox)findViewById(R.id.VegcheckBox);
+        nonveg = (CheckBox)findViewById(R.id.NonVegcheckbox);
+
+        veg.setOnClickListener(this);
+        nonveg.setOnClickListener(this);
+
         session = new SessionManager(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,7 +75,7 @@ public class AddItem extends AppCompatActivity {
                 }
                 else {
                     try {
-                        url = url+"&item="+ URLEncoder.encode(iName, "UTF-8")+"&price="+iPrice;
+                        url = url+"&item="+ URLEncoder.encode(iName, "UTF-8")+"&price="+iPrice+"&cat="+foodcat;
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -76,6 +87,27 @@ public class AddItem extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+
+        if(v.getId()==R.id.VegcheckBox)
+        {
+            if(veg.isChecked()) {
+                foodcat = "vg";
+                nonveg.setChecked(false);
+            }
+        }
+        else if (v.getId()==R.id.NonVegcheckbox)
+        {
+            if(nonveg.isChecked()) {
+                foodcat = "nvg";
+                veg.setChecked(false);
+            }
+        }
 
     }
 

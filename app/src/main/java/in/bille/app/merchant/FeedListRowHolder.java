@@ -18,7 +18,7 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder implements View.O
     protected ImageView thumbnail;
     protected TextView customerName;
     protected TextView billAmount;
-    protected ImageButton editBtn;
+   // protected ImageButton editBtn;
 
     private ClickListener clickListener;
 
@@ -27,7 +27,7 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder implements View.O
  /*       this.thumbnail = (ImageView) view.findViewById(R.id.thumbnail);*/
         this.customerName = (TextView) view.findViewById(R.id.textViewCustName);
         this.billAmount = (TextView) view.findViewById(R.id.textViewBillAmount);
-        this.editBtn = (ImageButton) view.findViewById(R.id.editMenu);
+        //this.editBtn = (ImageButton) view.findViewById(R.id.editMenu);
         this.title = (TextView) view.findViewById(R.id.title);
         this.price = (TextView) view.findViewById(R.id.price);
         this.phone = (TextView) view.findViewById(R.id.homescreenCustphone);

@@ -6,14 +6,15 @@ package in.bille.app.merchant;
 public class CreateBillFeedItem {
 
 
-    String itemName,itemPrice,menuId;
+    String itemName,itemPrice,menuId,category;
 
 
-    CreateBillFeedItem(String itemName, String itemPrice, String menuId)
+    CreateBillFeedItem(String itemName, String itemPrice, String menuId, String category)
     {
             this.itemName = itemName;
             this.itemPrice = itemPrice;
             this.menuId = menuId;
+            this.category = category;
     }
 
     public String getName() {
@@ -28,5 +29,7 @@ public class CreateBillFeedItem {
         return menuId;
     }
 
-
+    public String getCategory() {
+        return category;
+    }
 }
