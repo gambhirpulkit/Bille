@@ -1,10 +1,13 @@
 package in.bille.app.merchant;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,6 +55,8 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
     private List<CreateBillFeedItem> filteredModelList;
 
+    Button checkout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +78,6 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-
-
         HashMap<String, String> user = session.getUserDetails();
 
         String mid = user.get(SessionManager.KEY_MID);
@@ -88,15 +91,12 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
 
 
-/*
-        feedsList = new List<FeedItem>();
+        checkout = (Button) findViewById(R.id.sendBill);
+        checkout.setEnabled(false);
+        checkout.getBackground().setAlpha(64);
 
-        feedsList.addAll(adapter.feedItemList);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("qty-count"));
 
-        adapter = new CreateBillRecyclerAdapter(getApplicationContext(), feedsList);
-        mRecyclerView.setAdapter(adapter);*/
-
-        Button checkout = (Button) findViewById(R.id.sendBill);
 
 
         checkout.setOnClickListener(new View.OnClickListener() {
@@ -165,17 +165,35 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
                 alert.show();
 
 
-
-
-
-
         }
 
 
-
-
-
         });
+    }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra("qtyStatus");
+            Log.d("receiver", "Got message: " + message);
+            if (message.equals("items")) {
+                checkout.setEnabled(true);
+                checkout.getBackground().setAlpha(255);
+
+            }
+            else if (message.equals("noItem")) {
+                checkout.setEnabled(false);
+                checkout.getBackground().setAlpha(64);
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        // Unregister since the activity is about to be closed.
+        LocalBroadcastManager.getInstance(context).unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
     }
 
 
@@ -199,37 +217,9 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setQueryHint("Search Here");
+        mSearchView.setSubmitButtonEnabled(false);
+
     }
-
-
-   /* @Override
-    public boolean onQueryTextChange(String query) {
-        final List<FeedItem> filteredModelList = filter(feedsList, query);
-
-        adapter.animateTo(filteredModelList);
-
-        mRecyclerView.scrollToPosition(0);
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-
-        return false;
-    }
-    public List<FeedItem> filter(List<FeedItem> models, String query) {
-        query = query.toLowerCase();
-
-        final List<FeedItem> filteredModelList = new ArrayList<>();
-        for (FeedItem feedItem : models) {
-            final String text = feedItem.getTitle().toLowerCase();
-            if (text.contains(query)) {
-                filteredModelList.add(feedItem);
-            }
-        }
-        return filteredModelList;
-    }*/
-
 
 
 
@@ -276,6 +266,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
                 if (result == 1) {
                     adapter = new CreateBillRecyclerAdapter(CreateBill.this,feedsList);
+
                     mRecyclerView.setAdapter(adapter);
 
                 } else {

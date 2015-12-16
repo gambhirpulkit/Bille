@@ -1,8 +1,10 @@
 package in.bille.app.merchant;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -28,6 +31,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
     String[] itemId;
     String[] itemColor;
     private List<CreateBillFeedItem> mModels;
+    private Boolean qtyStatus = false;
 
 
 
@@ -72,7 +76,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
             itemColor[pos] = "0";
         }
         else if (pos%2!=0) {
-            createListRowHolder.itemView.setBackgroundColor(Color.parseColor("#e4e4e4"));
+            createListRowHolder.itemView.setBackgroundColor(Color.parseColor("#f1f1f1"));
         }
         else if (pos%2==0) {
             createListRowHolder.itemView.setBackgroundColor(Color.WHITE);
@@ -86,8 +90,8 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
                 .placeholder(R.drawable.placeholder)
                 .into(feedListRowHolder.thumbnail);
 */
-        String fontPath = "fonts/Walkway_Black.ttf";
-        Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);
+       /* String fontPath = "fonts/Walkway_Black.ttf";
+        Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);*/
 
         if(itemQty[pos] == null) {
             //qty = 0;
@@ -98,8 +102,11 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
        // Log.d("id",itemId[0]);
 
 
+/*
         createListRowHolder.itemName.setTypeface(tf);
         createListRowHolder.itemPrice.setTypeface(tf);
+*/
+
 
         createListRowHolder.itemName.setText(Html.fromHtml(feedItem.getName()));
         createListRowHolder.itemPrice.setText(Html.fromHtml(feedItem.getPrice()));
@@ -111,9 +118,12 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
         {
             createListRowHolder.foodcatg.setImageResource(R.drawable.veg);
         }
-        else
+        else if(cattest.matches("nvg"))
         {
             createListRowHolder.foodcatg.setImageResource(R.drawable.nonveg);
+        }
+        else {
+            Log.d("food cat",""+cattest);
         }
         Log.d("pos", pos.toString());
         createListRowHolder.qty_show.setText(Html.fromHtml(itemQty[pos].toString()));
@@ -126,6 +136,19 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
                 itemQty[pos] = qty;
                 createListRowHolder.qty_show.setText(Html.fromHtml(itemQty[pos].toString()));
 
+                Log.d("qtyArr", Arrays.asList(itemQty) + "");
+                for (Integer anItemQty : itemQty) {
+                    if (anItemQty != null) {
+                        if (anItemQty > 0) qtyStatus = true;
+                    }
+                }
+                if (qtyStatus) {
+                    sendMessage("items");
+                }
+                else {
+                    sendMessage("noItems");
+                }
+
             }
         });
         createListRowHolder.minusBtn.setOnClickListener(new View.OnClickListener() {
@@ -136,14 +159,47 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
                 if (qty < 0) {
                     qty = 0;
                 }
+
+
                 itemQty[pos] = qty;
                 createListRowHolder.qty_show.setText(Html.fromHtml(itemQty[pos].toString()));
+                Boolean flag = true;
+                for (Integer anItemQty : itemQty) {
+                    if (anItemQty != null) {
+                        if (anItemQty > 0) {
+                            flag = false;
+                            qtyStatus = true;
+                        }
+
+                    }
+                }
+                if(flag) {
+                    qtyStatus = false;
+                }
+
+
+                if (qtyStatus) {
+                    sendMessage("items");
+                }
+                else {
+                    sendMessage("noItem");
+                }
 
             }
         });
 
 
 
+    }
+
+
+
+    private void sendMessage(String status) {
+        Log.d("sender", "Broadcasting message");
+        Intent intent = new Intent("qty-count");
+        // You can also include some extra data.
+        intent.putExtra("qtyStatus", status);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
 

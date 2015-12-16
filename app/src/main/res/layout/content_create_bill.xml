@@ -1,19 +1,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <include layout="@layout/toolbar" android:id="@+id/tool"/>
     <view
         android:id="@+id/recycler_view_bill"
         class="android.support.v7.widget.RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/searchView"/>
+        android:layout_below="@+id/searchView"
+        android:layout_above="@+id/sendBill" />
 
 
         <Button android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:text="Checkout"
+            android:layout_height="wrap_content"
+            android:text="Checkout"
             android:id="@+id/sendBill"
+            android:textColor="@color/textColor"
+            android:background="@color/colorPrimary"
             android:layout_toEndOf="@id/recycler_view_bill"
             android:layout_toRightOf="@id/recycler_view_bill"
             android:layout_alignParentBottom="true"
@@ -21,13 +26,17 @@
             android:layout_alignParentStart="true"/>
 
     <SearchView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/searchView"
         android:layout_below="@+id/tool"
-        android:layout_above="@+id/recycler_view"
+        android:splitMotionEvents="true"
+        android:closeIcon="@drawable/clear_search"
+        android:background="@color/color"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:queryBackground="@color/color"
+
          />
 
     <!--    <ProgressBar
