@@ -4,43 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="in.bille.app.merchant.BillDescription"
     tools:showIn="@layout/activity_bill_description">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
     <RelativeLayout android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
 
-            card_view:cardBackgroundColor="#26b628"
-            android:id="@+id/titlecard"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BILL SUMMARY"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="#fff"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
-        android:id="@+id/textView10"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-        </android.support.v7.widget.CardView>
-
-<android.support.v7.widget.CardView android:layout_width="match_parent"
+        <android.support.v7.widget.CardView android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_below="@+id/titlecard"
     android:id="@+id/detailscard"
     android:layout_margin="5dp">
 
@@ -48,27 +20,47 @@
     android:layout_height="wrap_content"
 
     android:id="@+id/linearcustname">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView10"
-        android:src="@drawable/customer"
-        android:layout_marginLeft="10dp" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/user50"
+        app:border_color="#FF000000"
+        android:layout_marginLeft="5dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp" />
 
+
+    <LinearLayout android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textColor="#323ace"
+        android:textSize="18sp"
+        android:textColor="@color/primaryTextColor"
         android:textAllCaps="true"
         android:id="@+id/textViewCustomerName"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondaryTextColor"
+            android:textStyle="italic"
+            android:text="New Text"
+            android:id="@+id/textView_cphone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp" />
+    </LinearLayout>
 </LinearLayout>
 
-    <LinearLayout android:layout_width="wrap_content"
+    <RelativeLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_below="@+id/linearcustphone"
@@ -78,7 +70,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView11"
         android:src="@drawable/totalbill"
-
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp" />
 
@@ -89,89 +80,79 @@
         android:textSize="18dp"
         android:textColor="#219e21"
         android:id="@+id/textViewBillAmount"
-        android:layout_marginLeft="13dp"
+        android:layout_toEndOf="@id/imageView11"
+        android:layout_toRightOf="@id/imageView11"
         android:layout_marginTop="20dp" />
-    </LinearLayout>
+        <ImageView
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView12"
-        android:src="@drawable/billpaid"
-        android:layout_marginLeft="300dp"
-
-        android:layout_marginTop="20dp"
-         />
-<LinearLayout android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/linearcustname"
-    android:layout_marginTop="20dp"
-    android:id="@+id/linearcustphone">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView13"
-        android:src="@drawable/phone"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView_cphone"
-        android:textSize="14dp"
-        android:textColor="#5bbeef"
-        android:layout_below="@+id/textViewCustomerName"
-        android:layout_marginTop="22dp"
-        android:layout_marginLeft="13dp" />
-    </LinearLayout>
-        </android.support.v7.widget.CardView>
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="300dp"
-
-        android:background="@drawable/shape"
-        android:layout_below="@+id/textView12"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="5dp">
-
-
-
-        <TextView
-            android:id="@+id/textView_menulist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:layout_marginTop="10dp"
-            android:textSize="18dp"
-             />
+            android:id="@+id/imageView12"
+            android:src="@drawable/billpaid"
+            android:gravity="end"
+
+            android:layout_toLeftOf="@+id/textView16"
+            android:layout_toStartOf="@+id/textView16"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PAID"
+            android:layout_marginTop="20dp"
+            android:gravity="end"
+            android:textColor="@color/secondaryTextColor"
+            android:id="@+id/textView16"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp" />
+    </RelativeLayout>
 
 
 
-    </ScrollView>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/detailscard">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+    <view
+        android:id="@+id/recycler_bill_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        class="android.support.v7.widget.RecyclerView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp"
+        android:layout_above="@+id/totalamtcard"
+        />
 
 
-<android.support.v7.widget.CardView
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:id="@+id/totalamtcard"
+    android:layout_toEndOf="@+id/recycler_bill_desc"
+    android:layout_toRightOf="@id/recycler_bill_desc"
 
-    android:layout_below="@+id/scrollView1"
     android:layout_margin="5dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentLeft="true"
     android:layout_marginTop="10dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TOTAL BILL:"
-        android:textColor="#323ace"
+        android:textColor="@color/primaryTextColor"
         android:textSize="18dp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
         android:id="@+id/textView11"
-        android:layout_below="@+id/scrollView"
+
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp" />
@@ -186,25 +167,11 @@
             android:textSize="20dp"
             android:id="@+id/textView_total"
             android:layout_marginLeft="280dp"
-
             android:layout_marginRight="10dp" />
-</android.support.v7.widget.CardView>
-
-
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="Menu List :"
-        android:id="@+id/textView12"
-        android:textColor="#323ace"
-        android:layout_below="@+id/detailscard"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="5dp" />
+</RelativeLayout>
+        </RelativeLayout>
+        </android.support.v7.widget.CardView>
 
     </RelativeLayout>
-    </ScrollView>
+
 </RelativeLayout>

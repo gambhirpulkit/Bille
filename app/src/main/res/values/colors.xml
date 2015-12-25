@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#388E3C</color>
     <color name="colorAccent">#8BC34A</color>
     <color name="color">@android:color/transparent</color>
+    <color name="rupeesColor">#219e21</color>
     <color name="textColor">#FFFFFF</color>
     <color name="dividerColor">#B6B6B6</color>
     <color name="primaryTextColor">#212121</color>

@@ -5,6 +5,8 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,15 +21,18 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BillDescription extends AppCompatActivity {
 
-
+    private List<FeedItem> feedsList;
     TextView name,amount,custphone;
     TextView menulist,totalamt;
-
+    private RecyclerView mRecyclerView;
+    private BillDescriptionRecyclerAdapter adapter;
     String cname,bamt,billid,cphone;
-    String itemandprice="";
+    String itemName;
     String a,b;
     String url = Config.url+"order_mer.php?bill_id=";
 
@@ -37,30 +42,21 @@ public class BillDescription extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_description);
         String fontPath = "fonts/Walkway_Black.ttf";
-        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
+       // Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         name = (TextView)findViewById(R.id.textViewCustomerName);
         amount = (TextView)findViewById(R.id.textViewBillAmount);
         menulist = (TextView)findViewById(R.id.textView_menulist);
         custphone = (TextView)findViewById(R.id.textView_cphone);
         totalamt = (TextView)findViewById(R.id.textView_total);
-        amount.setTypeface(tf);
-        custphone.setTypeface(tf);
-        name.setTypeface(tf);
-        totalamt.setTypeface(tf);
 
+        // Initialize recycler view
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_bill_desc);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
         a = totalamt.getText().toString();
@@ -72,7 +68,7 @@ public class BillDescription extends AppCompatActivity {
         billid = billdes.getStringExtra("bill_id");
         cphone = billdes.getStringExtra("c_phone");
 
-        menulist.setTypeface(tf);
+        //menulist.setTypeface(tf);
         Log.d("billid",""+billid);
 
         url += billid;
@@ -155,11 +151,9 @@ public class BillDescription extends AppCompatActivity {
             // progressBar.setVisibility(View.GONE);
 
             if (result == 1) {
-
-                menulist.setText(itemandprice);
-
-
-                Log.d("22222222222","444444444444");
+                adapter = new BillDescriptionRecyclerAdapter(BillDescription.this,feedsList);
+                mRecyclerView.setAdapter(adapter);
+               // menulist.setText(itemName);
 
             } else {
                 Toast.makeText(BillDescription.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
@@ -169,13 +163,13 @@ public class BillDescription extends AppCompatActivity {
 
     private void parseResult(String result) {
 
-        Log.d("22222222222",""+itemandprice);
+        Log.d("22222222222",""+itemName);
         try {
             JSONObject response = new JSONObject(result);
             JSONArray posts = response.optJSONArray("order");
 
             Log.d("parse","result");
-
+            feedsList = new ArrayList<>();
             for (int i = 0; i < posts.length(); i++) {
                 JSONObject post = posts.optJSONObject(i);
                // FeedItem item = new FeedItem();
@@ -186,16 +180,14 @@ public class BillDescription extends AppCompatActivity {
                 String quantity = post.optString("qty");
                 String totalcost = post.optString("cost");
 
+                FeedItem item = new FeedItem();
 
-                Log.d("2222222",""+itemname);
-                Log.d("2222222",""+itemprice);
+                item.setTitle(itemname);
+                item.setPrice(itemprice);
+                item.setTotal(totalcost);
+                item.setQty(quantity + " x ");
 
-                itemandprice+="\n\t"+itemname+ "\n\t"+b+itemprice+" X "+quantity+"\t"+"\t"+"\t"+"\t"+"\t\t\t\t\t\t\t"+""+b+totalcost;
-                itemandprice+="\n";
-               /* item.setThumbnail(post.optString("thumbnail"));
-*/              Log.d("22222222222",""+itemandprice);
-
-
+                feedsList.add(item);
 
             }
 
