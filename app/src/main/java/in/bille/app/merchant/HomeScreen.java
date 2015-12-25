@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,7 +45,8 @@ public class HomeScreen extends AppCompatActivity
     private List<FeedItem> feedsList;
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter adapter;
-
+   // private LinearLayoutManager layoutmanager;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
    // private ProgressBar progressBar;
 
     TextView merchName,merchEmail;
@@ -62,6 +64,19 @@ public class HomeScreen extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
+        /*mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+
+            @Override
+            public void onRefresh() {
+
+            }
+        });*/
+
+
+
         String fontPath = "fonts/Walkway_Black.ttf";
         Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
         session = new SessionManager(getApplicationContext());
@@ -69,7 +84,7 @@ public class HomeScreen extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setImageResource(R.drawable.takeorder);
@@ -129,7 +144,7 @@ public class HomeScreen extends AppCompatActivity
         String imgurl = user.get(SessionManager.KEY_LogoUrl);
 
         String mid = user.get(SessionManager.KEY_MID);
-        Log.d("checkmid",""+mid);
+        Log.d("checkmid", "" + mid);
 
         merchName.setText(merchname);
         merchEmail.setText(merchemail);
@@ -151,23 +166,40 @@ public class HomeScreen extends AppCompatActivity
             merchEmail.setText(merchemail);
             //  setContentView(merchEmail);
         }*/
+        /*mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                Toast.makeText(HomeScreen.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
+
+            }
+        });*/
 
 
+       // layoutmanager = new (this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+       // layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
 
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-       // progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+          // progressBar = (ProgressBar) findViewById(R.id.progress_bar);
        // progressBar.setVisibility(View.VISIBLE);
         url += mid;
         new AsyncHttpTask().execute(url);
 
-
-
-
-
     }
+
+    /*void refreshItems()
+    {
+        new AsyncHttpTask().execute(url);
+        onItemsLoadComplete();
+    }
+
+    void onItemsLoadComplete()
+    {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }*/
 
     @Override
     public void onResume()

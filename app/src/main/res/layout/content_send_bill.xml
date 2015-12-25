@@ -1,61 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_send_bill"
     tools:context="com.example.pulkit_mac.recyclerview.SendBill">
 
-<FrameLayout
+<android.support.v7.widget.CardView
     android:id="@+id/billFrame"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="#aaf0bb">
+    android:layout_width="fill_parent"
+    android:layout_margin="2dp"
+    android:layout_height="80dp"
+    >
 
+<LinearLayout android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/MerchantImg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/user50"
+        app:border_color="#FF000000"
+        android:layout_marginLeft="5dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp" />
 
+    <LinearLayout android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-
+        android:textSize="18sp"
+        android:textColor="@color/primaryTextColor"
         android:id="@+id/cName"
-        android:paddingTop="20dp"
-        android:paddingLeft="20dp"/>
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-
+        android:textSize="16dp"
         android:id="@+id/cPhone"
-        android:paddingLeft="20dp"
-        android:paddingTop="50dp"/>
+        android:textColor="@color/secondaryTextColor"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp" />
+</LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
 
-</FrameLayout>
+<android.support.v7.widget.CardView
+    android:id="@+id/cardbillsend"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/billFrame"
+    android:layout_margin="2dp"
 
-
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <view
         android:id="@+id/recycler_view_send"
         class="android.support.v7.widget.RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/billFrame"/>
+        android:layout_above="@+id/verifyBill"
+        />
 
 
 
     <Button android:layout_width="match_parent"
         android:layout_height="wrap_content" android:text="Send Bill"
         android:id="@+id/verifyBill"
+        android:textColor="#fff"
         android:background="@drawable/button"
-        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@id/recycler_view_send"
+        android:layout_toRightOf="@id/recycler_view_send"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true" />
+    </RelativeLayout>
 
+</android.support.v7.widget.CardView>
 
 
 

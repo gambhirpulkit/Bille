@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="10dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:orientation="horizontal">
@@ -9,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:textColor="@color/primaryTextColor"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Item Name"
         android:layout_marginTop="5dp"/>
@@ -18,39 +23,46 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Rs"
+            android:id="@+id/textView18"
+            android:textSize="18dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp" />
+
     <TextView
         android:id="@+id/perItemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
+        android:textColor="@color/secondaryTextColor"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Per item cost"/>
+        android:text="Per item cost" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView5"
+            android:src="@drawable/multiply1"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/perItemPrice"
+            android:layout_toEndOf="@+id/perItemPrice"
+            android:layout_marginTop="1dp" />
 
         <TextView
             android:id="@+id/itemQty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="qty"
-            android:layout_gravity="right"
+            android:textColor="@color/secondaryTextColor"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/imageView5"
-            android:layout_toEndOf="@+id/imageView5" />
+            />
 
-        <TextView
-            android:id="@+id/item_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="item cost"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/minusItem"
-            android:layout_toStartOf="@+id/minusItem"
-            android:layout_marginRight="44dp"
-            android:layout_marginEnd="44dp" />
-
+</LinearLayout>
         <ImageButton
             android:id="@+id/minusItem"
             android:layout_width="wrap_content"
@@ -82,23 +94,17 @@
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="3dp" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/item_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView5"
-            android:src="@drawable/multiply"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="item cost"
+            android:textColor="@color/secondaryTextColor"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/perItemPrice"
-            android:layout_toEndOf="@+id/perItemPrice" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView6"
-            android:src="@drawable/equalsign"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/item_price"
-            android:layout_toStartOf="@+id/item_price" />
+            android:layout_toLeftOf="@+id/minusItem"
+            android:layout_toStartOf="@+id/minusItem"
+            android:layout_marginRight="40dp" />
 
 
     </RelativeLayout>

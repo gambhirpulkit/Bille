@@ -20,7 +20,7 @@ import java.util.List;
 public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRowHolder> {
 
     Integer qty = 0;
-
+    String[] itemCat;
    // itemQty =
     //Integer[] itemPrice;
 
@@ -44,6 +44,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
         itemId = new String[feedItemList.size()];
         mModels = new ArrayList<>(feedItemList);
         itemColor = new String[feedItemList.size()];
+        itemCat = new String[feedItemList.size()];
 }
 
 
@@ -61,7 +62,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
     public void onBindViewHolder(final CreateListRowHolder createListRowHolder, int i) {
         final CreateBillFeedItem feedItem = mModels.get(i);
             final Integer pos = createListRowHolder.getAdapterPosition();
-        if((pos%2!=0) && itemQty[pos] == null )
+        /*if((pos%2!=0) && itemQty[pos] == null )
         {
             Log.d("itemColorOdd",itemColor[pos] + "");
             itemColor[pos] = "1";
@@ -80,7 +81,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
         }
         else if (pos%2==0) {
             createListRowHolder.itemView.setBackgroundColor(Color.WHITE);
-        }
+        }*/
        // createListRowHolder.itemView.setBackgroundColor(Color.LTGRAY);
        // createListRowHolder.bind(feedItem);
       //  createListRowHolder.bind(feedItem);
@@ -92,6 +93,38 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
 */
        /* String fontPath = "fonts/Walkway_Black.ttf";
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);*/
+
+
+        cattest = feedItem.getCategory();
+        itemCat[pos] = feedItem.getCategory();
+
+        Log.d("food cat",itemQty[pos] + "cat pos"+itemCat[pos] + pos);
+        if(itemCat[pos] == null && itemQty[pos] == null)
+        {
+            createListRowHolder.foodcatg.setImageResource(R.drawable.nothing);
+        }
+        else if(itemCat[pos].matches("vg") && itemQty[pos] == null )
+        {
+            createListRowHolder.foodcatg.setImageResource(R.drawable.veg);
+        }
+        else if(itemCat[pos].matches("nvg") && itemQty[pos] == null)
+        {
+            createListRowHolder.foodcatg.setImageResource(R.drawable.nonveg);
+        }
+        else if(itemCat[pos].matches("vg"))
+        {
+            createListRowHolder.foodcatg.setImageResource(R.drawable.veg);
+        }
+        else if(itemCat[pos].matches("nvg"))
+        {
+            createListRowHolder.foodcatg.setImageResource(R.drawable.nonveg);
+        }
+        else
+        {
+            createListRowHolder.foodcatg.setImageResource(R.drawable.nothing);
+        }
+
+
 
         if(itemQty[pos] == null) {
             //qty = 0;
@@ -111,7 +144,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
         createListRowHolder.itemName.setText(Html.fromHtml(feedItem.getName()));
         createListRowHolder.itemPrice.setText(Html.fromHtml(feedItem.getPrice()));
 
-        cattest = feedItem.getCategory();
+        /*cattest = feedItem.getCategory();
 
         Log.d("food cat",""+cattest);
         if(cattest.matches("vg"))
@@ -124,7 +157,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
         }
         else {
             Log.d("food cat",""+cattest);
-        }
+        }*/
         Log.d("pos", pos.toString());
         createListRowHolder.qty_show.setText(Html.fromHtml(itemQty[pos].toString()));
 

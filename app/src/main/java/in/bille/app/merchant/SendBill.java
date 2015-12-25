@@ -2,6 +2,7 @@ package in.bille.app.merchant;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -137,6 +138,9 @@ public class SendBill extends AppCompatActivity {
         protected void onPostExecute(Integer result) {
             // Download complete. Let us update UI
             //progressBar.setVisibility(View.GONE);
+            String fontPath = "fonts/Walkway_Black.ttf";
+            Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
+
 
             if (result == 1) {
                 adapter = new SendBillRecyclerAdapter(SendBill.this,feedsList);
@@ -145,6 +149,8 @@ public class SendBill extends AppCompatActivity {
                 TextView c_phone = (TextView) findViewById(R.id.cPhone);
 
                 c_name.setText(item.getName());
+                c_name.setTypeface(tf);
+                c_phone.setTypeface(tf);
                 c_phone.setText(item.getPhone());
 
             } else {

@@ -1,6 +1,8 @@
 package in.bille.app.merchant;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +21,8 @@ import java.util.List;
 
 public class MyMenuRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
 
-
+    private static String url = "";
+    String menuid="";
     private List<FeedItem> feedItemList;
 
     private Context mContext;
@@ -73,6 +76,9 @@ public class MyMenuRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolde
             @Override
             public void onClick(View v, int pos, boolean isLongClick) {
                 if (isLongClick) {
+
+
+
                     // View v at position pos is long-clicked.
                 } else {
                     Intent i = new Intent(mContext, EditItem.class);

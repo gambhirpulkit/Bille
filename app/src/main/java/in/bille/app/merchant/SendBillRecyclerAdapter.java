@@ -1,6 +1,7 @@
 package in.bille.app.merchant;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,9 +47,19 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
         final Integer pos = position;
         Log.d("position",pos.toString());
 
+        String fontPath = "fonts/Walkway_Black.ttf";
+        Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);
+
         //Log.d("itemids", feedItem.getMenuId());
         itemIds.add(holder.getAdapterPosition(), feedItem.getMenuId());
         itemQty.add(holder.getAdapterPosition(), feedItem.getQty());
+
+        holder.itemName.setTypeface(tf);
+        holder.itemQty.setTypeface(tf);
+        holder.itemCost.setTypeface(tf);
+        holder.perItemCost.setTypeface(tf);
+        holder.qtyStatus.setTypeface(tf);
+
 
         holder.itemName.setText(feedItem.getTitle());
         holder.itemQty.setText(feedItem.getQty());

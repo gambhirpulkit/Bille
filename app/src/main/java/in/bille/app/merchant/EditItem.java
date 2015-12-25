@@ -13,14 +13,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class EditItem extends AppCompatActivity {
+public class EditItem extends AppCompatActivity implements View.OnClickListener {
 
+    String foodcat;
+    CheckBox veg, nonveg;
     //private Static String url;
     private static String url = "";
     String menuid="";
@@ -36,6 +39,14 @@ public class EditItem extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         }
+
+
+        veg = (CheckBox)findViewById(R.id.editItemnonvegcheckBox);
+        nonveg = (CheckBox)findViewById(R.id.editItemnonvegcheckBox);
+
+        veg.setOnClickListener(this);
+        nonveg.setOnClickListener(this);
+
 
         Intent i = getIntent();
         final String menu_id = i.getStringExtra("menu_id");
@@ -72,6 +83,28 @@ public class EditItem extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId()==R.id.editItemvegcheckBox)
+        {
+            if(veg.isChecked()) {
+                foodcat = "vg";
+                nonveg.setChecked(false);
+            }
+        }
+        else if(v.getId()==R.id.editItemnonvegcheckBox)
+        {
+            if(nonveg.isChecked()) {
+                foodcat = "nvg";
+                veg.setChecked(false);
+            }
+        }
+
+
 
     }
 
