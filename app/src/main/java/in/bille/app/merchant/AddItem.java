@@ -24,8 +24,8 @@ import java.util.HashMap;
  */
 public class AddItem extends AppCompatActivity implements View.OnClickListener{
 
-    private static String url = Config.url+"add_menu.php?mid=";
-
+    private static String url = "";
+    String mid = "";
     String foodcat;
     CheckBox veg,nonveg;
     SessionManager session;
@@ -46,9 +46,9 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         setSupportActionBar(toolbar);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         HashMap<String, String> user = session.getUserDetails();
-        String mid = user.get(SessionManager.KEY_MID);
+        final String mid = user.get(SessionManager.KEY_MID);
 
-        url += mid;
+
 
         Intent intent = getIntent();
 
@@ -75,7 +75,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
                 }
                 else {
                     try {
-                        url = url+"&item="+ URLEncoder.encode(iName, "UTF-8")+"&price="+iPrice+"&cat="+foodcat;
+                        url = url+Config.url+"add_menu.php?mid="+mid+"&item="+ URLEncoder.encode(iName, "UTF-8")+"&price="+iPrice+"&cat="+foodcat;
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -192,6 +192,8 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         @Override
         protected void onPostExecute(Void result) {
 
+
+            url = "";
             // Dismiss the progress dialog
 /*            if (pDialog.isShowing())
                 pDialog.dismiss();*/

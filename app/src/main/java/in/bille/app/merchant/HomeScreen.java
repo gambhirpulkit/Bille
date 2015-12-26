@@ -285,11 +285,12 @@ public class HomeScreen extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_bills) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_TandC) {
 
-        } else if (id == R.id.nav_manage) {
+            Intent about = new Intent(getApplicationContext(),TermsPrivacy.class);
+            startActivity(about);
 
-        } else if (id == R.id.navAboutus) {
+        }  else if (id == R.id.navAboutus) {
 
             Intent about = new Intent(getApplicationContext(),AboutUs.class);
             startActivity(about);

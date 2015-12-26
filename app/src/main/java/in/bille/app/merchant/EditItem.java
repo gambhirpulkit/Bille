@@ -20,6 +20,9 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class EditItem extends AppCompatActivity implements View.OnClickListener {
 
     String foodcat;
@@ -41,7 +44,7 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
         }
 
 
-        veg = (CheckBox)findViewById(R.id.editItemnonvegcheckBox);
+        veg = (CheckBox)findViewById(R.id.editItemvegcheckBox);
         nonveg = (CheckBox)findViewById(R.id.editItemnonvegcheckBox);
 
         veg.setOnClickListener(this);
@@ -75,8 +78,12 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
                     Toast.makeText(getApplicationContext(), "Enter valid price", Toast.LENGTH_SHORT).show();
                 }
                 if (iName.length() > 0 && iPrice.length() > 0) {
-                    url = url + Config.url+"edit_menu.php?menu_id=" + menu_id + "&item=" + iName + "&price=" + iPrice;
-                    new EditBill().execute();
+                   try {
+                       url = url + Config.url + "edit_menu.php?menu_id=" + menu_id + "&item=" + URLEncoder.encode(iName, "UTF-8") + "&price=" + iPrice + "&cat=" + foodcat;
+                   }catch (UnsupportedEncodingException e) {
+                       e.printStackTrace();
+                   }
+                       new EditBill().execute();
                 }
 
                 Log.d("url", url);

@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     {
         MenuItem menu1=menu.add(0,0,0,"AddItem");
         {
-            menu1.setIcon(R.drawable.additem);
+            menu1.setIcon(R.drawable.addlistfilled);
             menu1.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
     }

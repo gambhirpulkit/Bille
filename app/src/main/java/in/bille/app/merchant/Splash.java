@@ -46,12 +46,12 @@ public class Splash extends AppCompatActivity {
         Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
         cd = new Connectiondetector(getApplicationContext());
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        image = (ImageView)findViewById(R.id.imageView2);
+       // image = (ImageView)findViewById(R.id.imageView2);
         text = (TextView)findViewById(R.id.textView2);
         tag = (TextView)findViewById(R.id.textView14);
         text.setTypeface(tf);
         tag.setTypeface(tf);
-        image.setVisibility(View.VISIBLE);
+      //  image.setVisibility(View.VISIBLE);
         context = getApplicationContext();
         gcm = GoogleCloudMessaging.getInstance(this);
         new RegisterBackground().execute();
