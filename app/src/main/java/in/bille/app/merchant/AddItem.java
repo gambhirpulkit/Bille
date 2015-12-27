@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -44,6 +45,8 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         session = new SessionManager(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         HashMap<String, String> user = session.getUserDetails();
         final String mid = user.get(SessionManager.KEY_MID);
@@ -215,5 +218,15 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
 
+            case android.R.id.home:
+                super.onBackPressed();
+                AddItem.this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

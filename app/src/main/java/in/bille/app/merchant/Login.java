@@ -1,13 +1,16 @@
 package in.bille.app.merchant;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -21,15 +24,20 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     Config con;
     EditText username,password;
-    Button login,register;
+    Button login;
     SessionManager session;
     String useremail,pass;
     private boolean clicked = false;
+
+    TextView reg;
+    String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +47,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
        // toolbar.setBackgroundColor(Color.GREEN);
-
+       /* String fontPath = "fonts/Walkway_Black.ttf";
+        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);*/
 
         username = (EditText)findViewById(R.id.edit_username);
         password = (EditText)findViewById(R.id.edit_password);
 
         login = (Button)findViewById(R.id.buttonLogin);
 
-        register = (Button)findViewById(R.id.button_register);
+        reg = (TextView)findViewById(R.id.textView5);
+        //reg.setTypeface(tf);
+        reg.setText(Html.fromHtml("<u>Not a member?Register Now</u>"));
 
-        register.setOnClickListener(new View.OnClickListener() {
+       // register = (Button)findViewById(R.id.button_register);
+
+        reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),Register.class);
@@ -98,9 +111,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
 
         if(flag) {
-            //  Toast.makeText(getApplicationContext(),""+Email,Toast.LENGTH_LONG).show();
-            String url;
-            url = Config.url+"login_mer.php?user="+useremail+"&pwd="+pass;
+            //  Toast.makeText(getApplicationContext(),""+Email,Toast.LENGTH_LONG).show();5555555555
+
+            try {
+
+                url = Config.url + "login_mer.php?user=" + useremail + "&pwd=" + URLEncoder.encode(pass, "UTF-8");
+            }catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
              Log.d("urlaaaaaaaaaaas","url:"+Config.url);
            //  Toast.makeText(getApplicationContext(),""+url,Toast.LENGTH_SHORT).show();
             new ReadJSONFeedTask().execute(url);

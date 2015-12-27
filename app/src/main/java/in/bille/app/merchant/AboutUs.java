@@ -25,8 +25,9 @@ public class AboutUs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-        String fontPath = "fonts/Walkway_Black.ttf";
-        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
+        //for applying font
+        /*String fontPath = "fonts/Walkway_Black.ttf";
+        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -38,10 +39,10 @@ public class AboutUs extends AppCompatActivity {
         create = (TextView)findViewById(R.id.textView9);
 
 
-        appname.setTypeface(tf);
+        /*appname.setTypeface(tf);
         ver.setTypeface(tf);
         rights.setTypeface(tf);
-        create.setTypeface(tf);
+        create.setTypeface(tf);*/
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

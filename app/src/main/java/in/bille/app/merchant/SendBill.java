@@ -138,8 +138,8 @@ public class SendBill extends AppCompatActivity {
         protected void onPostExecute(Integer result) {
             // Download complete. Let us update UI
             //progressBar.setVisibility(View.GONE);
-            String fontPath = "fonts/Walkway_Black.ttf";
-            Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
+            /*String fontPath = "fonts/Walkway_Black.ttf";
+            Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);*/
 
 
             if (result == 1) {
@@ -149,8 +149,8 @@ public class SendBill extends AppCompatActivity {
                 TextView c_phone = (TextView) findViewById(R.id.cPhone);
 
                 c_name.setText(item.getName());
-                c_name.setTypeface(tf);
-                c_phone.setTypeface(tf);
+                /*c_name.setTypeface(tf);
+                c_phone.setTypeface(tf);*/
                 c_phone.setText(item.getPhone());
 
             } else {

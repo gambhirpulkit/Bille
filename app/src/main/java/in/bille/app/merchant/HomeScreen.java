@@ -77,8 +77,8 @@ public class HomeScreen extends AppCompatActivity
 
 
 
-        String fontPath = "fonts/Walkway_Black.ttf";
-        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
+        /*String fontPath = "fonts/Walkway_Black.ttf";
+        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);*/
         session = new SessionManager(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -115,8 +115,8 @@ public class HomeScreen extends AppCompatActivity
         merchEmail = (TextView)header.findViewById(R.id.MerchantEmail);
         merchImage = (ImageView)header.findViewById(R.id.MerchantImg);
 
-        merchEmail.setTypeface(tf);
-        merchName.setTypeface(tf);
+        /*merchEmail.setTypeface(tf);
+        merchName.setTypeface(tf);*/
 
 
         boolean check = session.checkLogin();

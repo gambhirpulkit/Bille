@@ -39,8 +39,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
     public void onBindViewHolder(FeedListRowHolder feedListRowHolder, int i) {
         FeedItem feedItem = feedItemList.get(i);
 
-        String fontPath = "fonts/Walkway_Black.ttf";
-        Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);
+        //For applying font
+       /* String fontPath = "fonts/Walkway_Black.ttf";
+        Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);*/
 /*
         Picasso.with(mContext).load(feedItem.getThumbnail())
                 .error(R.drawable.placeholder)
@@ -50,9 +51,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
 */
 
         //feedListRowHolder.customerName.setTypeface(tf);
-        feedListRowHolder.billAmount.setTypeface(tf);
+        /*feedListRowHolder.billAmount.setTypeface(tf);
         feedListRowHolder.phone.setTypeface(tf);
-        feedListRowHolder.date.setTypeface(tf);
+        feedListRowHolder.date.setTypeface(tf);*/
         feedListRowHolder.customerName.setText(Html.fromHtml(feedItem.getTitle()));
         feedListRowHolder.billAmount.setText(Html.fromHtml(feedItem.getPrice()));
         feedListRowHolder.phone.setText(Html.fromHtml(feedItem.getPhone()));

@@ -36,7 +36,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2015 BiLLe Ltd. All rights reserved."
+        android:text="2015 Bille.in. All rights reserved."
         android:id="@+id/textView8"
         android:layout_below="@+id/textView7"
         android:layout_centerHorizontal="true" />
@@ -44,7 +44,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Proudly Created At Bille Pvt. Ltd."
+        android:text="Proudly Created At Cowork Delhi"
         android:textStyle="bold"
         android:id="@+id/textView9"
         android:layout_alignParentBottom="true"

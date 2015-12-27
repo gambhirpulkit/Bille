@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MyMenuRecyclerAdapter adapter;
     private ProgressBar progressBar;
-
+    //private SwipeRefreshLayout mSwipeRefreshLayout;
     SessionManager session;
 
     String url = Config.url+"list_menu.php?mid=";
@@ -51,6 +52,18 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("test", "onCreate Menu");
         Intent intentBack = getIntent();
+
+       /* mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+
+                new AsyncHttpTask().execute(url);
+            }
+        });*/
+
 
         /*Button addBtn = (Button) findViewById(R.id.create);
 
@@ -203,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 item.setTitle(post.optString("item"));
                 item.setPrice(post.optString("price"));
                 item.setMenuId(post.optString("menu_id"));
+                item.setCategory(post.optString("cat"));
                /* item.setThumbnail(post.optString("thumbnail"));
 */
                 feedsList.add(item);
