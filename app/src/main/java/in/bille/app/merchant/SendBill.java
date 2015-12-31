@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -56,6 +57,8 @@ public class SendBill extends AppCompatActivity {
         setContentView(R.layout.activity_send_bill);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         session = new SessionManager(getApplicationContext());
 
         HashMap<String, String> user = session.getUserDetails();
@@ -264,6 +267,17 @@ public class SendBill extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                super.onBackPressed();
+                SendBill.this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

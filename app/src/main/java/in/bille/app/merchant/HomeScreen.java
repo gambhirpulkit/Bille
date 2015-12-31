@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,16 +65,16 @@ public class HomeScreen extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        /*mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeHomeScreen);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
-
+                Log.d("swipetest", "refresh");
+                refreshContent();
             }
-        });*/
+        });
 
 
 
@@ -166,16 +167,7 @@ public class HomeScreen extends AppCompatActivity
             merchEmail.setText(merchemail);
             //  setContentView(merchEmail);
         }*/
-        /*mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                Toast.makeText(HomeScreen.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
-
-            }
-        });*/
 
 
        // layoutmanager = new (this);
@@ -190,6 +182,19 @@ public class HomeScreen extends AppCompatActivity
 
     }
 
+    private void refreshContent(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("swipetest", "" + url);
+                //new AsyncHttpTask().execute(url);
+                new AsyncHttpTask().execute(url);
+                /*Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(i);*/
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        },3000);
+    }
     /*void refreshItems()
     {
         new AsyncHttpTask().execute(url);
@@ -281,7 +286,7 @@ public class HomeScreen extends AppCompatActivity
         if (id == R.id.nav_menu) {
             Intent about = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(about);
-
+            HomeScreen.this.finish();
             // Handle the camera action
         } else if (id == R.id.nav_bills) {
 
@@ -289,12 +294,12 @@ public class HomeScreen extends AppCompatActivity
 
             Intent about = new Intent(getApplicationContext(),TermsPrivacy.class);
             startActivity(about);
-
+            HomeScreen.this.finish();
         }  else if (id == R.id.navAboutus) {
 
             Intent about = new Intent(getApplicationContext(),AboutUs.class);
             startActivity(about);
-
+            HomeScreen.this.finish();
         } else if (id == R.id.navLogout) {
 
             session.logoutUser();

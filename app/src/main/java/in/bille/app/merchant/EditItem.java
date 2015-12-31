@@ -209,8 +209,7 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
 
         switch (item.getItemId()) {
             case android.R.id.home :
-                Intent i = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(i);
+                super.onBackPressed();
                 EditItem.this.finish();
                 return true;
             case 0:

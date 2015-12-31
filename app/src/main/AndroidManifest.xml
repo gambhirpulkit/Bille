@@ -110,6 +110,9 @@
             android:name=".TermsPrivacy"
             android:label="@string/title_activity_terms_privacy"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="26a4dd67be15ccbf395d86e4e662a0bda241aaaf" />
     </application>
 
 </manifest>

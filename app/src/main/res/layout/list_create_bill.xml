@@ -74,7 +74,7 @@
                 android:id="@+id/plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/add"
+                android:src="@drawable/addfinal"
                 android:background="#00ffffff"
                 android:contentDescription="Add quantity"
                 android:layout_alignTop="@+id/minus"
@@ -100,14 +100,14 @@
                 android:id="@+id/minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/sub"
+                android:src="@drawable/minusfinal"
                 android:background="#00ffffff"
                 android:contentDescription="Remove item"
 
                 android:layout_toLeftOf="@+id/qtyCount"
                 android:layout_toStartOf="@+id/qtyCount"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="9dp" />
 
 
 

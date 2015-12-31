@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MyMenuRecyclerAdapter adapter;
     private ProgressBar progressBar;
-    //private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     SessionManager session;
 
     String url = Config.url+"list_menu.php?mid=";
@@ -53,16 +54,17 @@ public class MainActivity extends AppCompatActivity {
         Log.d("test", "onCreate Menu");
         Intent intentBack = getIntent();
 
-       /* mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
+                Log.d("swipetest","refresh");
+                refreshContent();
 
-                new AsyncHttpTask().execute(url);
             }
-        });*/
+        });
 
 
         /*Button addBtn = (Button) findViewById(R.id.create);
@@ -97,7 +99,25 @@ public class MainActivity extends AppCompatActivity {
 
         new AsyncHttpTask().execute(url);
     }
-    @Override
+
+
+    private void refreshContent(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("swipetest", "" + url);
+                //new AsyncHttpTask().execute(url);
+                new AsyncHttpTask().execute(url);
+                /*Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(i);*/
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+            },3000);
+        }
+
+
+
+        @Override
     protected void onResume() {
         super.onResume();
         Log.d("test", "The onResume() event");
@@ -111,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }*/
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,8 +161,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                Intent i = new Intent(getApplicationContext(), HomeScreen.class);
-                startActivity(i);
+                super.onBackPressed();
                 MainActivity.this.finish();
                 return true;
             case 0:
@@ -225,4 +246,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+
+
 }
