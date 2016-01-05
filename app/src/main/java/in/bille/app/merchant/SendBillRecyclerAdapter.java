@@ -82,6 +82,7 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
                 holder.qtyStatus.setText(qtyCount.toString());
                 holder.itemQty.setText(qtyCount.toString());
                 Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * qtyCount;
+                Log.d("qtyCost",""+qtyCost);
                 holder.itemCost.setText(qtyCost.toString());
                 //itemIds.set(position,valAtPos);
                 Log.d("id list", itemQty.toString());

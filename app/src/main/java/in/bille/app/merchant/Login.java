@@ -111,7 +111,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
 
         if(flag) {
-            //  Toast.makeText(getApplicationContext(),""+Email,Toast.LENGTH_LONG).show();5555555555
+            //  Toast.makeText(getApplicationContext(),""+Email,Toast.LENGTH_LONG).show();
 
             try {
 
@@ -212,7 +212,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             }
             catch(Exception e)
             {
-
+                Log.d("",""+e.toString());
             }
         }
     }

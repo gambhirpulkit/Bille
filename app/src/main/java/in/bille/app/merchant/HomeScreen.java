@@ -1,12 +1,16 @@
 package in.bille.app.merchant;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,14 +29,22 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -42,7 +54,7 @@ import java.util.List;
 public class HomeScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "Menu";
+    private static final String TAG = "Bills";
     private List<FeedItem> feedsList;
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter adapter;
@@ -311,7 +323,7 @@ public class HomeScreen extends AppCompatActivity
         return true;
     }
 
-    public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
+    public class AsyncHttpTask extends AsyncTask<String, Void, Integer> implements Serializable {
 
         @Override
         protected void onPreExecute() {
@@ -356,6 +368,16 @@ public class HomeScreen extends AppCompatActivity
                 adapter = new MyRecyclerAdapter(HomeScreen.this, feedsList);
                 mRecyclerView.setAdapter(adapter);
             } else {
+                SharedPreferences sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                Gson gson = new Gson();
+                String json = sharedPrefs.getString(TAG, null);
+                //feedsList = new ArrayList<>();
+                Type type = new TypeToken<ArrayList<FeedItem>>() {}.getType();
+                List<FeedItem> feedsList = gson.fromJson(json,type);
+
+                adapter = new MyRecyclerAdapter(HomeScreen.this, feedsList);
+                mRecyclerView.setAdapter(adapter);
+
                 Toast.makeText(HomeScreen.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -379,6 +401,18 @@ public class HomeScreen extends AppCompatActivity
                /* item.setThumbnail(post.optString("thumbnail"));
 */
                 feedsList.add(item);
+
+
+                SharedPreferences sharedPrefs = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                Gson gson = new Gson();
+
+                String json = gson.toJson(feedsList);
+                Log.d("offline",""+json);
+                editor.putString(TAG, json);
+                editor.commit();
+
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

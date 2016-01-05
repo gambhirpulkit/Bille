@@ -10,17 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by SHUBHAM on 05-11-2015.
  */
-public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
+public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> implements Serializable {
 
 
     private List<FeedItem> feedItemList;
 
-    private Context mContext;
+    private transient Context mContext;
 
     public MyRecyclerAdapter(Context context, List<FeedItem> feedItemList) {
         this.feedItemList = feedItemList;

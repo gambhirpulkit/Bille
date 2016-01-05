@@ -109,7 +109,7 @@ public class Splash extends AppCompatActivity {
                 public void run() {
 
                     Intent it = new Intent(getApplicationContext(),
-                            NotConnected.class);
+                            HomeScreen.class);
                     startActivity(it);
 
                     Splash.this.finish();
