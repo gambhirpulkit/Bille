@@ -30,7 +30,8 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/editItem"
-
+            android:capitalize="words"
+            android:inputType="textCapSentences"
             android:layout_weight="1"
             android:layout_marginRight="10dp" />
     </LinearLayout>

@@ -18,6 +18,7 @@ public class SendListRowHolder extends RecyclerView.ViewHolder{
     protected ImageButton minusItem;
     protected TextView qtyStatus;
 
+
     public SendListRowHolder(View view) {
         super(view);
         this.itemName = (TextView) view.findViewById(R.id.item_name);

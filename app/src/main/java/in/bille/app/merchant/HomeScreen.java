@@ -201,9 +201,10 @@ public class HomeScreen extends AppCompatActivity
                 Log.d("swipetest", "" + url);
                 //new AsyncHttpTask().execute(url);
                 new AsyncHttpTask().execute(url);
+                mSwipeRefreshLayout.setRefreshing(false);
                 /*Intent i = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);*/
-                mSwipeRefreshLayout.setRefreshing(false);
+
             }
         },3000);
     }
@@ -298,7 +299,7 @@ public class HomeScreen extends AppCompatActivity
         if (id == R.id.nav_menu) {
             Intent about = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(about);
-            HomeScreen.this.finish();
+           // HomeScreen.this.finish();
             // Handle the camera action
         } else if (id == R.id.nav_bills) {
 
@@ -377,7 +378,7 @@ public class HomeScreen extends AppCompatActivity
 
                 adapter = new MyRecyclerAdapter(HomeScreen.this, feedsList);
                 mRecyclerView.setAdapter(adapter);
-
+                mSwipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(HomeScreen.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
             }
         }

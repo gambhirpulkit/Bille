@@ -13,9 +13,9 @@ import java.util.List;
 
 public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHolder> {
 
-
+    SendBill sendbill;
     private List<FeedItem> feedItemList;
-
+    Integer sendtotal=0, billamt;
     private Context mContext;
 
     ArrayList<String> itemIds = new ArrayList<String>();
@@ -59,13 +59,17 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
         holder.itemCost.setTypeface(tf);
         holder.perItemCost.setTypeface(tf);
         holder.qtyStatus.setTypeface(tf);*/
-
+        billamt = Integer.parseInt(feedItem.getTotal());
+        sendtotal+=billamt;
+        Log.d("total bill", "" + sendtotal);
 
         holder.itemName.setText(feedItem.getTitle());
         holder.itemQty.setText(feedItem.getQty());
         holder.itemCost.setText(feedItem.getTotal());
         holder.perItemCost.setText(feedItem.getPrice());
         holder.qtyStatus.setText(feedItem.getQty());
+        ((SendBill)mContext).onsetAmt(sendtotal);
+       // sendbill.onsetAmt(sendtotal);
         //notifyItemRangeChanged(position, feedItemList.size());
 
         Log.d("id list", itemIds.toString());
@@ -81,9 +85,13 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
 
                 holder.qtyStatus.setText(qtyCount.toString());
                 holder.itemQty.setText(qtyCount.toString());
+                Integer peritemcost = Integer.parseInt(feedItem.getPrice());
                 Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * qtyCount;
                 Log.d("qtyCost",""+qtyCost);
                 holder.itemCost.setText(qtyCost.toString());
+                sendtotal+=peritemcost;
+                Log.d("afterplus",""+sendtotal);
+                ((SendBill)mContext).onsetAmt(sendtotal);
                 //itemIds.set(position,valAtPos);
                 Log.d("id list", itemQty.toString());
 
@@ -114,8 +122,12 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
 
                 holder.qtyStatus.setText(qtyCount.toString());
                 holder.itemQty.setText(qtyCount.toString());
+                Integer peritemcost = Integer.parseInt(feedItem.getPrice());
                 Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * qtyCount;
                 holder.itemCost.setText(qtyCost.toString());
+                sendtotal-=peritemcost;
+                Log.d("afterminus",""+sendtotal);
+                ((SendBill)mContext).onsetAmt(sendtotal);
                 //itemIds.set(position,valAtPos);
                 Log.d("qty list", itemQty.toString());
                 Log.d("id list", itemIds.toString());

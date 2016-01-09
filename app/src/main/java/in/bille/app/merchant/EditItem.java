@@ -55,8 +55,17 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
         final String menu_id = i.getStringExtra("menu_id");
         final String item_name = i.getStringExtra("item_name");
         final String item_price = i.getStringExtra("item_price");
-
+        final String foodcatg = i.getStringExtra("foodcatg");
         menuid += menu_id;
+
+        if(foodcatg.matches("vg"))
+        {
+            veg.isChecked();
+        }
+        else
+        {
+            nonveg.isChecked();
+        }
 
         final EditText itemName = (EditText) findViewById(R.id.editItem);
         final EditText itemPrice = (EditText) findViewById(R.id.editPrice);
@@ -95,7 +104,6 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-
         if(v.getId()==R.id.editItemvegcheckBox)
         {
             if(veg.isChecked()) {

@@ -18,8 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -32,12 +34,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CreateBill extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     final Context context = this;
-
+   // Map<String, Integer> mapIndex;
     private static final String TAG = "menu";
     private List<CreateBillFeedItem> feedsList;
     private List<FeedItem> mModels;
@@ -171,6 +175,36 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
         });
     }
 
+    /*private void getIndexList(List<CreateBillFeedItem> models) {
+        mapIndex = new LinkedHashMap<String, Integer>();
+        for (CreateBillFeedItem feedItem : models) {
+            String text = feedItem.getName().toLowerCase();
+            String index = text.substring(0, 1);
+
+            *//*if (mapIndex.get(index) == null)
+                mapIndex.put(index, i);*//*
+        }
+    }
+
+    private void displayIndex() {
+        LinearLayout indexLayout = (LinearLayout) findViewById(R.id.side_index);
+
+        TextView textView;
+        List<String> indexList = new ArrayList<String>(mapIndex.keySet());
+        for (String index : indexList) {
+            textView = (TextView) getLayoutInflater().inflate(
+                    R.layout.side_index_item, null);
+            textView.setText(index);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            indexLayout.addView(textView);
+        }
+    }*/
+
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -268,6 +302,10 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
                     adapter = new CreateBillRecyclerAdapter(CreateBill.this,feedsList);
 
                     mRecyclerView.setAdapter(adapter);
+
+                    /*getIndexList(feedsList);
+
+                    displayIndex();*/
 
                 } else {
                     Toast.makeText(CreateBill.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();

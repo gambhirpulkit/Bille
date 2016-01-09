@@ -38,7 +38,7 @@ public class SendBill extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private SendBillRecyclerAdapter adapter;
     private ProgressBar progressBar;
-
+    TextView sendamount;
     private String stringQty;
     private String strindIds;
     private String phone;
@@ -69,7 +69,7 @@ public class SendBill extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_send);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
+        sendamount = (TextView)findViewById(R.id.sendamt);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -99,6 +99,12 @@ public class SendBill extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void onsetAmt(Integer set)
+    {
+        String amt = set.toString();
+        sendamount.setText(amt);
     }
 
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {

@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Add Item into Menu", Toast.LENGTH_SHORT).show();
                 Intent add=new Intent(getApplicationContext(),AddItem.class);
                 startActivity(add);
+
                 return true;
         }
 

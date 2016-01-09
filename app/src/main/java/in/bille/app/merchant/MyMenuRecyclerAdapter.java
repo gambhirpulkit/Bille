@@ -131,6 +131,7 @@ public class MyMenuRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolde
                     i.putExtra("menu_id", feedItem.getMenuId());
                     i.putExtra("item_name", feedItem.getTitle());
                     i.putExtra("item_price", feedItem.getPrice());
+                    i.putExtra("foodcatg", feedItem.getCategory());
                     mContext.startActivity(i);
                     Log.d("onBindHolder", "test");
                     Log.d("val", feedItem.getMenuId());
