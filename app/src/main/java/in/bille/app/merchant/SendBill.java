@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SendBill extends AppCompatActivity {
+    ProgressDialog mProgressDialog;
 
     final Context context = this;
 
@@ -60,6 +62,7 @@ public class SendBill extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         session = new SessionManager(getApplicationContext());
+        getSupportActionBar().setTitle("My Bills");
 
         HashMap<String, String> user = session.getUserDetails();
 
@@ -105,7 +108,16 @@ public class SendBill extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            //  setProgressBarIndeterminateVisibility(true);
+            mProgressDialog = new ProgressDialog(SendBill.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
+
+
         }
 
         @Override
@@ -139,10 +151,17 @@ public class SendBill extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            // Download complete. Let us update UI
-            //progressBar.setVisibility(View.GONE);
-            /*String fontPath = "fonts/Walkway_Black.ttf";
-            Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);*/
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
 
 
             if (result == 1) {

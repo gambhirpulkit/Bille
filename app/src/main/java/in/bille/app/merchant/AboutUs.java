@@ -32,6 +32,7 @@ public class AboutUs extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("About Us");
 
         appname = (TextView)findViewById(R.id.textView);
         ver = (TextView)findViewById(R.id.textView7);
@@ -71,7 +72,7 @@ public class AboutUs extends AppCompatActivity {
 
 
                         Intent email_intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                                "mailto", "shubhamsaxena.msit@gmail.com", null));
+                                "mailto", "contact@bille.in", null));
 
                         startActivity(Intent.createChooser(email_intent, "Send Query"));
                     }
@@ -84,7 +85,10 @@ public class AboutUs extends AppCompatActivity {
 
                         try {
                             Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                            callIntent.setData(Uri.parse("tel:123456789"));
+                            callIntent.setData(Uri.parse("tel:" +
+                                    "" +
+                                    "" +
+                                    "+91-8447500305"));
                             startActivity(callIntent);
 
                         } catch (Exception e) {

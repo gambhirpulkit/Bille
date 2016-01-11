@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
     String foodcat;
     CheckBox veg,nonveg;
     SessionManager session;
+    ProgressDialog mProgressDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Add Item");
         HashMap<String, String> user = session.getUserDetails();
         final String mid = user.get(SessionManager.KEY_MID);
 
@@ -117,6 +119,8 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
     private class GetBill extends AsyncTask<Void, Void, Void> {
 
 
+
+
         @Override
         protected Void doInBackground(Void... arg0) {
             ServiceHandler sh = new ServiceHandler();
@@ -183,10 +187,14 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-/*            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Loading");
-            pDialog.setCancelable(false);
-            pDialog.show();*/
+            mProgressDialog = new ProgressDialog(AddItem.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
 
         }
 
@@ -195,7 +203,17 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         @Override
         protected void onPostExecute(Void result) {
 
-
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
             url = "";
             // Dismiss the progress dialog
 /*            if (pDialog.isShowing())

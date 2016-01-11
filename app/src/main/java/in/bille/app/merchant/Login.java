@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -28,7 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
-
+    ProgressDialog mProgressDialog;
     Config con;
     EditText username,password;
     Button login;
@@ -119,9 +120,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             }catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-             Log.d("urlaaaaaaaaaaas","url:"+Config.url);
+
            //  Toast.makeText(getApplicationContext(),""+url,Toast.LENGTH_SHORT).show();
             new ReadJSONFeedTask().execute(url);
+            Log.d("urlaaaaaaaaaaas", url);
         }
         clicked = true;
 
@@ -152,7 +154,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     public class ReadJSONFeedTask extends AsyncTask<String, Void, String>
     {
-
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog = new ProgressDialog(Login.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... urls)
@@ -161,15 +173,32 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             return readJSONFeed(urls[0]);
         }
         protected void onPostExecute(String result)
-        {
+        {   try {
+            if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
+            }
+        } catch (final IllegalArgumentException e) {
+            // Handle or log or ignore
+        } catch (final Exception e) {
+            // Handle or log or ignore
+        } finally {
+            mProgressDialog = null;
+        }
             try
             {
                 JSONObject jsonObject= new JSONObject(result);
+                String checkerror = jsonObject.optString("error");
+                Log.d("error", checkerror);
+                if(checkerror.equals("true"))
+                {
+                    Toast.makeText(getApplicationContext(),"User not Registered. Please send us a registration request.",Toast.LENGTH_SHORT).show();
+                }
+
                 JSONObject jsonObject1 = jsonObject.getJSONObject("user");
-                Log.d("test", "test");
+
                 // Toast.makeText(getApplicationContext(), jsonObject.getString("error"),Toast.LENGTH_LONG).show();
 
-                String checkerror = jsonObject.getString("error");
+
                 String checkemail = jsonObject1.getString("email");
                 String checkMID = jsonObject1.getString("m_id");
                 String merchlogo = jsonObject1.getString("logo");
@@ -197,10 +226,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                     String show = sharedpreferences.getString(Email1,checkemail);*/
                     // Toast.makeText(getApplicationContext(),"WELCOME",Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Incorrect username or password",Toast.LENGTH_SHORT).show();
                 }
 
     			/*for(int i=0;i<jsonArray.length();i++)

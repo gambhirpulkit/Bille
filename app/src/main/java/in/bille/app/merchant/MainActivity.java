@@ -2,6 +2,7 @@ package in.bille.app.merchant;
 
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    ProgressDialog mProgressDialog;
+
     private static final String TAG = "Menu";
     private List<FeedItem> feedsList;
     private RecyclerView mRecyclerView;
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Menu");
+
         session = new SessionManager(getApplicationContext());
 
         Log.d("test", "onCreate Menu");
@@ -178,7 +183,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            setProgressBarIndeterminateVisibility(true);
+            mProgressDialog = new ProgressDialog(MainActivity.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
+
+
         }
 
         @Override
@@ -212,8 +226,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            // Download complete. Let us update UI
-            progressBar.setVisibility(View.GONE);
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
 
             if (result == 1) {
                 adapter = new MyMenuRecyclerAdapter(MainActivity.this, feedsList);

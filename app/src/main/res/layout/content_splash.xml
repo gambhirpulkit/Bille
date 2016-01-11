@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/texturegreen"
+    android:background="#0c0"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="in.bille.app.merchant.Splash"
     tools:showIn="@layout/activity_splash"

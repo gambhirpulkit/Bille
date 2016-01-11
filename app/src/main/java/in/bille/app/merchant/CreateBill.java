@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CreateBill extends AppCompatActivity implements SearchView.OnQueryTextListener {
+    ProgressDialog mProgressDialog;
 
     final Context context = this;
 
@@ -65,6 +67,8 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Create Bill");
+
         session = new SessionManager(getApplicationContext());
 
 
@@ -143,14 +147,20 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(getBaseContext(), "OK Clicked!", Toast.LENGTH_LONG).show();
                         phone = userInput.getText().toString();
-                        Intent i = new Intent(getApplicationContext(), SendBill.class);
-                        i.putExtra("itemString", stringId);
-                        i.putExtra("qtyString",stringQty);
-                        i.putExtra("cPhone",phone);
-                        startActivity(i);
 
+                        if (phone.equals("")||phone.length()<10) {
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Enter the correct mobile number.", Toast.LENGTH_SHORT).show();
+
+                        }else {
+                            Intent i = new Intent(getApplicationContext(), SendBill.class);
+                            i.putExtra("itemString", stringId);
+                            i.putExtra("qtyString", stringQty);
+                            i.putExtra("cPhone", phone);
+                            startActivity(i);
+                        }
 
                     }
                 })
@@ -224,10 +234,16 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
 
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
-
         @Override
         protected void onPreExecute() {
-          //  setProgressBarIndeterminateVisibility(true);
+            mProgressDialog = new ProgressDialog(CreateBill.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
         }
 
         @Override
@@ -261,8 +277,17 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
             @Override
             protected void onPostExecute(Integer result) {
-                // Download complete. Let us update UI
-                //progressBar.setVisibility(View.GONE);
+                try {
+                    if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                } catch (final IllegalArgumentException e) {
+                    // Handle or log or ignore
+                } catch (final Exception e) {
+                    // Handle or log or ignore
+                } finally {
+                    mProgressDialog = null;
+                }
 
                 if (result == 1) {
                     adapter = new CreateBillRecyclerAdapter(CreateBill.this,feedsList);

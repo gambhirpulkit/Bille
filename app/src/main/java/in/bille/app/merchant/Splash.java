@@ -57,7 +57,7 @@ public class Splash extends AppCompatActivity {
       //  image.setVisibility(View.VISIBLE);
         context = getApplicationContext();
         gcm = GoogleCloudMessaging.getInstance(this);
-        new RegisterBackground().execute();
+       // new RegisterBackground().execute();
 
        /* TranslateAnimation slide = new TranslateAnimation(0, 0, 100, 0);
         slide.setDuration(5000);
@@ -127,12 +127,11 @@ public class Splash extends AppCompatActivity {
             String msg = "";
             try {
                 if (gcm == null) {
-                    gcm = GoogleCloudMessaging.getInstance(context);
+                    gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
                 }
 
                 regid = gcm.register(SENDER_ID);
                 msg = "Device registered, registration ID=" + regid;
-                Log.d("111", msg);
                 sendRegistrationIdToBackend(regid);
 
             } catch (IOException ex) {
