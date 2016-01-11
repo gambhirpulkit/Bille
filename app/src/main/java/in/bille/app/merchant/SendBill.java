@@ -35,7 +35,7 @@ public class SendBill extends AppCompatActivity {
     ProgressDialog mProgressDialog;
 
     final Context context = this;
-
+TextView sendamount;
     private List<FeedItem> feedsList;
     private RecyclerView mRecyclerView;
     private SendBillRecyclerAdapter adapter;
@@ -63,7 +63,7 @@ public class SendBill extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         session = new SessionManager(getApplicationContext());
         getSupportActionBar().setTitle("My Bills");
-
+sendamount=(TextView)findViewById(R.id.sendamt);
         HashMap<String, String> user = session.getUserDetails();
 
         final String mid = user.get(SessionManager.KEY_MID);
@@ -102,6 +102,11 @@ public class SendBill extends AppCompatActivity {
             }
         });
 
+    }
+    public void onsetAmt(Integer set)
+    {
+        String amt = set.toString();
+        sendamount.setText(amt);
     }
 
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
