@@ -69,7 +69,11 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
         holder.perItemCost.setText(feedItem.getPrice());
         holder.qtyStatus.setText(feedItem.getQty());
         ((SendBill)mContext).onsetAmt(sendtotal);
+
        // sendbill.onsetAmt(sendtotal);
+
+        // sendbill.onsetAmt(sendtotal);
+
         //notifyItemRangeChanged(position, feedItemList.size());
 
         Log.d("id list", itemIds.toString());

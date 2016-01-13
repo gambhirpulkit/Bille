@@ -28,6 +28,7 @@ public class NotConnected extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_not_connected);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("No Internet");
 
         cd = new Connectiondetector(getApplicationContext());
 

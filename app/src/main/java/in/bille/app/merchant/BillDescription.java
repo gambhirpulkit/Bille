@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BillDescription extends AppCompatActivity {
+    ProgressDialog mProgressDialog;
 
     private List<FeedItem> feedsList;
     TextView name,amount,custphone;
@@ -47,6 +49,7 @@ public class BillDescription extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Bill Description");
 
         name = (TextView)findViewById(R.id.textViewCustomerName);
         amount = (TextView)findViewById(R.id.textViewBillAmount);
@@ -110,7 +113,14 @@ public class BillDescription extends AppCompatActivity {
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
         @Override
         protected void onPreExecute() {
-            setProgressBarIndeterminateVisibility(true);
+            mProgressDialog = new ProgressDialog(BillDescription.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
         }
 
         @Override
@@ -147,8 +157,17 @@ public class BillDescription extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            // Download complete. Let us update UI
-            // progressBar.setVisibility(View.GONE);
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
 
             if (result == 1) {
                 adapter = new BillDescriptionRecyclerAdapter(BillDescription.this,feedsList);
@@ -156,7 +175,7 @@ public class BillDescription extends AppCompatActivity {
                // menulist.setText(itemName);
 
             } else {
-                Toast.makeText(BillDescription.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BillDescription.this, "Please connect to internet to view complete bill.", Toast.LENGTH_SHORT).show();
             }
         }
     }

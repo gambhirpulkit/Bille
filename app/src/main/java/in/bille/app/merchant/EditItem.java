@@ -2,6 +2,7 @@ package in.bille.app.merchant;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,7 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class EditItem extends AppCompatActivity implements View.OnClickListener {
-
+ProgressDialog mProgressDialog;
     String foodcat;
     CheckBox veg, nonveg;
     //private Static String url;
@@ -37,6 +38,8 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Edit Item");
+
         if(getSupportActionBar() != null) {
 
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -58,13 +61,15 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
         final String foodcatg = i.getStringExtra("foodcatg");
         menuid += menu_id;
 
+        Log.d("foodcategory",""+foodcatg);
+
         if(foodcatg.matches("vg"))
         {
-            veg.isChecked();
+            veg.setChecked(true);
         }
-        else
+        else if(foodcatg.matches("nvg"))
         {
-            nonveg.isChecked();
+            nonveg.setChecked(true);
         }
 
         final EditText itemName = (EditText) findViewById(R.id.editItem);
@@ -168,11 +173,14 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-/*            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Loading");
-            pDialog.setCancelable(false);
-            pDialog.show();*/
-
+            mProgressDialog = new ProgressDialog(EditItem.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
         }
 
 
@@ -182,6 +190,17 @@ public class EditItem extends AppCompatActivity implements View.OnClickListener 
 
         @Override
         protected void onPostExecute(Void result) {
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
 
             url = "";
             Toast.makeText(getApplicationContext(), "Menu Updated", Toast.LENGTH_LONG).show();

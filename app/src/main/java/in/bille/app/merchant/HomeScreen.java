@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -52,8 +53,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class HomeScreen extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+implements NavigationView.OnNavigationItemSelectedListener {
+    ProgressDialog mProgressDialog;
     private static final String TAG = "Bills";
     private List<FeedItem> feedsList;
     private RecyclerView mRecyclerView;
@@ -95,6 +96,7 @@ public class HomeScreen extends AppCompatActivity
         session = new SessionManager(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Home");
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -132,7 +134,7 @@ public class HomeScreen extends AppCompatActivity
         merchName.setTypeface(tf);*/
 
 
-        boolean check = session.checkLogin();
+       /* boolean check = session.checkLogin();
 
         if(check)
         {
@@ -141,7 +143,7 @@ public class HomeScreen extends AppCompatActivity
         else
         {
 
-        }
+        }*/
 
       //  boolean c = session.isLoggedIn();
 
@@ -165,20 +167,7 @@ public class HomeScreen extends AppCompatActivity
         new LoadImage().execute(imgurl);
 
 
-        /*if(c)
-        {
-            String sharedname,sharedemail;
-           sharedname = sharedpreferences.getString(Name,"");
-           sharedemail = sharedpreferences.getString(Email,"");
-            merchName.setText(sharedname);
-            merchEmail.setText(sharedemail);
-        }
-        else {
-            Log.d("click", "clicked");
-            merchName.setText(merchname);
-            merchEmail.setText(merchemail);
-            //  setContentView(merchEmail);
-        }*/
+
 
 
 
@@ -270,17 +259,13 @@ public class HomeScreen extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
 
         switch (id) {
 
-            case R.id.action_settings:
-                return true;
+
 
             case R.id.action_logout:
                 session.logoutUser();
@@ -307,12 +292,12 @@ public class HomeScreen extends AppCompatActivity
 
             Intent about = new Intent(getApplicationContext(),TermsPrivacy.class);
             startActivity(about);
-            HomeScreen.this.finish();
+
         }  else if (id == R.id.navAboutus) {
 
             Intent about = new Intent(getApplicationContext(),AboutUs.class);
             startActivity(about);
-            HomeScreen.this.finish();
+
         } else if (id == R.id.navLogout) {
 
             session.logoutUser();
@@ -328,7 +313,14 @@ public class HomeScreen extends AppCompatActivity
 
         @Override
         protected void onPreExecute() {
-            setProgressBarIndeterminateVisibility(true);
+            mProgressDialog = new ProgressDialog(HomeScreen.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
         }
 
         @Override
@@ -362,8 +354,17 @@ public class HomeScreen extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Integer result) {
-            // Download complete. Let us update UI
-           // progressBar.setVisibility(View.GONE);
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
 
             if (result == 1) {
                 adapter = new MyRecyclerAdapter(HomeScreen.this, feedsList);

@@ -9,125 +9,126 @@
     tools:showIn="@layout/activity_send_bill"
     tools:context="com.example.pulkit_mac.recyclerview.SendBill">
 
-<android.support.v7.widget.CardView
-    android:id="@+id/billFrame"
-    android:layout_width="fill_parent"
-    android:layout_margin="2dp"
-    android:layout_height="80dp"
-    >
+    <android.support.v7.widget.CardView
+        android:id="@+id/billFrame"
+        android:layout_width="fill_parent"
+        android:layout_margin="2dp"
+        android:layout_height="80dp"
+        >
 
-<LinearLayout android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/MerchantImg"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/user50"
-        app:border_color="#FF000000"
-        android:layout_marginLeft="5dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp" />
+        <LinearLayout android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/MerchantImg"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/user50"
+                app:border_color="#FF000000"
+                android:layout_marginLeft="5dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp" />
 
-    <LinearLayout android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="18sp"
-        android:textColor="@color/primaryTextColor"
-        android:id="@+id/cName"
+            <LinearLayout android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="18sp"
+                    android:textColor="@color/primaryTextColor"
+                    android:id="@+id/cName"
 
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp" />
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="16dp"
-        android:id="@+id/cPhone"
-        android:textColor="@color/secondaryTextColor"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp" />
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="180dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="16dp"
+                    android:id="@+id/cPhone"
+                    android:textColor="@color/secondaryTextColor"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="180dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Rs"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        android:textColor="@color/secondaryTextColor"
-        android:id="@+id/textView10"
-        android:layout_gravity="right" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="17dp"
-            android:textColor="@color/secondaryTextColor"
-            android:textStyle="bold"
-            android:id="@+id/sendamt"
-            android:layout_alignBottom="@+id/billFrame"
-            android:layout_alignRight="@+id/billFrame"
-            android:layout_alignEnd="@+id/billFrame"
-            />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Rs"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/secondaryTextColor"
+                        android:id="@+id/textView10"
+                        android:layout_gravity="right" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="17dp"
+                        android:textColor="@color/secondaryTextColor"
+                        android:textStyle="bold"
+                        android:id="@+id/sendamt"
+                        android:layout_alignBottom="@+id/billFrame"
+                        android:layout_alignRight="@+id/billFrame"
+                        android:layout_alignEnd="@+id/billFrame"
+                        />
 
 
-</LinearLayout>
-    </LinearLayout>
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+                </LinearLayout>
 
-<android.support.v7.widget.CardView
-    android:id="@+id/cardbillsend"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/billFrame"
-    android:layout_margin="2dp"
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-    >
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <view
-        android:id="@+id/recycler_view_send"
-        class="android.support.v7.widget.RecyclerView"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardbillsend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/verifyBill"
-        />
+        android:layout_below="@+id/billFrame"
+        android:layout_margin="2dp"
+
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <view
+                android:id="@+id/recycler_view_send"
+                class="android.support.v7.widget.RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/verifyBill"
+                />
 
 
 
-    <Button android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:text="Send Bill"
-        android:id="@+id/verifyBill"
-        android:textColor="#fff"
-        android:background="@drawable/button"
-        android:layout_toEndOf="@id/recycler_view_send"
-        android:layout_toRightOf="@id/recycler_view_send"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    </RelativeLayout>
+            <Button android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="Send Bill"
+                android:id="@+id/verifyBill"
+                android:textColor="#fff"
+                android:background="@drawable/button"
+                android:layout_toEndOf="@id/recycler_view_send"
+                android:layout_toRightOf="@id/recycler_view_send"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
-</android.support.v7.widget.CardView>
 
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
 
 
 
 </RelativeLayout>
-

@@ -2,7 +2,10 @@ package in.bille.app.merchant;
 
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,12 +22,16 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,6 +39,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    ProgressDialog mProgressDialog;
+
+    Connectiondetector cd;
+    Boolean isInternetPresent = false;
+
     private static final String TAG = "Menu";
     private List<FeedItem> feedsList;
     private RecyclerView mRecyclerView;
@@ -49,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Menu");
+
+        cd = new Connectiondetector(getApplicationContext());
+
         session = new SessionManager(getApplicationContext());
 
         Log.d("test", "onCreate Menu");
@@ -112,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);*/
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-            },3000);
+        }, 3000);
         }
 
 
@@ -165,11 +181,18 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.finish();
                 return true;
             case 0:
-                Toast.makeText(getApplicationContext(), "Add Item into Menu", Toast.LENGTH_SHORT).show();
-                Intent add=new Intent(getApplicationContext(),AddItem.class);
-                startActivity(add);
+                isInternetPresent = cd.isConnectingToInternet();
+                if(isInternetPresent) {
+                    Toast.makeText(getApplicationContext(), "Add Item into Menu", Toast.LENGTH_SHORT).show();
+                    Intent add = new Intent(getApplicationContext(), AddItem.class);
+                    startActivity(add);
 
-                return true;
+                    return true;
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Not Connected to the Internet", Toast.LENGTH_SHORT).show();
+                }
         }
 
         return super.onOptionsItemSelected(item);
@@ -179,7 +202,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            setProgressBarIndeterminateVisibility(true);
+            mProgressDialog = new ProgressDialog(MainActivity.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
+
+
         }
 
         @Override
@@ -213,14 +245,34 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            // Download complete. Let us update UI
-            progressBar.setVisibility(View.GONE);
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
 
             if (result == 1) {
                 adapter = new MyMenuRecyclerAdapter(MainActivity.this, feedsList);
                 mRecyclerView.setAdapter(adapter);
             } else {
-                Toast.makeText(MainActivity.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
+
+                SharedPreferences sharedPrefs = getSharedPreferences("MyPrefsMenu", Context.MODE_PRIVATE);
+                Gson gson = new Gson();
+                String json = sharedPrefs.getString(TAG, null);
+                //feedsList = new ArrayList<>();
+                Type type = new TypeToken<ArrayList<FeedItem>>() {}.getType();
+                List<FeedItem> feedsList = gson.fromJson(json,type);
+
+                adapter = new MyMenuRecyclerAdapter(MainActivity.this, feedsList);
+                mRecyclerView.setAdapter(adapter);
+
+                Toast.makeText(MainActivity.this, "Failed to fetch data! Not Connected to Internet", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -242,6 +294,16 @@ public class MainActivity extends AppCompatActivity {
                /* item.setThumbnail(post.optString("thumbnail"));
 */
                 feedsList.add(item);
+
+                SharedPreferences sharedPrefs = this.getSharedPreferences("MyPrefsMenu", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                Gson gson = new Gson();
+
+                String json = gson.toJson(feedsList);
+                Log.d("offline", "" + json);
+                editor.putString(TAG, json);
+                editor.commit();
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

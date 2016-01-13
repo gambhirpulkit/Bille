@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -28,6 +29,9 @@ public class MyMenuRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolde
     Integer[] itemQty;
     String cattest;
     private Context mContext;
+    Connectiondetector cd;
+    Boolean isInternetPresent = false;
+
 
     public MyMenuRecyclerAdapter(Context context, List<FeedItem> feedItemList) {
         this.feedItemList = feedItemList;
@@ -51,7 +55,7 @@ public class MyMenuRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolde
 
        /* String fontPath = "fonts/Walkway_Black.ttf";
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);*/
-
+        cd = new Connectiondetector(mContext.getApplicationContext());
 
 
         cattest = feedItem.getCategory();
@@ -127,15 +131,23 @@ public class MyMenuRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolde
 
                     // View v at position pos is long-clicked.
                 } else {
-                    Intent i = new Intent(mContext, EditItem.class);
-                    i.putExtra("menu_id", feedItem.getMenuId());
-                    i.putExtra("item_name", feedItem.getTitle());
-                    i.putExtra("item_price", feedItem.getPrice());
-                    i.putExtra("foodcatg", feedItem.getCategory());
-                    mContext.startActivity(i);
-                    Log.d("onBindHolder", "test");
-                    Log.d("val", feedItem.getMenuId());
+                    isInternetPresent = cd.isConnectingToInternet();
+                    Log.d("test", isInternetPresent.toString());
 
+                    if(isInternetPresent) {
+                        Intent i = new Intent(mContext, EditItem.class);
+                        i.putExtra("menu_id", feedItem.getMenuId());
+                        i.putExtra("item_name", feedItem.getTitle());
+                        i.putExtra("item_price", feedItem.getPrice());
+                        i.putExtra("foodcatg", feedItem.getCategory());
+                        mContext.startActivity(i);
+                        Log.d("onBindHolder", "test");
+                        Log.d("val", feedItem.getMenuId());
+                    }
+                    else
+                    {
+                        Toast.makeText(mContext.getApplicationContext(),"No Connected to the Internet",Toast.LENGTH_LONG).show();
+                    }
                     // View v at position pos is clicked.
                 }
             }

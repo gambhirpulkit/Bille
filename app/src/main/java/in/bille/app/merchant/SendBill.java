@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -31,14 +32,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SendBill extends AppCompatActivity {
+    ProgressDialog mProgressDialog;
 
     final Context context = this;
-
+    TextView sendamount;
     private List<FeedItem> feedsList;
     private RecyclerView mRecyclerView;
     private SendBillRecyclerAdapter adapter;
     private ProgressBar progressBar;
-    TextView sendamount;
+
     private String stringQty;
     private String strindIds;
     private String phone;
@@ -46,6 +48,8 @@ public class SendBill extends AppCompatActivity {
     private String apiUrl = Config.url;
 
     private String checkoutUrl = "";
+    Connectiondetector cd;
+    Boolean isInternetPresent = false;
 
     TextView cName;
 
@@ -60,11 +64,12 @@ public class SendBill extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         session = new SessionManager(getApplicationContext());
+        getSupportActionBar().setTitle("My Bills");
 
         HashMap<String, String> user = session.getUserDetails();
 
         final String mid = user.get(SessionManager.KEY_MID);
-
+        cd = new Connectiondetector(getApplicationContext());
         // Initialize recycler view
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_send);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -86,20 +91,31 @@ public class SendBill extends AppCompatActivity {
 
         Button sendBtn =(Button) findViewById(R.id.verifyBill);
 
+
+
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String itemStr = TextUtils.join(",", adapter.itemIds);
-                String qtyStr = TextUtils.join(",", adapter.itemQty);
+                isInternetPresent = cd.isConnectingToInternet();
+                Log.d("test", isInternetPresent.toString());
+                if(isInternetPresent) {
+                    String itemStr = TextUtils.join(",", adapter.itemIds);
+                    String qtyStr = TextUtils.join(",", adapter.itemQty);
 
-                Log.d("xxxxxxxxxxxx",""+adapter.itemIds);
-                checkoutUrl = apiUrl + "billing.php?mid="+mid + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr;
-                Log.d("checkoutUrl",checkoutUrl);
-                new VerifyBill().execute();
+                    Log.d("xxxxxxxxxxxx", "" + adapter.itemIds);
+                    checkoutUrl = apiUrl + "billing.php?mid=" + mid + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr;
+                    Log.d("checkoutUrl", checkoutUrl);
+                    new VerifyBill().execute();
+                }
+                else if(!isInternetPresent)
+                {
+                    Toast.makeText(SendBill.this, "Not Connected to the Internet!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
     }
+
 
     public void onsetAmt(Integer set)
     {
@@ -111,7 +127,16 @@ public class SendBill extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            //  setProgressBarIndeterminateVisibility(true);
+            mProgressDialog = new ProgressDialog(SendBill.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
+
+
         }
 
         @Override
@@ -145,10 +170,17 @@ public class SendBill extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            // Download complete. Let us update UI
-            //progressBar.setVisibility(View.GONE);
-            /*String fontPath = "fonts/Walkway_Black.ttf";
-            Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);*/
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
 
 
             if (result == 1) {
@@ -260,14 +292,14 @@ public class SendBill extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             if(flag == 1) {
                 Toast.makeText(getApplicationContext(), "Bill sent", Toast.LENGTH_LONG).show();
+                Intent intentBack = new Intent(getApplicationContext(),HomeScreen.class);
+                startActivity(intentBack);
+                SendBill.this.finish();
             }
             else {
                 Toast.makeText(getApplicationContext(), "Error generating bill", Toast.LENGTH_LONG).show();
             }
-            Toast.makeText(getApplicationContext(), "Bill sent", Toast.LENGTH_LONG).show();
-            Intent intentBack = new Intent(getApplicationContext(),HomeScreen.class);
-            startActivity(intentBack);
-            SendBill.this.finish();
+
 
         }
 

@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
+    ProgressDialog mProgressDialog;
+
 
     String email = "", companyname = "", name = "",mobile="";
 
@@ -161,7 +164,19 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 
     private class ReadJSONFeedTask extends AsyncTask<String, Void, String>
     {
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog = new ProgressDialog(Register.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
 
+
+        }
 
         @Override
         protected String doInBackground(String... urls)
@@ -169,7 +184,17 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             return readJSONFeed(urls[0]);
         }
         protected void onPostExecute(String result)
-        {
+        { try {
+            if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
+            }
+        } catch (final IllegalArgumentException e) {
+            // Handle or log or ignore
+        } catch (final Exception e) {
+            // Handle or log or ignore
+        } finally {
+            mProgressDialog = null;
+        }
             try
             {
                 JSONObject jsonObject= new JSONObject(result);

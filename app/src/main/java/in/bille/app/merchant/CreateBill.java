@@ -1,10 +1,12 @@
 package in.bille.app.merchant;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -24,12 +26,16 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,6 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CreateBill extends AppCompatActivity implements SearchView.OnQueryTextListener {
+    ProgressDialog mProgressDialog;
 
     final Context context = this;
    // Map<String, Integer> mapIndex;
@@ -69,7 +76,21 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Create Bill");
+
         session = new SessionManager(getApplicationContext());
+
+
+        /*boolean check = session.checkLogin();
+
+        if(check)
+        {
+            this.finish();
+        }
+        else
+        {
+
+        }*/
 
 
         mSearchView = (SearchView)findViewById(R.id.searchView);
@@ -147,14 +168,20 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(getBaseContext(), "OK Clicked!", Toast.LENGTH_LONG).show();
                         phone = userInput.getText().toString();
-                        Intent i = new Intent(getApplicationContext(), SendBill.class);
-                        i.putExtra("itemString", stringId);
-                        i.putExtra("qtyString",stringQty);
-                        i.putExtra("cPhone",phone);
-                        startActivity(i);
 
+                        if (phone.equals("")||phone.length()<10) {
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Enter the correct mobile number.", Toast.LENGTH_SHORT).show();
+
+                        }else {
+                            Intent i = new Intent(getApplicationContext(), SendBill.class);
+                            i.putExtra("itemString", stringId);
+                            i.putExtra("qtyString", stringQty);
+                            i.putExtra("cPhone", phone);
+                            startActivity(i);
+                        }
 
                     }
                 })
@@ -174,6 +201,30 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
         });
     }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        boolean check = session.checkLogin();
+
+        if(check)
+        {
+            this.finish();
+        }
+        else
+        {
+            /*Log.d("sdhs","kgfogfow");
+            Intent i = getIntent();
+            String merchemail = i.getStringExtra("email");
+            Log.d("testit",""+merchemail);
+            merchEmail.setText(merchemail);*/
+            //session.checkLogin();
+        }
+
+    }
+
 
     /*private void getIndexList(List<CreateBillFeedItem> models) {
         mapIndex = new LinkedHashMap<String, Integer>();
@@ -258,10 +309,16 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
 
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
-
         @Override
         protected void onPreExecute() {
-          //  setProgressBarIndeterminateVisibility(true);
+            mProgressDialog = new ProgressDialog(CreateBill.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
         }
 
         @Override
@@ -295,8 +352,17 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
             @Override
             protected void onPostExecute(Integer result) {
-                // Download complete. Let us update UI
-                //progressBar.setVisibility(View.GONE);
+                try {
+                    if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                } catch (final IllegalArgumentException e) {
+                    // Handle or log or ignore
+                } catch (final Exception e) {
+                    // Handle or log or ignore
+                } finally {
+                    mProgressDialog = null;
+                }
 
                 if (result == 1) {
                     adapter = new CreateBillRecyclerAdapter(CreateBill.this,feedsList);
@@ -308,6 +374,16 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
                     displayIndex();*/
 
                 } else {
+                    SharedPreferences sharedPrefs = getSharedPreferences("MyPrefsCreateBill", Context.MODE_PRIVATE);
+                    Gson gson = new Gson();
+                    String json = sharedPrefs.getString(TAG, null);
+                    //feedsList = new ArrayList<>();
+                    Type type = new TypeToken<ArrayList<CreateBillFeedItem>>() {}.getType();
+                    List<CreateBillFeedItem> feedsList = gson.fromJson(json,type);
+
+                    adapter = new CreateBillRecyclerAdapter(CreateBill.this,feedsList);
+                    mRecyclerView.setAdapter(adapter);
+
                     Toast.makeText(CreateBill.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
                 }
         }
@@ -329,6 +405,16 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
                /* item.setThumbnail(post.optString("thumbnail"));
 */
                 feedsList.add(item);
+
+                SharedPreferences sharedPrefs = this.getSharedPreferences("MyPrefsCreateBill", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                Gson gson = new Gson();
+
+                String json = gson.toJson(feedsList);
+                Log.d("offline",""+json);
+                editor.putString(TAG, json);
+                editor.commit();
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -342,6 +428,13 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
     @Override
     public boolean onQueryTextChange(String query) {
+        SharedPreferences sharedPrefs = getSharedPreferences("MyPrefsCreateBill", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPrefs.getString(TAG, null);
+        //feedsList = new ArrayList<>();
+        Type type = new TypeToken<ArrayList<CreateBillFeedItem>>() {}.getType();
+        List<CreateBillFeedItem> feedsList = gson.fromJson(json,type);
+
         filteredModelList = filter(feedsList, query);
 
         adapter.animateTo(filteredModelList);
