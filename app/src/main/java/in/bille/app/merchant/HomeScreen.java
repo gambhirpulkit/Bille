@@ -32,7 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
+import com.getbase.floatingactionbutton.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,7 +101,25 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        final com.getbase.floatingactionbutton.FloatingActionButton actionB = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_b);
+        actionB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent createbill = new Intent(getApplicationContext(),CreateBill.class);
+                startActivity(createbill);
+            }
+        });
+
+        final com.getbase.floatingactionbutton.FloatingActionButton actionA = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_a);
+        actionA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HomeScreen.this, "Under Construction", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setImageResource(R.drawable.takeorder);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,10 +127,10 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
                 Intent createbill = new Intent(getApplicationContext(),CreateBill.class);
                 startActivity(createbill);
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+                *//*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*//*
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

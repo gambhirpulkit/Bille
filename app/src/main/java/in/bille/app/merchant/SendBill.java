@@ -35,18 +35,18 @@ public class SendBill extends AppCompatActivity {
     ProgressDialog mProgressDialog;
 
     final Context context = this;
-    TextView sendamount;
+
     private List<FeedItem> feedsList;
     private RecyclerView mRecyclerView;
     private SendBillRecyclerAdapter adapter;
     private ProgressBar progressBar;
-
+    String buttontext="",finalamt="";
     private String stringQty;
     private String strindIds;
     private String phone;
     SessionManager session;
     private String apiUrl = Config.url;
-
+    Button sendBtn;
     private String checkoutUrl = "";
     Connectiondetector cd;
     Boolean isInternetPresent = false;
@@ -65,7 +65,8 @@ public class SendBill extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         session = new SessionManager(getApplicationContext());
         getSupportActionBar().setTitle("My Bills");
-
+        String fontPath = "fonts/Rupee_Foradian.ttf";
+        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
         HashMap<String, String> user = session.getUserDetails();
 
         final String mid = user.get(SessionManager.KEY_MID);
@@ -74,7 +75,7 @@ public class SendBill extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_send);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        sendamount = (TextView)findViewById(R.id.sendamt);
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -89,9 +90,10 @@ public class SendBill extends AppCompatActivity {
         Log.d("url", url);
         new AsyncHttpTask().execute(url);
 
-        Button sendBtn =(Button) findViewById(R.id.verifyBill);
-
-
+        sendBtn =(Button) findViewById(R.id.verifyBill);
+        sendBtn.setTypeface(tf);
+        buttontext = sendBtn.getText().toString();
+        finalamt = buttontext + "\t|\t`";
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +105,7 @@ public class SendBill extends AppCompatActivity {
                     String qtyStr = TextUtils.join(",", adapter.itemQty);
 
                     Log.d("xxxxxxxxxxxx", "" + adapter.itemIds);
-                    checkoutUrl = apiUrl + "billing.php?mid=" + mid + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr;
+                    checkoutUrl = apiUrl + "billing.php?mid=" + mid + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr + "&type=detail";
                     Log.d("checkoutUrl", checkoutUrl);
                     new VerifyBill().execute();
                 }
@@ -119,8 +121,10 @@ public class SendBill extends AppCompatActivity {
 
     public void onsetAmt(Integer set)
     {
+
         String amt = set.toString();
-        sendamount.setText(amt);
+        String setamt = ""+finalamt + ""+amt;
+        sendBtn.setText(setamt);
     }
 
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
