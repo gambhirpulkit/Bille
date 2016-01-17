@@ -29,11 +29,11 @@ public class BillDescription extends AppCompatActivity {
     ProgressDialog mProgressDialog;
 
     private List<FeedItem> feedsList;
-    TextView name,amount,custphone;
+    TextView name,amount,custphone,quickbilltext,billDiscount;
     TextView menulist,totalamt;
     private RecyclerView mRecyclerView;
     private BillDescriptionRecyclerAdapter adapter;
-    String cname,bamt,billid,cphone;
+    String cname,bamt,billid,cphone,billtype,Customtext,discount;
     String itemName;
     String a,b;
     String url = Config.url+"order_mer.php?bill_id=";
@@ -43,8 +43,8 @@ public class BillDescription extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_description);
-        String fontPath = "fonts/Walkway_Black.ttf";
-       // Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
+        String fontPath = "fonts/Rupee_Foradian.ttf";
+        Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -56,12 +56,13 @@ public class BillDescription extends AppCompatActivity {
         menulist = (TextView)findViewById(R.id.textView_menulist);
         custphone = (TextView)findViewById(R.id.textView_cphone);
         totalamt = (TextView)findViewById(R.id.textView_total);
+        quickbilltext = (TextView)findViewById(R.id.QuickBilltextView);
+        billDiscount = (TextView)findViewById(R.id.textView12);
 
         // Initialize recycler view
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_bill_desc);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
+        discount = "`";
         a = totalamt.getText().toString();
         b=a;
 
@@ -70,13 +71,26 @@ public class BillDescription extends AppCompatActivity {
         bamt = billdes.getStringExtra("billamt");
         billid = billdes.getStringExtra("bill_id");
         cphone = billdes.getStringExtra("c_phone");
-
+        billtype = billdes.getStringExtra("type");
+        Customtext = billdes.getStringExtra("customtext");
+        discount += billdes.getStringExtra("discount");
         //menulist.setTypeface(tf);
         Log.d("billid",""+billid);
 
         url += billid;
         Log.d("oooooooooooooooo", "" + url);
-        new AsyncHttpTask().execute(url);
+
+        if(billtype.matches("detail"))
+        {
+            mRecyclerView = (RecyclerView) findViewById(R.id.recycler_bill_desc);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            new AsyncHttpTask().execute(url);
+        }
+        else
+        {
+            quickbilltext.setText(Customtext);
+        }
+
 
 
 
@@ -85,7 +99,8 @@ public class BillDescription extends AppCompatActivity {
         name.setText(cname);
         //amount.setText(""+bamt);
         //totalamt.setText("@string/Rs"+bamt);
-
+        billDiscount.setTypeface(tf);
+        billDiscount.setText(discount);
 
 
         a += bamt;

@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -62,7 +63,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
    // private LinearLayoutManager layoutmanager;
     private SwipeRefreshLayout mSwipeRefreshLayout;
    // private ProgressBar progressBar;
-
+   public static Activity ha;
     TextView merchName,merchEmail;
     ImageView merchImage;
     Bitmap bitmap;
@@ -77,7 +78,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
+        ha = this;
         mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeHomeScreen);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -102,12 +103,17 @@ implements NavigationView.OnNavigationItemSelectedListener {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
 
+
+
+
+
         final com.getbase.floatingactionbutton.FloatingActionButton actionB = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.action_b);
         actionB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent createbill = new Intent(getApplicationContext(),CreateBill.class);
                 startActivity(createbill);
+
             }
         });
 
@@ -115,7 +121,9 @@ implements NavigationView.OnNavigationItemSelectedListener {
         actionA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(HomeScreen.this, "Under Construction", Toast.LENGTH_SHORT).show();
+                Intent createquickbill = new Intent(getApplicationContext(),CreateQuickBill.class);
+                startActivity(createquickbill);
+               // Toast.makeText(HomeScreen.this, "Under Construction", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -152,7 +160,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
         merchName.setTypeface(tf);*/
 
 
-       /* boolean check = session.checkLogin();
+        boolean check = session.checkLogin();
 
         if(check)
         {
@@ -161,7 +169,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
         else
         {
 
-        }*/
+        }
 
       //  boolean c = session.isLoggedIn();
 
@@ -196,7 +204,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
           // progressBar = (ProgressBar) findViewById(R.id.progress_bar);
        // progressBar.setVisibility(View.VISIBLE);
-        url += mid;
+        url += mid + "&limit=20" + "&offset=0";
         new AsyncHttpTask().execute(url);
 
     }
@@ -251,6 +259,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
     @Override
     public void onBackPressed() {
 
+        Log.d("back problem","okay");
         /*if (backpresscount==1) {
             Toast.makeText(getApplicationContext(),"Press again to exit.",Toast.LENGTH_SHORT);
         }
@@ -416,8 +425,11 @@ implements NavigationView.OnNavigationItemSelectedListener {
                 item.setBillId(post.optString("bill_id"));
                 item.setPhone(post.optString("customer_phone"));
                 item.setTitle(post.optString("c_name"));
-                item.setPrice(post.optString("amount"));
+                item.setPrice(post.optString("total"));
                 item.setDate(post.optString("date"));
+                item.settype(post.optString("type"));
+                item.setcustomText(post.optString("text"));
+                item.setDiscount(post.optString("discount"));
                /* item.setThumbnail(post.optString("thumbnail"));
 */
                 feedsList.add(item);

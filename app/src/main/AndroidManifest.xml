@@ -91,6 +91,7 @@
         <activity
             android:name=".ContactUs"
             android:label="@string/title_activity_contact_us"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
@@ -111,11 +112,18 @@
         <activity
             android:name=".TermsPrivacy"
             android:label="@string/title_activity_terms_privacy"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="26a4dd67be15ccbf395d86e4e662a0bda241aaaf" />
+
+        <activity
+            android:name=".CreateQuickBill"
+            android:label="@string/title_activity_create_quick_bill"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>
 

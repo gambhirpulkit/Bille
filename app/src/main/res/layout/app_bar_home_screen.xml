@@ -35,7 +35,7 @@
         android:layout_alignParentEnd="true"
         app:fab_addButtonColorNormal="@color/colorAccent"
         app:fab_addButtonColorPressed="@color/white_pressed"
-        app:fab_addButtonPlusIconColor="@color/half_black"
+        app:fab_addButtonPlusIconColor="@color/white"
         app:fab_labelStyle="@style/menu_labels_style"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"

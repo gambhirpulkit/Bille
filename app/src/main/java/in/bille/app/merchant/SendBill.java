@@ -108,6 +108,7 @@ public class SendBill extends AppCompatActivity {
                     checkoutUrl = apiUrl + "billing.php?mid=" + mid + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr + "&type=detail";
                     Log.d("checkoutUrl", checkoutUrl);
                     new VerifyBill().execute();
+                    sendBtn.setEnabled(false);
                 }
                 else if(!isInternetPresent)
                 {
@@ -235,6 +236,7 @@ public class SendBill extends AppCompatActivity {
                 item.setTotal(post.optString("cost"));
                 item.setQty(post.optString("qty"));
                 item.setMenuId(post.optString("menu_id"));
+
                // item.setThumbnail(post.optString("thumbnail"));
 
 
@@ -285,6 +287,14 @@ public class SendBill extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            mProgressDialog = new ProgressDialog(SendBill.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Sending Bill...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
 /*            pDialog = new ProgressDialog(MainActivity.this);
             pDialog.setMessage("Loading");
             pDialog.setCancelable(false);
@@ -294,11 +304,26 @@ public class SendBill extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void result) {
+
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
+
             if(flag == 1) {
                 Toast.makeText(getApplicationContext(), "Bill sent", Toast.LENGTH_LONG).show();
                 Intent intentBack = new Intent(getApplicationContext(),HomeScreen.class);
                 startActivity(intentBack);
                 SendBill.this.finish();
+                CreateBill.fa.finish();
+                HomeScreen.ha.finish();
             }
             else {
                 Toast.makeText(getApplicationContext(), "Error generating bill", Toast.LENGTH_LONG).show();

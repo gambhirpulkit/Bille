@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -57,7 +58,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
     private ProgressBar progressBar;
     private String phone = null;
     SessionManager session;
-
+    public static Activity fa;
     private SearchView mSearchView;
 
     String url = Config.url+"list_menu.php?mid=";
@@ -72,6 +73,8 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_bill);
+        fa =this;
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -81,7 +84,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
         session = new SessionManager(getApplicationContext());
 
 
-        /*boolean check = session.checkLogin();
+        boolean check = session.checkLogin();
 
         if(check)
         {
@@ -90,7 +93,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
         else
         {
 
-        }*/
+        }
 
 
         mSearchView = (SearchView)findViewById(R.id.searchView);

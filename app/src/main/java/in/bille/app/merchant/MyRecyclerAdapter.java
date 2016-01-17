@@ -22,10 +22,16 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> i
     private List<FeedItem> feedItemList;
 
     private transient Context mContext;
+    private int lastVisibleItem, totalItemCount;
+    private boolean loading;
+    private OnLoadMoreListener onLoadMoreListener;
 
     public MyRecyclerAdapter(Context context, List<FeedItem> feedItemList) {
         this.feedItemList = feedItemList;
         this.mContext = context;
+
+
+
     }
 
     @Override
@@ -34,6 +40,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> i
         FeedListRowHolder mh = new FeedListRowHolder(v);
 
         return mh;
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener;
     }
 
     @Override
@@ -61,11 +71,14 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> i
         feedListRowHolder.date.setText(Html.fromHtml(feedItem.getDate()));
 
 
-        final String a,b,c,d;
+        final String a,b,c,d,e,f,g;
         a = feedItem.getTitle();
         b = feedItem.getPrice();
         c = feedItem.getBillId();
         d = feedItem.getPhone();
+        e = feedItem.gettype();
+        f = feedItem.getcustomText();
+        g = feedItem.getDiscount();
 
         feedListRowHolder.setClickListener(new FeedListRowHolder.ClickListener(){
             @Override
@@ -73,12 +86,15 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> i
                 if (isLongClick) {
                     // View v at position pos is long-clicked.
                 } else {
-                        Log.d("bgjsyufgjhfjb",""+c);
+                    Log.d("bgjsyufgjhfjb",""+c);
                         Intent billdes = new Intent(mContext,BillDescription.class);
                         billdes.putExtra("cusname",a);
                         billdes.putExtra("billamt",b);
                         billdes.putExtra("bill_id",c);
                         billdes.putExtra("c_phone",d);
+                        billdes.putExtra("type",e);
+                        billdes.putExtra("customtext",f);
+                        billdes.putExtra("discount",g);
                         mContext.startActivity(billdes);
 
                     // View v at position pos is clicked.

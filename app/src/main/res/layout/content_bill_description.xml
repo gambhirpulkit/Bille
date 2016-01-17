@@ -99,6 +99,7 @@
             android:layout_height="wrap_content"
             android:text="PAID"
             android:layout_marginTop="20dp"
+
             android:gravity="end"
             android:textColor="@color/secondaryTextColor"
             android:id="@+id/textView16"
@@ -106,6 +107,37 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="10dp" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/dividerColor"
+            android:layout_alignBottom="@+id/textViewBillAmount"
+            android:layout_toRightOf="@+id/textViewBillAmount"
+            android:layout_toEndOf="@+id/textViewBillAmount"
+             />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView8"
+            android:src="@drawable/discountfinal"
+            android:layout_marginLeft="40dp"
+            android:layout_alignBottom="@+id/textViewBillAmount"
+            android:layout_toRightOf="@+id/textViewBillAmount"
+            android:layout_toEndOf="@+id/textViewBillAmount"
+             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bghdshfj"
+            android:textSize="15dp"
+            android:textColor="@color/secondaryTextColor"
+            android:id="@+id/textView12"
+            android:layout_alignBottom="@+id/textViewBillAmount"
+            android:layout_toRightOf="@+id/imageView8"
+            android:layout_toEndOf="@+id/imageView8" />
     </RelativeLayout>
 
 
@@ -177,6 +209,18 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true" />
 </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="20dp"
+                android:textColor="@color/primaryTextColor"
+                android:id="@+id/QuickBilltextView"
+                android:layout_alignTop="@+id/recycler_bill_desc"
+                android:layout_alignLeft="@+id/recycler_bill_desc"
+                android:layout_alignStart="@+id/recycler_bill_desc"
+                android:layout_margin="5dp" />
         </RelativeLayout>
         </android.support.v7.widget.CardView>
 

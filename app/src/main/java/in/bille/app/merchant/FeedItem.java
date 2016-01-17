@@ -13,6 +13,9 @@ public class FeedItem {
     private String total;
     private String totalBill;
     private String qty;
+    private String type;
+    private String discount;
+    private String customtext;
     private String date;
     private String bill_id;
     private String menu_id;
@@ -108,6 +111,30 @@ public class FeedItem {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String gettype() {
+        return type;
+    }
+
+    public void settype(String type) {
+        this.type = type;
+    }
+
+    public String getcustomText() {
+        return customtext;
+    }
+
+    public void setcustomText(String customtext) {
+        this.customtext = customtext;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
     }
 
 }
