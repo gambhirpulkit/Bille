@@ -137,7 +137,8 @@
             android:id="@+id/textView12"
             android:layout_alignBottom="@+id/textViewBillAmount"
             android:layout_toRightOf="@+id/imageView8"
-            android:layout_toEndOf="@+id/imageView8" />
+            android:layout_toEndOf="@+id/imageView8"
+            android:paddingBottom="2dp" />
     </RelativeLayout>
 
 

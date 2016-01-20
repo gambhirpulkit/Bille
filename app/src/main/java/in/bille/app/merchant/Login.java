@@ -212,23 +212,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 JSONObject jsonObject= new JSONObject(result);
                 String checkerror = jsonObject.optString("error");
                 Log.d("error", checkerror);
-                if(checkerror.equals("true"))
+
+
+                if(checkerror.matches("true"))
                 {
+                    Log.d("error","in if");
                     Toast.makeText(getApplicationContext(),"User not Registered. Please send us a registration request.",Toast.LENGTH_SHORT).show();
                 }
-
-                JSONObject jsonObject1 = jsonObject.getJSONObject("user");
-
-                // Toast.makeText(getApplicationContext(), jsonObject.getString("error"),Toast.LENGTH_LONG).show();
-
-
+                else
+                {
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("user");
                 String checkemail = jsonObject1.getString("email");
                 String checkMID = jsonObject1.getString("m_id");
                 String merchlogo = jsonObject1.getString("logo");
                 String merchname = jsonObject1.getString("name");
                 Log.d("email",checkemail);
-                if(checkerror.equals("false"))
-                {
+
                     Log.d("test", "login");
                     //SharedPreferences.Editor editor = sharedpreferences.edit();
                     Toast.makeText(getApplicationContext(),"WELCOME",Toast.LENGTH_SHORT).show();

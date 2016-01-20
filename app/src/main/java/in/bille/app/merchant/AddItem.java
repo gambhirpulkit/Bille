@@ -86,6 +86,8 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
                     }
 
                     new GetBill().execute();
+
+                    MainActivity.ma.finish();
                 }
 
                 Log.d("url",url);
@@ -232,6 +234,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
             Intent intentBack = new Intent(AddItem.this,MainActivity.class);
             AddItem.this.startActivity(intentBack);
             AddItem.this.finish();
+
         }
 
     }

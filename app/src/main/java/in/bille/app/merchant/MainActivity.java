@@ -2,6 +2,7 @@ package in.bille.app.merchant;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     Connectiondetector cd;
     Boolean isInternetPresent = false;
-
+    public static Activity ma;
     private static final String TAG = "Menu";
     private List<FeedItem> feedsList;
     private RecyclerView mRecyclerView;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ma = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

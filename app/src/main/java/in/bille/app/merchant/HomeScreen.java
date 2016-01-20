@@ -58,17 +58,23 @@ implements NavigationView.OnNavigationItemSelectedListener {
     ProgressDialog mProgressDialog;
     private static final String TAG = "Bills";
     private List<FeedItem> feedsList;
+    private List<FeedItem> feedsListmore;
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter adapter;
+    private LinearLayoutManager mLayoutManager;
    // private LinearLayoutManager layoutmanager;
     private SwipeRefreshLayout mSwipeRefreshLayout;
    // private ProgressBar progressBar;
-   public static Activity ha;
+    public static Activity ha;
+    private int offsetnew=0;
+
+    private int flagnew=0;
     TextView merchName,merchEmail;
     ImageView merchImage;
     Bitmap bitmap;
-
-
+    protected Handler handler;
+    String midchange;
+    String checkerror="";
     SessionManager session;
     private int backpresscount = 0;
 
@@ -103,7 +109,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
 
-
+        feedsListmore = new ArrayList<>();
 
 
 
@@ -168,29 +174,37 @@ implements NavigationView.OnNavigationItemSelectedListener {
         }
         else
         {
+            HashMap<String, String> user = session.getUserDetails();
 
+            String merchemail = user.get(SessionManager.KEY_Email);
+
+            // email
+            String merchname = user.get(SessionManager.KEY_MerchantName);
+
+            String imgurl = user.get(SessionManager.KEY_LogoUrl);
+
+            final String mid = user.get(SessionManager.KEY_MID);
+            Log.d("checkmid", "" + mid);
+
+            midchange = mid;
+
+
+            url += mid + "&limit=10" + "&offset="+offsetnew;
+            Log.d("firsturl",""+url);
+            new AsyncHttpTask().execute(url);
+
+
+            merchName.setText(merchname);
+            merchEmail.setText(merchemail);
+
+            new LoadImage().execute(imgurl);
         }
 
       //  boolean c = session.isLoggedIn();
 
 
         //Log.d("testit",""+merchemail);
-        HashMap<String, String> user = session.getUserDetails();
 
-        String merchemail = user.get(SessionManager.KEY_Email);
-
-        // email
-        String merchname = user.get(SessionManager.KEY_MerchantName);
-
-        String imgurl = user.get(SessionManager.KEY_LogoUrl);
-
-        String mid = user.get(SessionManager.KEY_MID);
-        Log.d("checkmid", "" + mid);
-
-        merchName.setText(merchname);
-        merchEmail.setText(merchemail);
-
-        new LoadImage().execute(imgurl);
 
 
 
@@ -198,16 +212,21 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
 
        // layoutmanager = new (this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
        // layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
-          // progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-       // progressBar.setVisibility(View.VISIBLE);
-        url += mid + "&limit=20" + "&offset=0";
-        new AsyncHttpTask().execute(url);
+
+       // mRecyclerView.setHasFixedSize(true);
+        //recycler view onscroll
+
+
+
+
 
     }
+
+
 
     private void refreshContent(){
         new Handler().postDelayed(new Runnable() {
@@ -221,7 +240,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
                 startActivity(i);*/
 
             }
-        },3000);
+        }, 3000);
     }
     /*void refreshItems()
     {
@@ -340,14 +359,22 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
         @Override
         protected void onPreExecute() {
+
             mProgressDialog = new ProgressDialog(HomeScreen.this);
             // Set progressdialog title
             mProgressDialog.setTitle("Loading");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
             mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
+            mProgressDialog.setCancelable(false);
+
+            if (offsetnew>=10) {
+                mProgressDialog.dismiss();
+            }
+            else {
+                // Show progressdialog
+                mProgressDialog.show();
+            }
         }
 
         @Override
@@ -385,6 +412,9 @@ implements NavigationView.OnNavigationItemSelectedListener {
                 if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
                     mProgressDialog.dismiss();
                 }
+                /*else if (offsetnew>=10) {
+                    mProgressDialog.dismiss();
+                }*/
             } catch (final IllegalArgumentException e) {
                 // Handle or log or ignore
             } catch (final Exception e) {
@@ -394,9 +424,72 @@ implements NavigationView.OnNavigationItemSelectedListener {
             }
 
             if (result == 1) {
-                adapter = new MyRecyclerAdapter(HomeScreen.this, feedsList);
-                mRecyclerView.setAdapter(adapter);
+                //feedsListmore.add(feedsList);
+                if(checkerror.matches("true")){
+
+                    Toast.makeText(HomeScreen.this, "No More Bills!", Toast.LENGTH_SHORT).show();
+
+
+                }
+                else {
+                    adapter = new MyRecyclerAdapter(mRecyclerView, feedsListmore);
+                    adapter.notifyDataSetChanged();
+                    mRecyclerView.setAdapter(adapter);
+                    //adapter.notifyItemInserted(feedsListmore.size());
+                    // adapter.notifyDataSetChanged();
+
+                    adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+                        @Override
+
+                        public void onLoadMore() {
+                            flagnew++;
+                            url = Config.url + "billing_merchant.php?mid=" + midchange + "&limit=10" + "&offset=" + offsetnew;
+                            Log.d("loadmoreUrl", "" + url);
+                            new AsyncHttpTask().execute(url);
+                            Log.d("loadmore", "in LoadMore()");
+
+                            Log.d("loadmore", "in if");
+                            feedsListmore.add(null);
+                            adapter.notifyItemInserted(feedsListmore.size()-1);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.d("loadmore", "in run()");
+                                    //   remove progress item
+                                    feedsListmore.remove(feedsListmore.size()-1);
+                                    adapter.notifyItemRemoved(feedsListmore.size());
+                                    //add items one by one
+
+
+
+
+
+
+
+
+
+
+                           /* for (int i = start + 1; i <= end; i++) {
+                                //feedsList.add());
+                               // adapter.notifyItemInserted(feedsList.size());
+                            }*/
+
+                                    adapter.setLoaded();
+
+                                    //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
+                                }
+                            }, 500);
+
+                        }
+                    });
+                }
+
             } else {
+                if(checkerror.matches("true"))
+                {
+                    Toast.makeText(HomeScreen.this, "No More Bills!", Toast.LENGTH_SHORT).show();
+                }
+                else {
                 SharedPreferences sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                 Gson gson = new Gson();
                 String json = sharedPrefs.getString(TAG, null);
@@ -404,10 +497,11 @@ implements NavigationView.OnNavigationItemSelectedListener {
                 Type type = new TypeToken<ArrayList<FeedItem>>() {}.getType();
                 List<FeedItem> feedsList = gson.fromJson(json,type);
 
-                adapter = new MyRecyclerAdapter(HomeScreen.this, feedsList);
+                adapter = new MyRecyclerAdapter(mRecyclerView, feedsList);
                 mRecyclerView.setAdapter(adapter);
                 mSwipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(HomeScreen.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -415,37 +509,51 @@ implements NavigationView.OnNavigationItemSelectedListener {
     private void parseResult(String result) {
         try {
             JSONObject response = new JSONObject(result);
-            JSONArray posts = response.optJSONArray("bill");
-            feedsList = new ArrayList<>();
+            checkerror = response.optString("error");
+            Log.d("loadmorecheck",""+checkerror);
 
-            for (int i = 0; i < posts.length(); i++) {
-                JSONObject post = posts.optJSONObject(i);
-                FeedItem item = new FeedItem();
-                Log.d("val", post.getString("c_name"));
-                item.setBillId(post.optString("bill_id"));
-                item.setPhone(post.optString("customer_phone"));
-                item.setTitle(post.optString("c_name"));
-                item.setPrice(post.optString("total"));
-                item.setDate(post.optString("date"));
-                item.settype(post.optString("type"));
-                item.setcustomText(post.optString("text"));
-                item.setDiscount(post.optString("discount"));
+            if(checkerror.matches("true")) {
+
+                Toast.makeText(HomeScreen.this, "No More Bills!", Toast.LENGTH_SHORT).show();
+
+            }else {
+
+
+                JSONArray posts = response.optJSONArray("bill");
+                feedsList = new ArrayList<>();
+
+
+                for (int i = 0; i < posts.length(); i++) {
+                    offsetnew++;
+                    JSONObject post = posts.optJSONObject(i);
+                    FeedItem item = new FeedItem();
+                    Log.d("val", post.getString("c_name"));
+                    item.setBillId(post.optString("bill_id"));
+                    item.setPhone(post.optString("customer_phone"));
+                    item.setTitle(post.optString("c_name"));
+                    item.setPrice(post.optString("total"));
+                    item.setDate(post.optString("date"));
+                    item.settype(post.optString("type"));
+                    item.setcustomText(post.optString("text"));
+                    item.setDiscount(post.optString("discount"));
                /* item.setThumbnail(post.optString("thumbnail"));
 */
-                feedsList.add(item);
+                    Log.d("loadmore", "in parse result");
+                    feedsList.add(item);
+                    feedsListmore.add(item);
 
-
-                SharedPreferences sharedPrefs = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                }
+                /*SharedPreferences sharedPrefs = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPrefs.edit();
                 Gson gson = new Gson();
 
                 String json = gson.toJson(feedsList);
                 Log.d("offline",""+json);
                 editor.putString(TAG, json);
-                editor.commit();
-
+                editor.commit();*/
 
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

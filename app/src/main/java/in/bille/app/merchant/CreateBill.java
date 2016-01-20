@@ -47,7 +47,7 @@ import java.util.Map;
 
 public class CreateBill extends AppCompatActivity implements SearchView.OnQueryTextListener {
     ProgressDialog mProgressDialog;
-
+    private Integer flag = 0;
     final Context context = this;
    // Map<String, Integer> mapIndex;
     private static final String TAG = "menu";
@@ -56,11 +56,11 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
     private RecyclerView mRecyclerView;
     public CreateBillRecyclerAdapter adapter;
     private ProgressBar progressBar;
-    private String phone = null;
+    private String phone = "";
     SessionManager session;
     public static Activity fa;
     private SearchView mSearchView;
-
+    String checkphoneUrl = "";
     String url = Config.url+"list_menu.php?mid=";
     private String stringId = null;
     private String stringQty = null;
@@ -130,6 +130,8 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                phone = "";
                 if (adapter.itemQty != null) {
                     StringBuilder qty = new StringBuilder("");
                     for (int i = 0; adapter.itemQty != null && i < adapter.itemQty.length; i++) {
@@ -173,17 +175,16 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
                     public void onClick(DialogInterface dialog, int id) {
                         phone = userInput.getText().toString();
 
-                        if (phone.equals("")||phone.length()<10) {
+                        if (phone.equals("")||phone.length()!=10) {
 
                             Toast.makeText(getApplicationContext(),
                                     "Enter the correct mobile number.", Toast.LENGTH_SHORT).show();
 
                         }else {
-                            Intent i = new Intent(getApplicationContext(), SendBill.class);
-                            i.putExtra("itemString", stringId);
-                            i.putExtra("qtyString", stringQty);
-                            i.putExtra("cPhone", phone);
-                            startActivity(i);
+                            checkphoneUrl = Config.url+"check_phone.php?phone="+phone;
+                            Log.d("phoneurl", "" + checkphoneUrl);
+                            new PhoneAsyncHttpTask().execute(checkphoneUrl);
+
                         }
 
                     }
@@ -424,7 +425,114 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
         }
     }
 
+    public class PhoneAsyncHttpTask extends AsyncTask<String, Void, Integer> {
 
+       // private Integer flag = 0;
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog = new ProgressDialog(CreateBill.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Loading");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Checking Number...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            Integer result = 0;
+            HttpURLConnection urlConnection;
+            try {
+                URL url = new URL(params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                int statusCode = urlConnection.getResponseCode();
+
+                // 200 represents HTTP OK
+                if (statusCode == 200) {
+                    BufferedReader r = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null) {
+                        response.append(line);
+                    }
+                    Log.d("str", response.toString());
+                    phoneparseResult(response.toString());
+                    result = 1; // Successful
+                } else {
+                    result = 0; //"Failed to fetch data!";
+                }
+            } catch (Exception e) {
+                Log.d(TAG, e.getLocalizedMessage());
+            }
+            return result; //"Failed to fetch data!";
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            checkphoneUrl = "";
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
+
+            if (result == 1) {
+
+                if(flag == 1)
+                {
+                    Log.d("result=1","Inside this");
+                    Toast.makeText(CreateBill.this, "This Number is not Registered!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Log.d("result=0","Inside this");
+                    Intent i = new Intent(getApplicationContext(), SendBill.class);
+                    i.putExtra("itemString", stringId);
+                    i.putExtra("qtyString", stringQty);
+                    i.putExtra("cPhone", phone);
+                    startActivity(i);
+                }
+                    /*getIndexList(feedsList);
+
+                    displayIndex();*/
+
+            } else {
+
+
+                Toast.makeText(CreateBill.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void phoneparseResult(String result) {
+        try {
+            JSONObject response = new JSONObject(result);
+            String checkphone = response.optString("error");
+
+            if(checkphone.matches("true"))
+            {
+                Log.d("phoneerrortrue","Inside this");
+                flag = 1;
+            }
+            else if(checkphone.matches("false"))
+            {
+                Log.d("phoneerrorfalse","Inside this");
+                flag = 0;
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
