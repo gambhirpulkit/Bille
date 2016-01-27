@@ -25,6 +25,9 @@
 
         android:fitsSystemWindows="true"
 
-        app:menu="@menu/activity_home_screen_drawer" />
+        app:menu="@menu/activity_home_screen_drawer"
+        app:itemIconTint="#000"
+        app:itemTextColor="#000"
+        android:background="#fff"/>
 
 </android.support.v4.widget.DrawerLayout>

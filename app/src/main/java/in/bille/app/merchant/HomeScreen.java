@@ -543,14 +543,14 @@ implements NavigationView.OnNavigationItemSelectedListener {
                     feedsListmore.add(item);
 
                 }
-                /*SharedPreferences sharedPrefs = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                SharedPreferences sharedPrefs = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPrefs.edit();
                 Gson gson = new Gson();
 
                 String json = gson.toJson(feedsList);
                 Log.d("offline",""+json);
                 editor.putString(TAG, json);
-                editor.commit();*/
+                editor.commit();
 
             }
 
