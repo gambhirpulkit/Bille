@@ -13,11 +13,12 @@ import java.util.List;
 
 public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHolder> {
 
+    Integer flag = 0;
     SendBill sendbill;
     private List<FeedItem> feedItemList;
-    Integer sendtotal=0, billamt;
+    Integer sendtotal=0,billamt;
     private Context mContext;
-
+   // Integer[] Qty;
     ArrayList<String> itemIds = new ArrayList<String>();
     ArrayList<String> itemQty = new ArrayList<String>();
     //List<String> itemQty;
@@ -25,7 +26,7 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
     public SendBillRecyclerAdapter(Context context, List<FeedItem> feedItemList) {
         this.feedItemList = feedItemList;
         this.mContext = context;
-
+       // Qty = new Integer[feedItemList.size()];
 
     }
 
@@ -41,12 +42,18 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
 
     @Override
     public void onBindViewHolder(final SendListRowHolder holder, final int position) {
+
+        flag++;
         final FeedItem feedItem = feedItemList.get(position);
 
         final Integer holderPos = holder.getAdapterPosition();
         final Integer pos = position;
         Log.d("position",pos.toString());
 
+        /*if(Qty[holderPos] == null) {
+            //qty = 0;
+            Qty[holderPos] = 0;
+        }*/
         /*String fontPath = "fonts/Walkway_Black.ttf";
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);*/
 
@@ -59,9 +66,9 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
         holder.itemCost.setTypeface(tf);
         holder.perItemCost.setTypeface(tf);
         holder.qtyStatus.setTypeface(tf);*/
-        billamt = Integer.parseInt(feedItem.getTotal());
-        sendtotal+=billamt;
-        Log.d("total bill", "" + sendtotal);
+        billamt= Integer.parseInt(feedItem.getTotal());
+        sendtotal += billamt;
+        Log.d("total", "" + sendtotal);
 
         holder.itemName.setText(feedItem.getTitle());
         holder.itemQty.setText(feedItem.getQty());
@@ -91,11 +98,18 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
                 holder.itemQty.setText(qtyCount.toString());
                 Integer peritemcost = Integer.parseInt(feedItem.getPrice());
                 Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * qtyCount;
-                Log.d("qtyCost",""+qtyCost);
+                Log.d("qtyCost", "" + qtyCost);
                 holder.itemCost.setText(qtyCost.toString());
-                sendtotal+=peritemcost;
-                Log.d("afterplus",""+sendtotal);
-                ((SendBill)mContext).onsetAmt(sendtotal);
+                sendtotal += peritemcost;
+                Log.d("afterplus", "" + sendtotal);
+
+                ((SendBill) mContext).onsetAmt(sendtotal);
+
+                /*else
+                {
+                    Integer setbill = Integer.parseInt(feedItem.getTotalBill());
+                    ((SendBill) mContext).onsetAmt(setbill);
+                }*/
                 //itemIds.set(position,valAtPos);
                 Log.d("id list", itemQty.toString());
 
@@ -111,7 +125,7 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
                 if (qtyCount < 0) {
                     qtyCount = 0;
                 }
-                itemQty.set(holder.getAdapterPosition(), qtyCount.toString() );
+                itemQty.set(holder.getAdapterPosition(), qtyCount.toString());
                 Log.d("val", valAtPos);
                 if (qtyCount == 0) {
                     itemIds.remove(holder.getAdapterPosition());
@@ -130,8 +144,17 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
                 Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * qtyCount;
                 holder.itemCost.setText(qtyCost.toString());
                 sendtotal-=peritemcost;
-                Log.d("afterminus",""+sendtotal);
-                ((SendBill)mContext).onsetAmt(sendtotal);
+                Log.d("afterminus", "" + sendtotal);
+
+                ((SendBill) mContext).onsetAmt(sendtotal);
+                /*if (flag==1) {
+                    ((SendBill) mContext).onsetAmt(sendtotal);
+                }
+                else
+                {
+                    Integer setbill = Integer.parseInt(feedItem.getTotalBill());
+                    ((SendBill) mContext).onsetAmt(setbill);
+                }*/
                 //itemIds.set(position,valAtPos);
                 Log.d("qty list", itemQty.toString());
                 Log.d("id list", itemIds.toString());

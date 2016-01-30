@@ -73,10 +73,10 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
                 final String iName = itemName.getText().toString();
                 final String iPrice = itemPrice.getText().toString();
                 if(iName.length()<1) {
-                    Toast.makeText(getApplicationContext(), "Enter valid item name", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Enter valid item name", Toast.LENGTH_SHORT).show();
                 }
                else if(iPrice.length()<1) {
-                    Toast.makeText(getApplicationContext(), "Enter valid price", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Enter valid price", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     try {
@@ -145,7 +145,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
                         result = 1;
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                     }
         /*            // Getting JSON Array node
                     bill = jsonObj.getJSONArray(TAG_BILL);
@@ -230,7 +230,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
                     R.id.text2, R.id.text4});
 
             setListAdapter(adapter);*/
-            Toast.makeText(getApplicationContext(), "Item Added", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Item Added", Toast.LENGTH_SHORT).show();
             Intent intentBack = new Intent(AddItem.this,MainActivity.class);
             AddItem.this.startActivity(intentBack);
             AddItem.this.finish();

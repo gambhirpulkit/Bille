@@ -30,6 +30,10 @@ import java.net.URLEncoder;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
     ProgressDialog mProgressDialog;
+
+    Connectiondetector cd;
+    Boolean isInternetPresent = false;
+
     Config con;
     EditText username,password;
     Button login;
@@ -40,13 +44,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     TextView reg;
     String url = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         session = new SessionManager(getApplicationContext());
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-
+        cd = new Connectiondetector(getApplicationContext());
   // toolbar.setBackgroundColor(Color.GREEN);
        /* String fontPath = "fonts/Walkway_Black.ttf";
         Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);*/
@@ -109,47 +114,53 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        isInternetPresent = cd.isConnectingToInternet();
 
-        useremail = username.getText().toString();
-        pass = password.getText().toString();
+        if(isInternetPresent) {
+            useremail = username.getText().toString();
+            pass = password.getText().toString();
 
 
-        boolean flag = true;
+            boolean flag = true;
 
-        if (useremail.equals("")) {
-            flag = false;
-            Toast.makeText(getApplicationContext(), "Email is required.",
-                    Toast.LENGTH_SHORT).show();
-        } else if (useremail.contains("@") != true) {
-            flag = false;
-            Toast.makeText(getApplicationContext(), "Invalid email.",
-                    Toast.LENGTH_SHORT).show();
-        } else if (useremail.contains(".") != true) {
-            flag = false;
-            Toast.makeText(getApplicationContext(), "Invalid email.",
-                    Toast.LENGTH_SHORT).show();
-        } else if (pass.equals("")) {
-            flag = false;
-            Toast.makeText(getApplicationContext(), "Password is required.",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-        if(flag) {
-            //  Toast.makeText(getApplicationContext(),""+Email,Toast.LENGTH_LONG).show();
-
-            try {
-
-                url = Config.url + "login_mer.php?user=" + useremail + "&pwd=" + URLEncoder.encode(pass, "UTF-8");
-            }catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            if (useremail.equals("")) {
+                flag = false;
+                Toast.makeText(getApplicationContext(), "Email is required.",
+                        Toast.LENGTH_SHORT).show();
+            } else if (useremail.contains("@") != true) {
+                flag = false;
+                Toast.makeText(getApplicationContext(), "Invalid email.",
+                        Toast.LENGTH_SHORT).show();
+            } else if (useremail.contains(".") != true) {
+                flag = false;
+                Toast.makeText(getApplicationContext(), "Invalid email.",
+                        Toast.LENGTH_SHORT).show();
+            } else if (pass.equals("")) {
+                flag = false;
+                Toast.makeText(getApplicationContext(), "Password is required.",
+                        Toast.LENGTH_SHORT).show();
             }
 
-           //  Toast.makeText(getApplicationContext(),""+url,Toast.LENGTH_SHORT).show();
-            new ReadJSONFeedTask().execute(url);
-            Log.d("urlaaaaaaaaaaas", url);
-        }
-        clicked = true;
+            if (flag) {
+                //  Toast.makeText(getApplicationContext(),""+Email,Toast.LENGTH_LONG).show();
 
+                try {
+
+                    url = Config.url + "login_mer.php?user=" + useremail + "&pwd=" + URLEncoder.encode(pass, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                //  Toast.makeText(getApplicationContext(),""+url,Toast.LENGTH_SHORT).show();
+                new ReadJSONFeedTask().execute(url);
+                Log.d("urlaaaaaaaaaaas", url);
+            }
+            clicked = true;
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Not Connected to the Internet", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public String readJSONFeed(String URL) {

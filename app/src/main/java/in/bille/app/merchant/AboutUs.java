@@ -92,7 +92,7 @@ public class AboutUs extends AppCompatActivity {
                             startActivity(callIntent);
 
                         } catch (Exception e) {
-                            Toast.makeText(getApplicationContext(),"Your call has failed...", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"Your call has failed...", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
 
                         }

@@ -1,5 +1,6 @@
 package in.bille.app.merchant;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +51,7 @@ public class SendBill extends AppCompatActivity {
     private String checkoutUrl = "";
     Connectiondetector cd;
     Boolean isInternetPresent = false;
-
+    Activity sa;
     TextView cName;
 
     FeedItem item = new FeedItem();
@@ -59,6 +60,7 @@ public class SendBill extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_bill);
+        sa = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -198,6 +200,7 @@ public class SendBill extends AppCompatActivity {
                 /*c_name.setTypeface(tf);
                 c_phone.setTypeface(tf);*/
                 c_phone.setText(item.getPhone());
+                //sendBtn.setText(item.getTotalBill());
 
             } else {
                 Toast.makeText(SendBill.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
@@ -212,6 +215,7 @@ public class SendBill extends AppCompatActivity {
             String name = response.optString("name");
             String phone = response.optString("phone");
             String total = response.optString("total");
+            Log.d("total bill",""+total);
 
             item.setName(name);
             item.setPhone(phone);

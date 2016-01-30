@@ -153,7 +153,7 @@ ProgressDialog mProgressDialog;
                         result = 1;
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -203,7 +203,7 @@ ProgressDialog mProgressDialog;
             }
 
             url = "";
-            Toast.makeText(getApplicationContext(), "Menu Updated", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Menu Updated", Toast.LENGTH_SHORT).show();
             Intent intentBack = new Intent(EditItem.this,MainActivity.class);
             EditItem.this.startActivity(intentBack);
             EditItem.this.finish();

@@ -11,6 +11,10 @@
             android:icon="@drawable/billamt"
             android:title="Bills" />
         <item
+            android:id="@+id/navByDates"
+            android:icon="@drawable/calendar"
+            android:title="Bills By Date" />
+        <item
             android:id="@+id/navAboutus"
             android:icon="@drawable/adminicon"
             android:title="About Us" />
@@ -22,6 +26,7 @@
             android:id="@+id/navLogout"
             android:icon="@drawable/logout"
             android:title="Logout" />
+
     </group>
 
 

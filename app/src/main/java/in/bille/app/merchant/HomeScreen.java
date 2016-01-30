@@ -189,7 +189,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
             midchange = mid;
 
 
-            url += mid + "&limit=10" + "&offset="+offsetnew;
+            url += mid + "&limit=20" + "&offset="+offsetnew;
             Log.d("firsturl",""+url);
             new AsyncHttpTask().execute(url);
 
@@ -278,7 +278,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
     @Override
     public void onBackPressed() {
 
-        Log.d("back problem","okay");
+        Log.d("back problem", "okay");
         /*if (backpresscount==1) {
             Toast.makeText(getApplicationContext(),"Press again to exit.",Toast.LENGTH_SHORT);
         }
@@ -333,6 +333,11 @@ implements NavigationView.OnNavigationItemSelectedListener {
            // HomeScreen.this.finish();
             // Handle the camera action
         } else if (id == R.id.nav_bills) {
+
+        } else if (id == R.id.navByDates) {
+
+            Intent bydates = new Intent(getApplicationContext(),BillsByDate.class);
+            startActivity(bydates);
 
         } else if (id == R.id.nav_TandC) {
 
@@ -443,7 +448,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
                         public void onLoadMore() {
                             flagnew++;
-                            url = Config.url + "billing_merchant.php?mid=" + midchange + "&limit=10" + "&offset=" + offsetnew;
+                            url = Config.url + "billing_merchant.php?mid=" + midchange + "&limit=20" + "&offset=" + offsetnew;
                             Log.d("loadmoreUrl", "" + url);
                             new AsyncHttpTask().execute(url);
                             Log.d("loadmore", "in LoadMore()");
@@ -459,15 +464,6 @@ implements NavigationView.OnNavigationItemSelectedListener {
                                     feedsListmore.remove(feedsListmore.size()-1);
                                     adapter.notifyItemRemoved(feedsListmore.size());
                                     //add items one by one
-
-
-
-
-
-
-
-
-
 
                            /* for (int i = start + 1; i <= end; i++) {
                                 //feedsList.add());

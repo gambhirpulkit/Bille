@@ -191,7 +191,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
                 })
                         .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getBaseContext(), "CANCEL Clicked!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(), "CANCEL Clicked!", Toast.LENGTH_SHORT).show();
                             }
                         });
 

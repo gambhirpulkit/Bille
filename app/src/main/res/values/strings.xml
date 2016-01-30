@@ -23,4 +23,5 @@
     <string name="Rs">\u20B9</string>
     <string name="title_activity_terms_privacy">TermsPrivacy</string>
     <string name="title_activity_create_quick_bill">CreateQuickBill</string>
+    <string name="title_activity_bills_by_date">BillsByDate</string>
 </resources>
