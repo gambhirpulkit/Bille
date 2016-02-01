@@ -168,7 +168,7 @@ public class CreateBillRecyclerAdapter extends RecyclerView.Adapter<CreateListRo
                 qty++;
                 itemQty[pos] = qty;
                 createListRowHolder.qty_show.setText(Html.fromHtml(itemQty[pos].toString()));
-
+                Log.d("idArr", Arrays.asList(itemId) + "");
                 Log.d("qtyArr", Arrays.asList(itemQty) + "");
                 for (Integer anItemQty : itemQty) {
                     if (anItemQty != null) {

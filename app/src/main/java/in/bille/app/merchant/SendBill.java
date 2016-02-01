@@ -29,7 +29,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SendBill extends AppCompatActivity {
@@ -53,6 +55,10 @@ public class SendBill extends AppCompatActivity {
     Boolean isInternetPresent = false;
     Activity sa;
     TextView cName;
+    public List<String> qtyItems;
+    public List<String> idItems;
+
+    public Integer totalAmt;
 
     FeedItem item = new FeedItem();
 
@@ -78,7 +84,6 @@ public class SendBill extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             strindIds = extras.getString("itemString");
@@ -86,6 +91,9 @@ public class SendBill extends AppCompatActivity {
             phone = extras.getString("cPhone");
 
         }
+        qtyItems = new LinkedList<String>(Arrays.asList(stringQty.split(",")));
+        idItems = new LinkedList<String>(Arrays.asList(strindIds.split(",")));
+
         //Log.d("phone", phone);
         String url = apiUrl + "billing_info.php?mid="+mid + "&phone=" + phone + "&order=" + strindIds + "&qty=" + stringQty;
 
@@ -95,6 +103,7 @@ public class SendBill extends AppCompatActivity {
         sendBtn =(Button) findViewById(R.id.verifyBill);
         sendBtn.setTypeface(tf);
         buttontext = sendBtn.getText().toString();
+        Log.d("buttontext",sendBtn.getText().toString());
         finalamt = buttontext + "\t|\t`";
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
@@ -121,11 +130,43 @@ public class SendBill extends AppCompatActivity {
 
     }
 
+    public void onPlusQty(String posQtyStr,Integer posInt) {
+       // List<String> qtyItems = Arrays.asList(stringQty.split(","));
+       // List<String> idItems = Arrays.asList(strindIds.split(","));
+        qtyItems.set(posInt,posQtyStr);
+        Log.d("list of items", qtyItems.toString());
+        Log.d(posQtyStr,posInt + "at pos");
 
-    public void onsetAmt(Integer set)
+
+
+    }
+
+    public void onMinusQty(String negQtyStr,Integer minusInt) {
+
+        Integer pos = minusInt;
+        qtyItems.set(minusInt, negQtyStr);
+        Log.d(negQtyStr, minusInt + "at pos");
+        Log.d("list of items before", qtyItems.toString());
+        if (Integer.parseInt(qtyItems.get(minusInt))==0) {
+            qtyItems.remove(minusInt.intValue());
+            idItems.remove(minusInt.intValue());
+        }
+        Log.d("list of items after", qtyItems.toString());
+    }
+
+    public void onPlusAmt(Integer set)
     {
-
-        String amt = set.toString();
+        totalAmt = set + totalAmt;
+        Log.d("finalamt",finalamt);
+        String amt = totalAmt.toString();
+        String setamt = ""+finalamt + ""+amt;
+        sendBtn.setText(setamt);
+    }
+    public void onMinusAmt(Integer set)
+    {
+        totalAmt = totalAmt - set;
+        Log.d("finalamt",finalamt);
+        String amt = totalAmt.toString();
         String setamt = ""+finalamt + ""+amt;
         sendBtn.setText(setamt);
     }
@@ -201,6 +242,8 @@ public class SendBill extends AppCompatActivity {
                 c_phone.setTypeface(tf);*/
                 c_phone.setText(item.getPhone());
                 //sendBtn.setText(item.getTotalBill());
+                String setamt = ""+finalamt + ""+totalAmt;
+                sendBtn.setText(setamt);
 
             } else {
                 Toast.makeText(SendBill.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
@@ -215,7 +258,7 @@ public class SendBill extends AppCompatActivity {
             String name = response.optString("name");
             String phone = response.optString("phone");
             String total = response.optString("total");
-            Log.d("total bill",""+total);
+            Log.d("total bill", "" + total);
 
             item.setName(name);
             item.setPhone(phone);
@@ -223,6 +266,8 @@ public class SendBill extends AppCompatActivity {
 
             feedsList = new ArrayList<>();
 
+
+            totalAmt = Integer.parseInt(response.optString("total"));
 
 
             JSONArray posts = response.optJSONArray("order");
@@ -241,11 +286,14 @@ public class SendBill extends AppCompatActivity {
                 item.setQty(post.optString("qty"));
                 item.setMenuId(post.optString("menu_id"));
 
+
                // item.setThumbnail(post.optString("thumbnail"));
 
 
                 feedsList.add(item);
             }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
