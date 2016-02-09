@@ -28,7 +28,7 @@ public class TermsPrivacy extends AppCompatActivity {
 
         wv = (WebView)findViewById(R.id.webView);
 
-        wv.loadUrl("http://bille.in/terms.html");
+        wv.loadUrl("http://bille.in/terms.php");
 
     }
 

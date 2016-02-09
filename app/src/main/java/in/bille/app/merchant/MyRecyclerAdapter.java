@@ -103,7 +103,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter implements Serializa
 
        if(holder instanceof FeedListRowHolder) {
            FeedItem feedItem = feedItemList.get(i);
-
+            String paystat = "";
+           paystat = feedItem.getPaymentStatus();
+           Log.d("paystat",""+paystat);
            //For applying font
        /* String fontPath = "fonts/Walkway_Black.ttf";
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(), fontPath);*/
@@ -119,13 +121,22 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter implements Serializa
         /*feedListRowHolder.billAmount.setTypeface(tf);
         feedListRowHolder.phone.setTypeface(tf);
         feedListRowHolder.date.setTypeface(tf);*/
-           ((FeedListRowHolder) holder).customerName.setText(Html.fromHtml(feedItem.getTitle()));
+                   ((FeedListRowHolder) holder).customerName.setText(Html.fromHtml(feedItem.getTitle()));
            ((FeedListRowHolder) holder).billAmount.setText(Html.fromHtml(feedItem.getPrice()));
            ((FeedListRowHolder) holder).phone.setText(Html.fromHtml(feedItem.getPhone()));
            ((FeedListRowHolder) holder).date.setText(Html.fromHtml(feedItem.getDate()));
+           if(paystat == "1")
+           {
+               ((FeedListRowHolder) holder).paystatus.setImageResource(R.drawable.ok32);
+               ((FeedListRowHolder) holder).homescreenPay.setText("PAID");
+           }
+            else
+           {
+               ((FeedListRowHolder) holder).paystatus.setImageResource(R.drawable.cancel32);
+               ((FeedListRowHolder) holder).homescreenPay.setText("PENDING");
+           }
 
-
-           final String a, b, c, d, e, f, g;
+           final String a, b, c, d, e, f, g, h;
            a = feedItem.getTitle();
            b = feedItem.getPrice();
            c = feedItem.getBillId();
@@ -133,6 +144,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter implements Serializa
            e = feedItem.gettype();
            f = feedItem.getcustomText();
            g = feedItem.getDiscount();
+           h = feedItem.getPaymentStatus();
 
            ((FeedListRowHolder) holder).setClickListener(new FeedListRowHolder.ClickListener() {
                @Override
@@ -140,7 +152,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter implements Serializa
                    if (isLongClick) {
                        // View v at position pos is long-clicked.
                    } else {
-                       Log.d("bgjsyufgjhfjb", "" + c);
+                      // HomeScreen.ha.onBackPressed();
+                       Log.d("bgjsyufgjhfjb", "" + h);
                        Intent billdes = new Intent(HomeScreen.ha.getApplicationContext(), BillDescription.class);
                        billdes.putExtra("cusname", a);
                        billdes.putExtra("billamt", b);
@@ -149,6 +162,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter implements Serializa
                        billdes.putExtra("type", e);
                        billdes.putExtra("customtext", f);
                        billdes.putExtra("discount", g);
+                       billdes.putExtra("paystatus", h);
                        HomeScreen.ha.startActivity(billdes);
 
                        // View v at position pos is clicked.

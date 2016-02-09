@@ -60,7 +60,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
     SessionManager session;
     public static Activity fa;
     private SearchView mSearchView;
-    String checkphoneUrl = "";
+    String checkphoneUrl = "",sign;
     String url = Config.url+"list_menu.php?mid=";
     private String stringId = null;
     private String stringQty = null;
@@ -110,7 +110,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
 
         String mid = user.get(SessionManager.KEY_MID);
 
-        url += mid;
+        url += mid + "&token="+Splash.sign;
 
 /*        progressBar = (ProgressBar) findViewById(R.id.progress_bar_bill);
         progressBar.setVisibility(View.VISIBLE);*/
@@ -181,7 +181,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
                                     "Enter the correct mobile number.", Toast.LENGTH_SHORT).show();
 
                         }else {
-                            checkphoneUrl = Config.url+"check_phone.php?phone="+phone;
+                            checkphoneUrl = Config.url+"check_phone.php?phone="+phone + "&token="+Splash.sign;
                             Log.d("phoneurl", "" + checkphoneUrl);
                             new PhoneAsyncHttpTask().execute(checkphoneUrl);
 
@@ -320,6 +320,7 @@ public class CreateBill extends AppCompatActivity implements SearchView.OnQueryT
             mProgressDialog.setTitle("Loading");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setCancelable(false);
             mProgressDialog.setIndeterminate(false);
             // Show progressdialog
             mProgressDialog.show();

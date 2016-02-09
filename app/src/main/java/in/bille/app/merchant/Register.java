@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
     ProgressDialog mProgressDialog;
@@ -32,7 +33,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     String email = "", companyname = "", name = "",mobile="";
 
     EditText Name,Companyname,Email,Mobile;
-
+    String sign;
     SessionManager session;
     Button Submit;
 
@@ -40,6 +41,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        session = new SessionManager(getApplicationContext());
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -47,6 +49,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
       //  toolbar.setBackgroundColor(Color.GREEN);
+
+
 
         Name = (EditText)findViewById(R.id.editText_name);
         Companyname = (EditText)findViewById(R.id.editText_company);
@@ -129,7 +133,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         {
             String url;
              Toast.makeText(getApplicationContext(),"working",Toast.LENGTH_SHORT).show();
-            url = Config.url+"signup_mer.php?name="+name+"&company="+companyname+"&phone="+mobile+"&email="+email;
+            url = Config.url+"signup_mer.php?name="+name+"&company="+companyname+"&phone="+mobile+"&email="+email + "&token"+Splash.sign;
             // Uri.parse(url);
             Log.d("url","url");
 

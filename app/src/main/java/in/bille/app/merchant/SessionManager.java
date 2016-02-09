@@ -39,6 +39,10 @@ public class SessionManager {
 
 	//Registration ID of device
 	public static final String KEY_REGEDIT = "regid";
+
+
+	public static final String KEY_Sign = "signature";
+
 	// Constructor
 	public SessionManager(Context context){
 		this._context = context;
@@ -71,6 +75,15 @@ public class SessionManager {
 		// Storing login value as TRUE
 
 		editor.putString(KEY_REGEDIT, id);
+
+		// commit changes
+		editor.commit();
+	}
+
+	public void storesignature(String id){
+		// Storing login value as TRUE
+
+		editor.putString(KEY_Sign, id);
 
 		// commit changes
 		editor.commit();
@@ -121,6 +134,9 @@ public class SessionManager {
 
 		//reg id
 		user.put(KEY_REGEDIT, pref.getString(KEY_REGEDIT, null));
+
+
+		user.put(KEY_Sign, pref.getString(KEY_Sign, null));
 
 		// return user
 		return user;

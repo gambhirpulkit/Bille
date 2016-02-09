@@ -49,6 +49,21 @@ public class MyBillsByDateAdapter extends RecyclerView.Adapter<FeedListRowHolder
         feedListRowHolder.phone.setText(Html.fromHtml(feedItem.getPhone()));
         feedListRowHolder.date.setText(Html.fromHtml(feedItem.getDate()));
 
+
+        feedListRowHolder.setClickListener(new FeedListRowHolder.ClickListener() {
+            @Override
+            public void onClick(View v, int position, boolean isLongClick) {
+                if(isLongClick)
+                {
+                    // View v at position pos is long-clicked.
+                }else
+                {
+
+                }
+            }
+        });
+
+
     }
 
     @Override

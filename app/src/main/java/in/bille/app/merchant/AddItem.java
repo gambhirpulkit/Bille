@@ -28,7 +28,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
 
     private static String url = "";
     String mid = "";
-    String foodcat;
+    String foodcat,sign;
     CheckBox veg,nonveg;
     SessionManager session;
     ProgressDialog mProgressDialog;
@@ -52,7 +52,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         getSupportActionBar().setTitle("Add Item");
         HashMap<String, String> user = session.getUserDetails();
         final String mid = user.get(SessionManager.KEY_MID);
-
+        sign = user.get(SessionManager.KEY_Sign);
 
 
         Intent intent = getIntent();
@@ -70,6 +70,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final String iName = itemName.getText().toString();
                 final String iPrice = itemPrice.getText().toString();
                 if(iName.length()<1) {
@@ -80,7 +81,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
                 }
                 else {
                     try {
-                        url = url+Config.url+"add_menu.php?mid="+mid+"&item="+ URLEncoder.encode(iName, "UTF-8")+"&price="+iPrice+"&cat="+foodcat;
+                        url = url+Config.url+"add_menu.php?mid="+mid+"&item="+ URLEncoder.encode(iName, "UTF-8")+"&price="+iPrice+"&cat="+foodcat + "&token="+Splash.sign;
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }

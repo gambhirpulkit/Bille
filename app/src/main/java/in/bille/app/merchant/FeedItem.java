@@ -5,6 +5,7 @@ package in.bille.app.merchant;
  */
 public class FeedItem {
 
+    private String PaymentStatus;
     private String customerName;
     private String billAmount;
     private String thumbnail;
@@ -135,6 +136,14 @@ public class FeedItem {
 
     public void setDiscount(String discount) {
         this.discount = discount;
+    }
+
+    public String getPaymentStatus() {
+        return PaymentStatus;
+    }
+
+    public void setPaymentStatus(String PaymentStatus) {
+        this.PaymentStatus = PaymentStatus;
     }
 
 }

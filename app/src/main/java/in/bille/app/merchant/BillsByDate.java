@@ -48,15 +48,15 @@ public class BillsByDate extends AppCompatActivity implements View.OnClickListen
     private List<FeedItem> feedsList;
     private MyBillsByDateAdapter adapter;
     private RecyclerView mRecyclerView;
-    String startdate,enddate;
+    String startdate,enddate,midglobal;
     EditText start,end;
     Integer flag=0;
     Calendar myCalendar = Calendar.getInstance();
     ImageButton load;
     SessionManager session;
     private ProgressBar progressBar;
-    String url = Config.url+"sales_date.php?mid=";
-    String checkerror="";
+    String url = "";
+    String checkerror="",sign;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,8 @@ public class BillsByDate extends AppCompatActivity implements View.OnClickListen
 
         HashMap<String, String> user = session.getUserDetails();
 
-        String mid = user.get(SessionManager.KEY_MID);
+        midglobal = user.get(SessionManager.KEY_MID);
+
 
         load = (ImageButton)findViewById(R.id.dateSubmit);
 
@@ -131,7 +132,7 @@ public class BillsByDate extends AppCompatActivity implements View.OnClickListen
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        url += mid;
+       // url += mid;
 
     }
 
@@ -173,7 +174,7 @@ public class BillsByDate extends AppCompatActivity implements View.OnClickListen
 
             Log.d("startdate", "" + startdate);
 
-            url += "&start_date=" + startdate + "&end_date=" + enddate;
+            url +=Config.url+"sales_date.php?mid=" +midglobal + "&start_date=" + startdate + "&end_date=" + enddate + "&token="+Splash.sign;
             Log.d("startdate",""+url);
 
             new AsyncHttpTask().execute(url);
@@ -197,6 +198,7 @@ public class BillsByDate extends AppCompatActivity implements View.OnClickListen
             mProgressDialog.setTitle("Loading");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setCancelable(false);
             mProgressDialog.setIndeterminate(false);
             // Show progressdialog
             mProgressDialog.show();
@@ -250,6 +252,7 @@ public class BillsByDate extends AppCompatActivity implements View.OnClickListen
             if (result == 1) {
                 adapter = new MyBillsByDateAdapter(BillsByDate.this, feedsList);
                 mRecyclerView.setAdapter(adapter);
+                url = "";
             } else {
 
                 /*SharedPreferences sharedPrefs = getSharedPreferences("MyPrefsMenu", Context.MODE_PRIVATE);

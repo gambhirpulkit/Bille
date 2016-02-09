@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,19 +24,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class BillDescription extends AppCompatActivity {
     ProgressDialog mProgressDialog;
-
+    SessionManager session;
     private List<FeedItem> feedsList;
     TextView name,amount,custphone,quickbilltext,billDiscount;
-    TextView menulist,totalamt;
+    TextView menulist,totalamt,paymentstat;
+    ImageView paystatus;
     private RecyclerView mRecyclerView;
     private BillDescriptionRecyclerAdapter adapter;
     String cname,bamt,billid,cphone,billtype,Customtext,discount;
     String itemName;
-    String a,b;
+    String a,b,sign,paystat;
     String url = Config.url+"order_mer.php?bill_id=";
 
 
@@ -43,6 +46,7 @@ public class BillDescription extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_description);
+        session = new SessionManager(getApplicationContext());
         String fontPath = "fonts/Rupee_Foradian.ttf";
         Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -51,6 +55,10 @@ public class BillDescription extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Bill Description");
 
+
+
+
+
         name = (TextView)findViewById(R.id.textViewCustomerName);
         amount = (TextView)findViewById(R.id.textViewBillAmount);
         menulist = (TextView)findViewById(R.id.textView_menulist);
@@ -58,6 +66,8 @@ public class BillDescription extends AppCompatActivity {
         totalamt = (TextView)findViewById(R.id.textView_total);
         quickbilltext = (TextView)findViewById(R.id.QuickBilltextView);
         billDiscount = (TextView)findViewById(R.id.textView12);
+        paystatus = (ImageView)findViewById(R.id.imageViewPaidStatus);
+        paymentstat = (TextView)findViewById(R.id.textView16);
 
         // Initialize recycler view
 
@@ -74,10 +84,14 @@ public class BillDescription extends AppCompatActivity {
         billtype = billdes.getStringExtra("type");
         Customtext = billdes.getStringExtra("customtext");
         discount += billdes.getStringExtra("discount");
+        paystat = billdes.getStringExtra("paystatus");
+
+        Log.d("paystatbill",""+paystat);
+
         //menulist.setTypeface(tf);
         Log.d("billid",""+billid);
 
-        url += billid;
+        url += billid + "&token="+Splash.sign;
         Log.d("oooooooooooooooo", "" + url);
 
         if(billtype.matches("detail"))
@@ -95,6 +109,8 @@ public class BillDescription extends AppCompatActivity {
 
 
 
+
+
         custphone.setText("+91"+cphone);
         name.setText(cname);
         //amount.setText(""+bamt);
@@ -102,6 +118,22 @@ public class BillDescription extends AppCompatActivity {
         billDiscount.setTypeface(tf);
         billDiscount.setText(discount);
 
+        if(paystat.matches("0"))
+        {
+            Log.d("pay","In if");
+            paystatus.setImageResource(R.drawable.cancel32);
+            paymentstat.setText("PENDING");
+        }
+        else if(paystat.matches("1"))
+        {
+            Log.d("pay","In ElseIf");
+            paystatus.setImageResource(R.drawable.ok32);
+            paymentstat.setText("PAID");
+        }
+        else
+        {
+            Log.d("pay","In Else");
+        }
 
         a += bamt;
         amount.setText(a);

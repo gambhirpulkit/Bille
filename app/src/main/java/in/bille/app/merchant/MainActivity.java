@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         String mid = user.get(SessionManager.KEY_MID);
 
+
        // ImageButton editBtn = (ImageButton) findViewById(R.id.editMenu);
 
         // Initialize recycler view
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         // Downloading data from below url
         //final String url = "http://javatechig.com/?json=get_recent_posts&count=45";
 
-        url += mid;
+        url += mid + "&token"+Splash.sign;
 
         new AsyncHttpTask().execute(url);
     }
@@ -209,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
             mProgressDialog.setTitle("Loading");
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setCancelable(false);
             mProgressDialog.setIndeterminate(false);
             // Show progressdialog
             mProgressDialog.show();

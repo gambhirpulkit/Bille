@@ -19,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -65,6 +66,8 @@ implements NavigationView.OnNavigationItemSelectedListener {
    // private LinearLayoutManager layoutmanager;
     private SwipeRefreshLayout mSwipeRefreshLayout;
    // private ProgressBar progressBar;
+    FloatingActionsMenu fa;
+    FloatingActionsMenu mFAB;
     public static Activity ha;
     private int offsetnew=0;
 
@@ -73,11 +76,12 @@ implements NavigationView.OnNavigationItemSelectedListener {
     ImageView merchImage;
     Bitmap bitmap;
     protected Handler handler;
+    String sign;
     String midchange;
     String checkerror="";
     SessionManager session;
     private int backpresscount = 0;
-
+    String urlfix = Config.url+"billing_merchant.php?mid=";
     String url = Config.url+"billing_merchant.php?mid=";
 
     @Override
@@ -97,7 +101,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
         });
 
 
-
+        mFAB = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
         /*String fontPath = "fonts/Walkway_Black.ttf";
         Typeface tf = Typeface.createFromAsset(getAssets(), fontPath);*/
         session = new SessionManager(getApplicationContext());
@@ -109,7 +113,20 @@ implements NavigationView.OnNavigationItemSelectedListener {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
 
+
+
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (mFAB.isExpanded())
+                    mFAB.collapse();
+                return false;
+            }
+        });
+
         feedsListmore = new ArrayList<>();
+
+
 
 
 
@@ -117,6 +134,8 @@ implements NavigationView.OnNavigationItemSelectedListener {
         actionB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                mFAB.collapse();
                 Intent createbill = new Intent(getApplicationContext(),CreateBill.class);
                 startActivity(createbill);
 
@@ -127,6 +146,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
         actionA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mFAB.collapse();
                 Intent createquickbill = new Intent(getApplicationContext(),CreateQuickBill.class);
                 startActivity(createquickbill);
                // Toast.makeText(HomeScreen.this, "Under Construction", Toast.LENGTH_SHORT).show();
@@ -166,6 +186,8 @@ implements NavigationView.OnNavigationItemSelectedListener {
         merchName.setTypeface(tf);*/
 
 
+
+
         boolean check = session.checkLogin();
 
         if(check)
@@ -186,10 +208,15 @@ implements NavigationView.OnNavigationItemSelectedListener {
             final String mid = user.get(SessionManager.KEY_MID);
             Log.d("checkmid", "" + mid);
 
+          //  sign = user.get(SessionManager.KEY_Sign);
+
+            Log.d("sign",""+sign);
+
             midchange = mid;
 
-
-            url += mid + "&limit=20" + "&offset="+offsetnew;
+            urlfix += mid +"&limit=50" + "&offset=0" + "&token="+Splash.sign;
+            Log.d("fixedurl",""+urlfix);
+            url += mid + "&limit=50" + "&offset="+offsetnew + "&token="+Splash.sign;
             Log.d("firsturl",""+url);
             new AsyncHttpTask().execute(url);
 
@@ -228,13 +255,16 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
 
 
+
+
     private void refreshContent(){
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.d("swipetest", "" + url);
+                Log.d("swipetest", "" + urlfix);
                 //new AsyncHttpTask().execute(url);
-                new AsyncHttpTask().execute(url);
+
+                new AsyncSwipeHttpTask().execute(urlfix);
                 mSwipeRefreshLayout.setRefreshing(false);
                 /*Intent i = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);*/
@@ -278,7 +308,12 @@ implements NavigationView.OnNavigationItemSelectedListener {
     @Override
     public void onBackPressed() {
 
-        Log.d("back problem", "okay");
+        if(mFAB.isExpanded())
+        {
+            mFAB.collapseImmediately();
+        }
+        else {
+            Log.d("back problem", "okay");
         /*if (backpresscount==1) {
             Toast.makeText(getApplicationContext(),"Press again to exit.",Toast.LENGTH_SHORT);
         }
@@ -286,14 +321,14 @@ implements NavigationView.OnNavigationItemSelectedListener {
         {
             this.finish();
         }*/
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
         }
-        
     }
 
     @Override
@@ -373,6 +408,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(false);
 
+           // mProgressDialog.show();
             if (offsetnew>=10) {
                 mProgressDialog.dismiss();
             }
@@ -448,7 +484,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
 
                         public void onLoadMore() {
                             flagnew++;
-                            url = Config.url + "billing_merchant.php?mid=" + midchange + "&limit=20" + "&offset=" + offsetnew;
+                            url = Config.url + "billing_merchant.php?mid=" + midchange + "&limit=20" + "&offset=" + offsetnew + "&token="+Splash.sign;
                             Log.d("loadmoreUrl", "" + url);
                             new AsyncHttpTask().execute(url);
                             Log.d("loadmore", "in LoadMore()");
@@ -532,6 +568,7 @@ implements NavigationView.OnNavigationItemSelectedListener {
                     item.settype(post.optString("type"));
                     item.setcustomText(post.optString("text"));
                     item.setDiscount(post.optString("discount"));
+                    item.setPaymentStatus(post.optString("status"));
                /* item.setThumbnail(post.optString("thumbnail"));
 */
                     Log.d("loadmore", "in parse result");
@@ -586,6 +623,121 @@ implements NavigationView.OnNavigationItemSelectedListener {
                 merchImage.setImageResource(R.drawable.defaultauthorimage);
 
             }
+        }
+    }
+    public class AsyncSwipeHttpTask extends AsyncTask<String, Void, Integer> implements Serializable {
+
+        @Override
+        protected void onPreExecute() {
+
+            mProgressDialog = new ProgressDialog(HomeScreen.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Refreshing...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+
+
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            Integer result = 0;
+            HttpURLConnection urlConnection;
+            try {
+                URL url = new URL(params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                int statusCode = urlConnection.getResponseCode();
+
+                // 200 represents HTTP OK
+                if (statusCode == 200) {
+                    BufferedReader r = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null) {
+                        response.append(line);
+                    }
+                    Log.d("str",response.toString());
+                    parseResultSwipe(response.toString());
+                    result = 1; // Successful
+                } else {
+                    result = 0; //"Failed to fetch data!";
+                }
+            } catch (Exception e) {
+                Log.d(TAG, e.getLocalizedMessage());
+            }
+            return result; //"Failed to fetch data!";
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            try {
+                if ((mProgressDialog != null) &&  mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+                /*else if (offsetnew>=10) {
+                    mProgressDialog.dismiss();
+                }*/
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                mProgressDialog = null;
+            }
+
+            if (result == 1) {
+                //feedsListmore.add(feedsList);
+
+                    adapter = new MyRecyclerAdapter(mRecyclerView, feedsList);
+                    mRecyclerView.setAdapter(adapter);
+
+            }
+                else {
+
+                    Toast.makeText(HomeScreen.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    private void parseResultSwipe(String result) {
+        try {
+            JSONObject response = new JSONObject(result);
+            checkerror = response.optString("error");
+            Log.d("loadmorecheck",""+checkerror);
+
+                JSONArray posts = response.optJSONArray("bill");
+                feedsList = new ArrayList<>();
+
+
+                for (int i = 0; i < posts.length(); i++) {
+
+                    JSONObject post = posts.optJSONObject(i);
+                    FeedItem item = new FeedItem();
+                    Log.d("val", post.getString("c_name"));
+                    item.setBillId(post.optString("bill_id"));
+                    item.setPhone(post.optString("customer_phone"));
+                    item.setTitle(post.optString("c_name"));
+                    item.setPrice(post.optString("total"));
+                    item.setDate(post.optString("date"));
+                    item.settype(post.optString("type"));
+                    item.setcustomText(post.optString("text"));
+                    item.setDiscount(post.optString("discount"));
+                    item.setPaymentStatus(post.optString("status"));
+               /* item.setThumbnail(post.optString("thumbnail"));
+*/
+                    Log.d("loadmore", "in parse result");
+                    feedsList.add(item);
+
+
+                }
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

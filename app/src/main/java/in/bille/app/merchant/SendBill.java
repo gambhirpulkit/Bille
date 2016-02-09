@@ -87,7 +87,7 @@ public class SendBill extends AppCompatActivity {
 
         }
         //Log.d("phone", phone);
-        String url = apiUrl + "billing_info.php?mid="+mid + "&phone=" + phone + "&order=" + strindIds + "&qty=" + stringQty;
+        String url = apiUrl + "billing_info.php?mid="+mid + "&phone=" + phone + "&order=" + strindIds + "&qty=" + stringQty + "&token="+Splash.sign;
 
         Log.d("url", url);
         new AsyncHttpTask().execute(url);
@@ -107,7 +107,7 @@ public class SendBill extends AppCompatActivity {
                     String qtyStr = TextUtils.join(",", adapter.itemQty);
 
                     Log.d("xxxxxxxxxxxx", "" + adapter.itemIds);
-                    checkoutUrl = apiUrl + "billing.php?mid=" + mid + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr + "&type=detail";
+                    checkoutUrl = apiUrl + "billing.php?mid=" + mid + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr + "&type=detail" + "&token="+Splash.sign;
                     Log.d("checkoutUrl", checkoutUrl);
                     new VerifyBill().execute();
                     sendBtn.setEnabled(false);

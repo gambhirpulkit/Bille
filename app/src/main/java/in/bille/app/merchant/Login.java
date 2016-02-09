@@ -2,6 +2,9 @@ package in.bille.app.merchant;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,10 +26,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
     ProgressDialog mProgressDialog;
@@ -48,6 +57,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         session = new SessionManager(getApplicationContext());
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
@@ -146,7 +156,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 try {
 
-                    url = Config.url + "login_mer.php?user=" + useremail + "&pwd=" + URLEncoder.encode(pass, "UTF-8");
+                    url = Config.url + "login_mer.php?user=" + useremail + "&pwd=" + URLEncoder.encode(pass, "UTF-8") + "&token="+Splash.sign + "&reg_id=" + Splash.regid;
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -196,6 +206,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             // Set progressdialog message
             mProgressDialog.setMessage("Loading...");
             mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(false);
             // Show progressdialog
             mProgressDialog.show();
         }
@@ -233,11 +244,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 else
                 {
                     JSONObject jsonObject1 = jsonObject.getJSONObject("user");
-                String checkemail = jsonObject1.getString("email");
-                String checkMID = jsonObject1.getString("m_id");
-                String merchlogo = jsonObject1.getString("logo");
-                String merchname = jsonObject1.getString("name");
-                Log.d("email",checkemail);
+                    String checkemail = jsonObject1.getString("email");
+                    String checkMID = jsonObject1.getString("m_id");
+                    String merchlogo = jsonObject1.getString("logo");
+                    String merchname = jsonObject1.getString("name");
+                    Log.d("email",checkemail);
 
                     Log.d("test", "login");
                     //SharedPreferences.Editor editor = sharedpreferences.edit();

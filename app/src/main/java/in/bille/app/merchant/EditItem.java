@@ -23,9 +23,11 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 
 public class EditItem extends AppCompatActivity implements View.OnClickListener {
 ProgressDialog mProgressDialog;
+    SessionManager session;
     String foodcat;
     CheckBox veg, nonveg;
     //private Static String url;
@@ -35,6 +37,7 @@ ProgressDialog mProgressDialog;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
+        session = new SessionManager(getApplicationContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -45,6 +48,8 @@ ProgressDialog mProgressDialog;
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         }
+
+
 
 
         veg = (CheckBox)findViewById(R.id.editItemvegcheckBox);
@@ -83,6 +88,17 @@ ProgressDialog mProgressDialog;
         savechanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MainActivity.ma.finish();
+
+                if(veg.isChecked())
+                {
+                    foodcat = "vg";
+                }
+                else if(nonveg.isChecked())
+                {
+                    foodcat = "nvg";
+                }
                 final String iName = itemName.getText().toString();
                 final String iPrice = itemPrice.getText().toString();
                 if (iName.length() < 1) {
@@ -93,7 +109,7 @@ ProgressDialog mProgressDialog;
                 }
                 if (iName.length() > 0 && iPrice.length() > 0) {
                    try {
-                       url = url + Config.url + "edit_menu.php?menu_id=" + menu_id + "&item=" + URLEncoder.encode(iName, "UTF-8") + "&price=" + iPrice + "&cat=" + foodcat;
+                       url = url + Config.url + "edit_menu.php?menu_id=" + menu_id + "&item=" + URLEncoder.encode(iName, "UTF-8") + "&price=" + iPrice + "&cat=" + foodcat + "&token="+Splash.sign;
                    }catch (UnsupportedEncodingException e) {
                        e.printStackTrace();
                    }
@@ -250,14 +266,14 @@ ProgressDialog mProgressDialog;
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
                                 // TODO Auto-generated method stub
-
-                                url += Config.url+"del_menu.php?menu_id="+menuid;
+                                MainActivity.ma.finish();
+                                url += Config.url+"del_menu.php?menu_id="+menuid + "&token="+Splash.sign;
 
                                 Log.d("checkit",""+url);
                                 new EditBill().execute();
 
 
-                                finish();
+
 
 
                             }
