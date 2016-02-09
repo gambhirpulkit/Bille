@@ -38,7 +38,7 @@ public class Splash extends AppCompatActivity {
     public static final String PROPERTY_REG_ID = "registration_id";
     String SENDER_ID = "977548678851";
     GoogleCloudMessaging gcm;
-    String regid;
+    public static String regid;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class Splash extends AppCompatActivity {
       //  image.setVisibility(View.VISIBLE);
         context = getApplicationContext();
         gcm = GoogleCloudMessaging.getInstance(this);
-       // new RegisterBackground().execute();
+        //new RegisterBackground().execute();
 
        /* TranslateAnimation slide = new TranslateAnimation(0, 0, 100, 0);
         slide.setDuration(5000);

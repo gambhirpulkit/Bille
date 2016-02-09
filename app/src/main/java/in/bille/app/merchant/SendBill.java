@@ -58,6 +58,9 @@ public class SendBill extends AppCompatActivity {
     public List<String> qtyItems;
     public List<String> idItems;
 
+    public List<String> items;
+    public List<String> ids;
+
     public Integer totalAmt;
 
     FeedItem item = new FeedItem();
@@ -94,6 +97,9 @@ public class SendBill extends AppCompatActivity {
         qtyItems = new LinkedList<String>(Arrays.asList(stringQty.split(",")));
         idItems = new LinkedList<String>(Arrays.asList(strindIds.split(",")));
 
+        items = new LinkedList<String>(Arrays.asList(stringQty.split(",")));
+        ids = new LinkedList<String>(Arrays.asList(strindIds.split(",")));
+
         //Log.d("phone", phone);
         String url = apiUrl + "billing_info.php?mid="+mid + "&phone=" + phone + "&order=" + strindIds + "&qty=" + stringQty;
 
@@ -112,11 +118,13 @@ public class SendBill extends AppCompatActivity {
                 isInternetPresent = cd.isConnectingToInternet();
                 Log.d("test", isInternetPresent.toString());
                 if(isInternetPresent) {
-                    String itemStr = TextUtils.join(",", adapter.itemIds);
-                    String qtyStr = TextUtils.join(",", adapter.itemQty);
+                    //String itemStr = TextUtils.join(",", adapter.itemIds);
+                    //String qtyStr = TextUtils.join(",", adapter.itemQty);
+                    strindIds = strindIds.replaceAll(",$", "");
+                    stringQty = stringQty.replaceAll(",$", "");
 
                     Log.d("xxxxxxxxxxxx", "" + adapter.itemIds);
-                    checkoutUrl = apiUrl + "billing.php?mid=" + mid + "&phone=" + phone + "&order=" + itemStr + "&qty=" + qtyStr + "&type=detail";
+                    checkoutUrl = apiUrl + "billing.php?mid=" + mid + "&phone=" + phone + "&order=" + strindIds + "&qty=" + stringQty + "&type=detail";
                     Log.d("checkoutUrl", checkoutUrl);
                     new VerifyBill().execute();
                     sendBtn.setEnabled(false);
@@ -133,25 +141,28 @@ public class SendBill extends AppCompatActivity {
     public void onPlusQty(String posQtyStr,Integer posInt) {
        // List<String> qtyItems = Arrays.asList(stringQty.split(","));
        // List<String> idItems = Arrays.asList(strindIds.split(","));
-        qtyItems.set(posInt,posQtyStr);
-        Log.d("list of items", qtyItems.toString());
+        Log.d("list of items before", items.toString());
+        items.set(posInt, posQtyStr);
+        Log.d("list of items after", items.toString());
         Log.d(posQtyStr,posInt + "at pos");
 
-
+        stringQty = android.text.TextUtils.join(",", items);
 
     }
 
     public void onMinusQty(String negQtyStr,Integer minusInt) {
 
         Integer pos = minusInt;
-        qtyItems.set(minusInt, negQtyStr);
+        items.set(minusInt, negQtyStr);
         Log.d(negQtyStr, minusInt + "at pos");
-        Log.d("list of items before", qtyItems.toString());
-        if (Integer.parseInt(qtyItems.get(minusInt))==0) {
-            qtyItems.remove(minusInt.intValue());
-            idItems.remove(minusInt.intValue());
+        Log.d("list of items before", items.toString());
+        if (Integer.parseInt(items.get(minusInt))==0) {
+            items.remove(minusInt.intValue());
+            ids.remove(minusInt.intValue());
         }
-        Log.d("list of items after", qtyItems.toString());
+        Log.d("list of items after", items.toString());
+        stringQty = android.text.TextUtils.join(",", items);
+        strindIds = android.text.TextUtils.join(",", ids);
     }
 
     public void onPlusAmt(Integer set)

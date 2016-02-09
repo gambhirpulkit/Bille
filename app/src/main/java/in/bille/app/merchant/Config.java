@@ -5,7 +5,7 @@ package in.bille.app.merchant;
  */
 public class Config {
 
-    public static String url = "http://54.68.65.111/mozipper/mongo_api/";
+    public static String url = "http://52.34.185.4/mozipper/mongo_api/";
 
 
 }

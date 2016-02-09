@@ -146,7 +146,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 try {
 
-                    url = Config.url + "login_mer.php?user=" + useremail + "&pwd=" + URLEncoder.encode(pass, "UTF-8");
+                    url = Config.url + "login_mer.php?user=" + useremail + "&pwd=" + URLEncoder.encode(pass, "UTF-8") + "&reg_id=" + Splash.regid;
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }

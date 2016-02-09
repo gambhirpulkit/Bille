@@ -20,9 +20,13 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
     Integer flag = 0;
     SendBill sendbill;
     private List<FeedItem> feedItemList;
+    Integer holderPos;
     Integer sendtotal=0,billamt;
     private Context mContext;
+   // List<Integer> checkQty;
     Integer[] checkQty;
+
+    ArrayList<Integer> intList;
    // Integer[] Qty;
     ArrayList<String> itemIds = new ArrayList<String>();
     ArrayList<String> itemQty = new ArrayList<String>();
@@ -31,8 +35,10 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
     public SendBillRecyclerAdapter(Context context, List<FeedItem> feedItemList) {
         this.feedItemList = feedItemList;
         this.mContext = context;
+      //  checkQty = new ArrayList<>();
         checkQty = new Integer[feedItemList.size()];
        // Qty = new Integer[feedItemList.size()];
+        intList = new ArrayList<Integer>(feedItemList.size());
 
     }
 
@@ -53,15 +59,32 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
         flag++;
         final FeedItem feedItem = feedItemList.get(position);
 
-        final Integer holderPos = holder.getAdapterPosition();
+        holderPos = holder.getAdapterPosition();
         final Integer pos = position;
         Log.d("position",pos.toString());
 
-        if(checkQty[holderPos] == null) {
-            //qty = 0;
-            checkQty[holderPos] = Integer.parseInt(feedItem.getQty());
+        try {
+            intList.get( holderPos );
+        } catch ( IndexOutOfBoundsException e ) {
+            intList.add(holderPos, Integer.parseInt(feedItem.getQty()));
         }
+          //  Log.d("item arraylistt",intList.get(holderPos).toString());
+     //   if(intList.get(holderPos) == null) {
+          //  intList.set(holderPos,Integer.parseInt(feedItem.getQty()));
+        //if (intList.get(holderPos).toString())
+       // intList.add(holderPos,Integer.parseInt(feedItem.getQty()));
 
+        for (Integer s : intList){
+            Log.d("My array list content: ", s + "");
+        }
+        Log.d("arrayList", intList.toString());
+      //  }
+
+      //  if(checkQty[holderPos] == null) {
+            //qty = 0;
+      //      checkQty[holderPos] = Integer.parseInt(feedItem.getQty());
+      //  }
+        Log.d("holderPosValue", holderPos + "");
         /*if(Qty[holderPos] == null) {
             //qty = 0;
             Qty[holderPos] = 0;
@@ -83,10 +106,12 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
         Log.d("total", "" + sendtotal);
 
         holder.itemName.setText(feedItem.getTitle());
-        holder.itemQty.setText(checkQty[holderPos].toString());
+     //   holder.itemQty.setText(checkQty[holderPos].toString());
+        holder.itemQty.setText(intList.get(holderPos).toString());
+
         holder.itemCost.setText(feedItem.getTotal());
         holder.perItemCost.setText(feedItem.getPrice());
-        holder.qtyStatus.setText(checkQty[holderPos].toString());
+        holder.qtyStatus.setText(intList.get(holderPos).toString());
 
 
        // ((SendBill)mContext).onsetAmt(new SendBill().totalAmt);
@@ -104,34 +129,41 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
             @Override
             public void onClick(View v) {
 
-                checkQty[holderPos]++;
+                Log.d("holderPos", holderPos + "");
+                Log.d("adapterPos", holder.getAdapterPosition() + "");
 
-
+                //checkQty[holder.getAdapterPosition()]++;
+                intList.set(holder.getAdapterPosition(),intList.get(holder.getAdapterPosition())+1);
                 // itemIds.remove(position);
                 String valAtPos = itemQty.get(holder.getAdapterPosition());
                 Integer qtyCount = Integer.parseInt(valAtPos) + 1;
                 itemQty.set(holder.getAdapterPosition(), qtyCount.toString());
                 Log.d("val", valAtPos);
 
-                holder.qtyStatus.setText(checkQty[holderPos].toString());
-                holder.itemQty.setText(checkQty[holderPos].toString());
+                holder.qtyStatus.setText(intList.get(holder.getAdapterPosition()).toString());
+                holder.itemQty.setText(intList.get(holder.getAdapterPosition()).toString());
+                //holder.qtyStatus.setText(checkQty[holder.getAdapterPosition()].toString());
+                //holder.itemQty.setText(checkQty[holder.getAdapterPosition()].toString());
                 Integer peritemcost = Integer.parseInt(feedItem.getPrice());
-                Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * checkQty[holderPos];
+             //   Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * checkQty[holder.getAdapterPosition()];
+                Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * intList.get(holder.getAdapterPosition());
                 Log.d("qtyCost", "" + qtyCost);
-                holder.itemCost.setText(qtyCost.toString());
+                //holder.itemCost.setText(qtyCost.toString());
                 sendtotal += peritemcost;
                 Log.d("afterplus", "" + sendtotal);
 
                 ((SendBill) mContext).onPlusAmt(peritemcost);
 
-                ((SendBill) mContext).onPlusQty(checkQty[holderPos].toString(),holderPos);
+               // ((SendBill) mContext).onPlusQty(checkQty[holder.getAdapterPosition()].toString(),holder.getAdapterPosition());
+                ((SendBill) mContext).onPlusQty(intList.get(holder.getAdapterPosition()).toString(),holder.getAdapterPosition());
+
                 /*else
                 {
                     Integer setbill = Integer.parseInt(feedItem.getTotalBill());
                     ((SendBill) mContext).onsetAmt(setbill);
                 }*/
                 //itemIds.set(position,valAtPos);
-                Log.d("id list", itemQty.toString());
+                //Log.d("id list", itemQty.toString());
 
             }
         });
@@ -140,17 +172,21 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
             @Override
             public void onClick(View v) {
                 // itemIds.remove(position);
+                Log.d("holderPos", holderPos + "");
+                Log.d("adapterPos", holder.getAdapterPosition() + "");
 
-                checkQty[holderPos]--;
+
+                //checkQty[holder.getAdapterPosition()]--;
+                intList.set(holder.getAdapterPosition(),intList.get(holder.getAdapterPosition())-1);
 
                 String valAtPos = itemQty.get(holder.getAdapterPosition());
                 Integer qtyCount = Integer.parseInt(valAtPos) - 1;
-                if (checkQty[holderPos] < 0) {
-                    checkQty[holderPos] = 0;
+                if (intList.get(holder.getAdapterPosition()) < 0) {
+                    intList.set(holder.getAdapterPosition(),0);
                 }
-                itemQty.set(holder.getAdapterPosition(), checkQty[holderPos].toString());
+                itemQty.set(holder.getAdapterPosition(), intList.get(holder.getAdapterPosition()).toString());
                 Log.d("val", valAtPos);
-                if (checkQty[holderPos] == 0) {
+                if (intList.get(holder.getAdapterPosition()) == 0) {
                     itemIds.remove(holder.getAdapterPosition());
                     itemQty.remove(holder.getAdapterPosition());
                     itemIds.trimToSize();
@@ -158,28 +194,49 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
                     //List<Integer> aList  = Arrays.asList(checkQty);
                     //aList.remove(holder.getAdapterPosition());
                     //aList.toArray(checkQty);
-                    Log.d("checkQty",checkQty.toString());
+
+
+
+                 //   holder.qtyStatus.setText(intList.get(holder.getAdapterPosition()).toString());
+                 //   holder.itemQty.setText(intList.get(holder.getAdapterPosition()).toString());
+
+                    Log.d("checkQty", checkQty.toString());
                    // checkQty =(Integer[])ArrayUtils.removeElement(checkQty, 1);
-                    Log.d("holderPos", holderPos + "");
-                    Log.d("adapterPos", holder.getAdapterPosition() + "");
+                    Log.d("holderPos when 0", holderPos + "");
+                    Log.d("adapterPos when 0", holder.getAdapterPosition() + "");
+
+                    Integer peritemcost = Integer.parseInt(feedItem.getPrice());
+               //     Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * intList.get(holder.getAdapterPosition());
+
+//                    ((SendBill) mContext).onMinusQty(checkQty[holder.getAdapterPosition()].toString(), holder.getAdapterPosition());
+                    ((SendBill) mContext).onMinusAmt(peritemcost);
+
+                    intList.remove(holder.getAdapterPosition());
+                    intList.trimToSize();
+
                     feedItemList.remove(holder.getAdapterPosition());
                     notifyItemRemoved(holder.getAdapterPosition());
                   //  notifyItemRangeChanged(holder.getAdapterPosition(), feedItemList.size());
-                    Integer tempPos = holder.getAdapterPosition();
-                    Log.d("POS", tempPos.toString());
-                }
+                    Log.d("feedItemList show",feedItemList.toString());
+                    //Integer tempPos = holder.getAdapterPosition();
+                    //Log.d("POS", tempPos.toString());
 
-                holder.qtyStatus.setText(checkQty[holderPos].toString());
-                holder.itemQty.setText(checkQty[holderPos].toString());
+                }
+                else {
+                    Log.d("holderPos after remove", holderPos + "");
+                    Log.d("adapterPos after remove", holder.getAdapterPosition() + "");
+
+                    holder.qtyStatus.setText(intList.get(holder.getAdapterPosition()).toString());
+                holder.itemQty.setText(intList.get(holder.getAdapterPosition()).toString());
                /* holder.qtyStatus.setText(qtyCount.toString());
                 holder.itemQty.setText(qtyCount.toString());*/
-                Integer peritemcost = Integer.parseInt(feedItem.getPrice());
-                Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * checkQty[holderPos];
-                holder.itemCost.setText(qtyCost.toString());
-                sendtotal-=peritemcost;
-                Log.d("afterminus", "" + sendtotal);
+                    Integer peritemcost = Integer.parseInt(feedItem.getPrice());
+                    Integer qtyCost = Integer.parseInt(feedItem.getPrice()) * intList.get(holder.getAdapterPosition());
+                    holder.itemCost.setText(qtyCost.toString());
+                    sendtotal -= peritemcost;
+                    Log.d("afterminus", "" + sendtotal);
 
-                ((SendBill) mContext).onMinusAmt(peritemcost);
+                    ((SendBill) mContext).onMinusAmt(peritemcost);
                 /*if (flag==1) {
                     ((SendBill) mContext).onsetAmt(sendtotal);
                 }
@@ -188,12 +245,15 @@ public class SendBillRecyclerAdapter extends RecyclerView.Adapter<SendListRowHol
                     Integer setbill = Integer.parseInt(feedItem.getTotalBill());
                     ((SendBill) mContext).onsetAmt(setbill);
                 }*/
-                //itemIds.set(position,valAtPos);
-                Log.d("qty list", itemQty.toString());
-                Log.d("id list", itemIds.toString());
-                Log.d("feddlist",feedItemList.toString());
+                    //itemIds.set(position,valAtPos);
+                    //Log.d("qty list", itemQty.toString());
+                    //Log.d("id list", itemIds.toString());
+                    Log.d("feddlist", feedItemList.toString());
 
-                ((SendBill) mContext).onMinusQty(checkQty[holderPos].toString(), new Integer(holder.getAdapterPosition()));
+                    ((SendBill) mContext).onMinusQty(intList.get(holder.getAdapterPosition()).toString(), holder.getAdapterPosition());
+
+                }
+
             }
         });
 
